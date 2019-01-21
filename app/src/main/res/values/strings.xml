@@ -46,5 +46,6 @@
     <string name="about_app">About App</string>
     <string name="evaluate_app">Evaluate app</string>
     <string name="sign_out">SignOut</string>
+    <string name="edit_information">Edit Information</string>
 
 </resources>
