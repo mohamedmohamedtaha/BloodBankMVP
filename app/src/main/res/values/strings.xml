@@ -1,0 +1,50 @@
+<resources>
+    <string name="app_name">بنك الدم</string>
+    <string name="copy_right">جميع الحقوق محفوظة لشركة إبداع تك للبرمجيات 2018</string>
+    <string name="skip">Skip</string>
+    <string name="phone">Phone</string>
+    <string name="check_code">Check code</string>
+
+    <string name="password">Password</string>
+    <string name="retry_password">Retry Password</string>
+
+    <string name="rememberMy">Remember My</string>
+    <string name="forget_password">Do you forget password</string>
+    <string name="forget_my_password">forget password</string>
+    <string name="code_change_my_password">Code change password</string>
+
+    <string name="send">Send </string>
+
+    <string name="login">Login </string>
+    <string name="create_new_user">create new user</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_home">HomeActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="email">Email</string>
+    <string name="date">Date of birth</string>
+    <string name="blood_type">Blood Type</string>
+    <string name="last_date">Last Date for Donate</string>
+    <string name="regester">Regester</string>
+    <string name="change_password">Change Password</string>
+
+
+    <!-- TODO:  texts  for activity_home_drawer.xml -->
+
+    <string name="my_information">My Information</string>
+    <string name="setting_notification">Settings Notification</string>
+    <string name="my_favorite">My favorite</string>
+    <string name="home">Home</string>
+    <string name="used_information">Used Information</string>
+    <string name="connect_with_us">Connect with us</string>
+    <string name="about_app">About App</string>
+    <string name="evaluate_app">Evaluate app</string>
+    <string name="sign_out">SignOut</string>
+
+</resources>

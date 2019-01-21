@@ -1,0 +1,39 @@
+//ButterKnife Dependency
+
+implementation'com.jakewharton:butterknife:8.8.1'
+
+annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+
+
+//Retrofit Dependenciesciri
+
+implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+
+implementation 'com.squareup.retrofit2:converter-gson:2.3.0'
+
+
+//Circle Image View
+
+implementation 'de.hdodenhof:circleimageview:2.2.0'
+
+
+// glide
+
+implementation 'com.github.bumptech.glide:glide:3.7.0'
+
+
+//Transparent statusBar
+
+implementation 'com.jaeger.statusbarutil:library:1.5.1'
+
+
+//Multi Select albumItemList || Videos
+
+implementation 'com.yanzhenjie:album:2.1.1'
+
+
+//Edit Image
+
+implementation 'com.yanzhenjie:durban:1.0.1'
+
+implementation 'com.github.dmytrodanylyk.android-process-button:library:1.0.4'
