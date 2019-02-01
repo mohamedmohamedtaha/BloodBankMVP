@@ -5,21 +5,20 @@
     android:layout_height="match_parent"
     android:background="@drawable/splash"
 
-    tools:context=".ui.fregmants.splashCycle.SplashFragment">
+    tools:context=".u.fregmants.splashCycle.SplashFragment">
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:src="@mipmap/logo"/>
+    <ImageView style="@style/StyleForImageViewForSplashActivity" />
+
     <TextView
+        android:id="@+id/TV_Copy_Right"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/copy_right"
-        android:textSize="12sp"
-        android:textStyle="bold"
-        android:textColor="@android:color/black"
         android:layout_alignParentBottom="true"
+        android:layout_marginBottom="15dp"
         android:gravity="center"
-        android:layout_marginBottom="15dp"/>
+        android:text="@string/copy_right"
+        android:textColor="@android:color/black"
+        android:textSize="12sp"
+        android:fontFamily="@font/cairo_bold"
+        android:textStyle="bold" />
 </RelativeLayout>

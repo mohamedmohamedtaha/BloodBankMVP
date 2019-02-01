@@ -4,35 +4,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/splash"
-    tools:context=".ui.fregmants.splashCycle.SliderFragment">
+    tools:context=".u.fregmants.splashCycle.SliderFragment">
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/ViewPager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/ViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-        <LinearLayout
-            android:id="@+id/DotLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/Skip"
-            android:layout_alignBottom="@dimen/dimens_xl"
-            android:gravity="center"
-            android:orientation="horizontal"
-            />
-
-
-        <Button
-            android:id="@+id/Skip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/skip"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:textSize="@dimen/txt_size_m"
-            android:textColor="@android:color/black"
-            android:background="@null"
-            />
+    <LinearLayout
+        android:id="@+id/DotLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/Skip"
+        android:layout_alignBottom="@dimen/dimens_xl"
+        android:gravity="center"
+        android:orientation="horizontal" />
 
 
-    </RelativeLayout>
+    <Button
+        android:id="@+id/Skip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@null"
+        android:text="@string/skip"
+        android:fontFamily="@font/cairo_bold"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/txt_size_m" />
+
+
+</RelativeLayout>

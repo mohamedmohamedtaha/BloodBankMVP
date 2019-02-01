@@ -4,9 +4,14 @@
     <string name="skip">Skip</string>
     <string name="phone">Phone</string>
     <string name="check_code">Check code</string>
+    <string name="time_out">Time Out ! Request again to reset password.</string>
+    <string name="remind_time">Time remaining :</string>
 
     <string name="password">Password</string>
     <string name="retry_password">Retry Password</string>
+    <string name="select_gaverment">Gaverment</string>
+    <string name="select_city">City</string>
+
 
     <string name="rememberMy">Remember My</string>
     <string name="forget_password">Do you forget password</string>
@@ -47,5 +52,10 @@
     <string name="evaluate_app">Evaluate app</string>
     <string name="sign_out">SignOut</string>
     <string name="edit_information">Edit Information</string>
+
+    <string name="filed_request">this field is required</string>
+    <string name="all_filed_request">All fields is required</string>
+
+    <string name="no_internet">Sorry, There is not connect internet  </string>
 
 </resources>

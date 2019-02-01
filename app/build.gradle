@@ -52,4 +52,8 @@ dependencies {
     implementation 'com.github.dmytrodanylyk.android-process-button:library:1.0.4'
 //Edit Text
     implementation 'com.rengwuxian.materialedittext:library:2.1.4'
+
+//Spinner
+    implementation 'com.weiwangcn.betterspinner:library-material:1.1.0'
+
 }

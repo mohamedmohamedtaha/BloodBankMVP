@@ -1,0 +1,3393 @@
+{
+	"info": {
+		"_postman_id": "c45bb995-6aa4-41a1-9376-88dd67bbbc5c",
+		"name": "BloodBank",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Abdullah",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "ipda36@ipda3.com",
+									"type": "text"
+								},
+								{
+									"key": "birth_date",
+									"value": "1990-01-01",
+									"type": "text"
+								},
+								{
+									"key": "city_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "01157908000",
+									"type": "text"
+								},
+								{
+									"key": "donation_last_date",
+									"value": "2018-06-01",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123",
+									"type": "text"
+								},
+								{
+									"key": "password_confirmation",
+									"value": "123",
+									"type": "text"
+								},
+								{
+									"key": "blood_type",
+									"value": "A+",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://ipda3.com/blood-bank/api/v1/register",
+							"protocol": "http",
+							"host": [
+								"ipda3",
+								"com"
+							],
+							"path": [
+								"blood-bank",
+								"api",
+								"v1",
+								"register"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "register (success)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "Abdullah",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "ipda4@ipda3.com",
+											"type": "text"
+										},
+										{
+											"key": "birth_date",
+											"value": "1990-1-1",
+											"type": "text"
+										},
+										{
+											"key": "city_id",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "phone",
+											"value": "01157903000",
+											"type": "text"
+										},
+										{
+											"key": "donation_last_date",
+											"value": "2018-6-1",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123",
+											"type": "text"
+										},
+										{
+											"key": "password_confirmation",
+											"value": "123",
+											"type": "text"
+										},
+										{
+											"key": "blood_type",
+											"value": "A+",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://blood-bank.test/api/v1/register",
+									"protocol": "http",
+									"host": [
+										"blood-bank",
+										"test"
+									],
+									"path": [
+										"api",
+										"v1",
+										"register"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private",
+									"name": "Cache-Control",
+									"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip",
+									"name": "Content-Encoding",
+									"description": "The type of encoding used on the data."
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 06 Oct 2018 12:28:48 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Server",
+									"value": "nginx/1.13.11",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked",
+									"name": "Transfer-Encoding",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"name": "Vary",
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.16",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60",
+									"name": "X-RateLimit-Limit",
+									"description": "Custom header"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "56",
+									"name": "X-RateLimit-Remaining",
+									"description": "Custom header"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": false,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6Ikp1WkQxK1o5VEZibmN1NERMeGpQTHc9PSIsInZhbHVlIjoiZ0pKNHI3ZlhkdCtyXC9LaEdqSnpaMGp6MXFGeXByWEZGVGRiVzlnWlZ4QVwveHVPbjdmY3RTN2ZlQlFVR1BZMERuIiwibWFjIjoiZDlhMzg0NGU4OWY2ODVjMGE1ODVhNTE5YzFhZDAzZjc3Y2EyMjE4NDU4MTYwMDEyZDZlNjdjNDcwNDJmYzIyNSJ9",
+									"key": "XSRF-TOKEN"
+								},
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6IlwvMjdCUFE2citUQUpBWVo0cFpraFpnPT0iLCJ2YWx1ZSI6ImxBdG9POGsrU044akh4UWRXd3R5ang4YWJiYjJEUWlGaGEwSGpsSHJOWnl1R200eStMQXdrcFh1TklIdVlqV3EiLCJtYWMiOiIzMTRlNzc4MzM2ZWQ4ODJlMmNkNjQ4YWIzMzNiNmE3YTRlYjkzNzA2OGZjOWQzMDNhOTdkOTNkZDM1MmUzY2RmIn0%3D",
+									"key": "laravel_session"
+								}
+							],
+							"body": "{\n\t\"status\":1,\n\t\"msg\":\"\\u062a\\u0645 \\u0627\\u0644\\u0627\\u0636\\u0627\\u0641\\u0629 \\u0628\\u0646\\u062c\\u0627\\u062d\",\n\t\"data\":{\n\t\t\"api_token\":\"Nc88Cd7X6aLtctoHnQD8iBzLJNg1XAyEaa0xxps1h4KnUjKNljEAZ504FZz9\",\n\t\t\"client\":{\n\t\t\t\"name\":\"Abdullah\",\n\t\t\t\"email\":\"ipda4@ipda3.com\",\n\t\t\t\"birth_date\":\"1990-1-1\",\n\t\t\t\"city_id\":\"1\",\n\t\t\t\"phone\":\"01157903000\",\n\t\t\t\"donation_last_date\":\"2018-6-1\",\n\t\t\t\"updated_at\":\"2018-10-06 12:28:48\",\n\t\t\t\"created_at\":\"2018-10-06 12:28:48\",\n\t\t\t\"id\":6\n\t\t\t\n\t\t}\n\t}\n}"
+						},
+						{
+							"name": "register (validation error)",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "name",
+											"value": "Abdullah",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "email",
+											"value": "ipda3@ipda3.com",
+											"type": "text"
+										},
+										{
+											"key": "birth_date",
+											"value": "1990-1-1",
+											"type": "text"
+										},
+										{
+											"key": "city_id",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "phone",
+											"value": "01157903000",
+											"type": "text"
+										},
+										{
+											"key": "donation_last_date",
+											"value": "2018-6-1",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123",
+											"type": "text"
+										},
+										{
+											"key": "password_confirmation",
+											"value": "123",
+											"type": "text"
+										},
+										{
+											"key": "blood_type",
+											"value": "A+",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "http://blood-bank.test/api/v1/register",
+									"protocol": "http",
+									"host": [
+										"blood-bank",
+										"test"
+									],
+									"path": [
+										"api",
+										"v1",
+										"register"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private",
+									"name": "Cache-Control",
+									"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip",
+									"name": "Content-Encoding",
+									"description": "The type of encoding used on the data."
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 06 Oct 2018 12:28:28 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Server",
+									"value": "nginx/1.13.11",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked",
+									"name": "Transfer-Encoding",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"name": "Vary",
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.16",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60",
+									"name": "X-RateLimit-Limit",
+									"description": "Custom header"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "58",
+									"name": "X-RateLimit-Remaining",
+									"description": "Custom header"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": false,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6Ikp1WkQxK1o5VEZibmN1NERMeGpQTHc9PSIsInZhbHVlIjoiZ0pKNHI3ZlhkdCtyXC9LaEdqSnpaMGp6MXFGeXByWEZGVGRiVzlnWlZ4QVwveHVPbjdmY3RTN2ZlQlFVR1BZMERuIiwibWFjIjoiZDlhMzg0NGU4OWY2ODVjMGE1ODVhNTE5YzFhZDAzZjc3Y2EyMjE4NDU4MTYwMDEyZDZlNjdjNDcwNDJmYzIyNSJ9",
+									"key": "XSRF-TOKEN"
+								},
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6IlwvMjdCUFE2citUQUpBWVo0cFpraFpnPT0iLCJ2YWx1ZSI6ImxBdG9POGsrU044akh4UWRXd3R5ang4YWJiYjJEUWlGaGEwSGpsSHJOWnl1R200eStMQXdrcFh1TklIdVlqV3EiLCJtYWMiOiIzMTRlNzc4MzM2ZWQ4ODJlMmNkNjQ4YWIzMzNiNmE3YTRlYjkzNzA2OGZjOWQzMDNhOTdkOTNkZDM1MmUzY2RmIn0%3D",
+									"key": "laravel_session"
+								}
+							],
+							"body": "{\"status\":0,\"msg\":\"The name field is required.\",\"data\":{\"name\":[\"The name field is required.\"],\"email\":[\"The email has already been taken.\"]}}"
+						}
+					]
+				},
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "phone",
+									"value": "01157903000",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://ipda3.com/blood-bank/api/v1/login",
+							"protocol": "http",
+							"host": [
+								"ipda3",
+								"com"
+							],
+							"path": [
+								"blood-bank",
+								"api",
+								"v1",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "reset password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "phone",
+									"value": "01157903000",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://ipda3.com/blood-bank/api/v1/reset-password",
+							"protocol": "http",
+							"host": [
+								"ipda3",
+								"com"
+							],
+							"path": [
+								"blood-bank",
+								"api",
+								"v1",
+								"reset-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "new password",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "password",
+									"value": "123",
+									"type": "text"
+								},
+								{
+									"key": "password_confirmation",
+									"value": "123",
+									"type": "text"
+								},
+								{
+									"key": "pin_code",
+									"value": "2204",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://ipda3.com/blood-bank/api/v1/new-password",
+							"protocol": "http",
+							"host": [
+								"ipda3",
+								"com"
+							],
+							"path": [
+								"blood-bank",
+								"api",
+								"v1",
+								"new-password"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "profile",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "name",
+									"value": "Abdullah Farouk",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "ipda36@ipda3.com",
+									"type": "text"
+								},
+								{
+									"key": "birth_date",
+									"value": "1990-01-01",
+									"type": "text"
+								},
+								{
+									"key": "city_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "01157908000",
+									"type": "text"
+								},
+								{
+									"key": "donation_last_date",
+									"value": "2018-06-01",
+									"type": "text"
+								},
+								{
+									"key": "password",
+									"value": "123",
+									"type": "text"
+								},
+								{
+									"key": "password_confirmation",
+									"value": "123",
+									"type": "text"
+								},
+								{
+									"key": "blood_type",
+									"value": "A+",
+									"type": "text"
+								},
+								{
+									"key": "api_token",
+									"value": "mzj4aDhSta6ulLzA4igpTrNXSSNqeNpzYBOKQKCyBNaCf9EgtOh5Vu6sXFyf",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://ipda3.com/blood-bank/api/v1/profile",
+							"protocol": "http",
+							"host": [
+								"ipda3",
+								"com"
+							],
+							"path": [
+								"blood-bank",
+								"api",
+								"v1",
+								"profile"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "notification",
+			"item": [
+				{
+					"name": "Register notification token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "token",
+									"value": "CY4kw2Ma2aA6x7T5O3UODws1UakXI9vgFVSoY3xUXY",
+									"type": "text"
+								},
+								{
+									"key": "api_token",
+									"value": "Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27",
+									"type": "text"
+								},
+								{
+									"key": "platform",
+									"value": "android",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://ipda3.com/blood-bank/api/v1/register-token",
+							"protocol": "http",
+							"host": [
+								"ipda3",
+								"com"
+							],
+							"path": [
+								"blood-bank",
+								"api",
+								"v1",
+								"register-token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove notification token",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "token",
+									"value": "CY4kw2Ma2aA6x7T5O3UODws1UakXI9vgFVSoY3xUXY",
+									"type": "text"
+								},
+								{
+									"key": "api_token",
+									"value": "Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://ipda3.com/blood-bank/api/v1/remove-token",
+							"protocol": "http",
+							"host": [
+								"ipda3",
+								"com"
+							],
+							"path": [
+								"blood-bank",
+								"api",
+								"v1",
+								"remove-token"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Notification Settings",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "api_token",
+									"value": "mzj4aDhSta6ulLzA4igpTrNXSSNqeNpzYBOKQKCyBNaCf9EgtOh5Vu6sXFyf",
+									"type": "text"
+								},
+								{
+									"key": "cities[0]",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "blood_types[0]",
+									"value": "A+",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://ipda3.com/blood-bank/api/v1/notifications-settings",
+							"protocol": "http",
+							"host": [
+								"ipda3",
+								"com"
+							],
+							"path": [
+								"blood-bank",
+								"api",
+								"v1",
+								"notifications-settings"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "notifications list",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://ipda3.com/blood-bank/api/v1/notifications?api_token=Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27",
+							"protocol": "http",
+							"host": [
+								"ipda3",
+								"com"
+							],
+							"path": [
+								"blood-bank",
+								"api",
+								"v1",
+								"notifications"
+							],
+							"query": [
+								{
+									"key": "api_token",
+									"value": "Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "posts (unauth)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://blood-bank.test/api/v1/posts?api_token=Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH28",
+									"protocol": "http",
+									"host": [
+										"blood-bank",
+										"test"
+									],
+									"path": [
+										"api",
+										"v1",
+										"posts"
+									],
+									"query": [
+										{
+											"key": "api_token",
+											"value": "Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH28"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private",
+									"name": "Cache-Control",
+									"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip",
+									"name": "Content-Encoding",
+									"description": "The type of encoding used on the data."
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 06 Oct 2018 12:27:52 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Server",
+									"value": "nginx/1.13.11",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked",
+									"name": "Transfer-Encoding",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"name": "Vary",
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.16",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60",
+									"name": "X-RateLimit-Limit",
+									"description": "Custom header"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59",
+									"name": "X-RateLimit-Remaining",
+									"description": "Custom header"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": false,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6Ikp1WkQxK1o5VEZibmN1NERMeGpQTHc9PSIsInZhbHVlIjoiZ0pKNHI3ZlhkdCtyXC9LaEdqSnpaMGp6MXFGeXByWEZGVGRiVzlnWlZ4QVwveHVPbjdmY3RTN2ZlQlFVR1BZMERuIiwibWFjIjoiZDlhMzg0NGU4OWY2ODVjMGE1ODVhNTE5YzFhZDAzZjc3Y2EyMjE4NDU4MTYwMDEyZDZlNjdjNDcwNDJmYzIyNSJ9",
+									"key": "XSRF-TOKEN"
+								},
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6IlwvMjdCUFE2citUQUpBWVo0cFpraFpnPT0iLCJ2YWx1ZSI6ImxBdG9POGsrU044akh4UWRXd3R5ang4YWJiYjJEUWlGaGEwSGpsSHJOWnl1R200eStMQXdrcFh1TklIdVlqV3EiLCJtYWMiOiIzMTRlNzc4MzM2ZWQ4ODJlMmNkNjQ4YWIzMzNiNmE3YTRlYjkzNzA2OGZjOWQzMDNhOTdkOTNkZDM1MmUzY2RmIn0%3D",
+									"key": "laravel_session"
+								}
+							],
+							"body": "{\"status\":0,\"msg\":\"Unauthenticated.\",\"data\":null}"
+						},
+						{
+							"name": "posts (success)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://blood-bank.test/api/v1/posts?api_token=Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27",
+									"protocol": "http",
+									"host": [
+										"blood-bank",
+										"test"
+									],
+									"path": [
+										"api",
+										"v1",
+										"posts"
+									],
+									"query": [
+										{
+											"key": "api_token",
+											"value": "Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private",
+									"name": "Cache-Control",
+									"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip",
+									"name": "Content-Encoding",
+									"description": "The type of encoding used on the data."
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 06 Oct 2018 12:26:28 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Server",
+									"value": "nginx/1.13.11",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked",
+									"name": "Transfer-Encoding",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"name": "Vary",
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.16",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60",
+									"name": "X-RateLimit-Limit",
+									"description": "Custom header"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "57",
+									"name": "X-RateLimit-Remaining",
+									"description": "Custom header"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": false,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6Ikp1WkQxK1o5VEZibmN1NERMeGpQTHc9PSIsInZhbHVlIjoiZ0pKNHI3ZlhkdCtyXC9LaEdqSnpaMGp6MXFGeXByWEZGVGRiVzlnWlZ4QVwveHVPbjdmY3RTN2ZlQlFVR1BZMERuIiwibWFjIjoiZDlhMzg0NGU4OWY2ODVjMGE1ODVhNTE5YzFhZDAzZjc3Y2EyMjE4NDU4MTYwMDEyZDZlNjdjNDcwNDJmYzIyNSJ9",
+									"key": "XSRF-TOKEN"
+								},
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6IlwvMjdCUFE2citUQUpBWVo0cFpraFpnPT0iLCJ2YWx1ZSI6ImxBdG9POGsrU044akh4UWRXd3R5ang4YWJiYjJEUWlGaGEwSGpsSHJOWnl1R200eStMQXdrcFh1TklIdVlqV3EiLCJtYWMiOiIzMTRlNzc4MzM2ZWQ4ODJlMmNkNjQ4YWIzMzNiNmE3YTRlYjkzNzA2OGZjOWQzMDNhOTdkOTNkZDM1MmUzY2RmIn0%3D",
+									"key": "laravel_session"
+								}
+							],
+							"body": "{\"status\":1,\"msg\":\"success\",\"data\":[{\"id\":1,\"created_at\":null,\"updated_at\":null,\"title\":\"\\u0627\\u062d\\u062a\\u064a\\u0627\\u0637\\u0627\\u062a \\u0627\\u0644\\u062a\\u0628\\u0631\\u0639 \\u0628\\u0627\\u0644\\u062f\\u0645\",\"content\":\"\\u0627\\u062d\\u062a\\u064a\\u0627\\u0637\\u0627\\u062a \\u0627\\u0644\\u062a\\u0628\\u0631\\u0639 \\u0628\\u0627\\u0644\\u062f\\u0645\",\"thumbnail\":\"test\",\"publish_date\":\"2018-10-01\",\"category_id\":1}]}"
+						}
+					]
+				},
+				{
+					"name": "notifications count",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://ipda3.com/blood-bank/api/v1/notifications-count?api_token=Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27",
+							"protocol": "http",
+							"host": [
+								"ipda3",
+								"com"
+							],
+							"path": [
+								"blood-bank",
+								"api",
+								"v1",
+								"notifications-count"
+							],
+							"query": [
+								{
+									"key": "api_token",
+									"value": "Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "posts (success)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://blood-bank.test/api/v1/posts?api_token=Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27",
+									"protocol": "http",
+									"host": [
+										"blood-bank",
+										"test"
+									],
+									"path": [
+										"api",
+										"v1",
+										"posts"
+									],
+									"query": [
+										{
+											"key": "api_token",
+											"value": "Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private",
+									"name": "Cache-Control",
+									"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip",
+									"name": "Content-Encoding",
+									"description": "The type of encoding used on the data."
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 06 Oct 2018 12:26:28 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Server",
+									"value": "nginx/1.13.11",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked",
+									"name": "Transfer-Encoding",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"name": "Vary",
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.16",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60",
+									"name": "X-RateLimit-Limit",
+									"description": "Custom header"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "57",
+									"name": "X-RateLimit-Remaining",
+									"description": "Custom header"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": false,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6Ikp1WkQxK1o5VEZibmN1NERMeGpQTHc9PSIsInZhbHVlIjoiZ0pKNHI3ZlhkdCtyXC9LaEdqSnpaMGp6MXFGeXByWEZGVGRiVzlnWlZ4QVwveHVPbjdmY3RTN2ZlQlFVR1BZMERuIiwibWFjIjoiZDlhMzg0NGU4OWY2ODVjMGE1ODVhNTE5YzFhZDAzZjc3Y2EyMjE4NDU4MTYwMDEyZDZlNjdjNDcwNDJmYzIyNSJ9",
+									"key": "XSRF-TOKEN"
+								},
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6IlwvMjdCUFE2citUQUpBWVo0cFpraFpnPT0iLCJ2YWx1ZSI6ImxBdG9POGsrU044akh4UWRXd3R5ang4YWJiYjJEUWlGaGEwSGpsSHJOWnl1R200eStMQXdrcFh1TklIdVlqV3EiLCJtYWMiOiIzMTRlNzc4MzM2ZWQ4ODJlMmNkNjQ4YWIzMzNiNmE3YTRlYjkzNzA2OGZjOWQzMDNhOTdkOTNkZDM1MmUzY2RmIn0%3D",
+									"key": "laravel_session"
+								}
+							],
+							"body": "{\"status\":1,\"msg\":\"success\",\"data\":[{\"id\":1,\"created_at\":null,\"updated_at\":null,\"title\":\"\\u0627\\u062d\\u062a\\u064a\\u0627\\u0637\\u0627\\u062a \\u0627\\u0644\\u062a\\u0628\\u0631\\u0639 \\u0628\\u0627\\u0644\\u062f\\u0645\",\"content\":\"\\u0627\\u062d\\u062a\\u064a\\u0627\\u0637\\u0627\\u062a \\u0627\\u0644\\u062a\\u0628\\u0631\\u0639 \\u0628\\u0627\\u0644\\u062f\\u0645\",\"thumbnail\":\"test\",\"publish_date\":\"2018-10-01\",\"category_id\":1}]}"
+						},
+						{
+							"name": "posts (unauth)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://blood-bank.test/api/v1/posts?api_token=Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH28",
+									"protocol": "http",
+									"host": [
+										"blood-bank",
+										"test"
+									],
+									"path": [
+										"api",
+										"v1",
+										"posts"
+									],
+									"query": [
+										{
+											"key": "api_token",
+											"value": "Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH28"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private",
+									"name": "Cache-Control",
+									"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip",
+									"name": "Content-Encoding",
+									"description": "The type of encoding used on the data."
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 06 Oct 2018 12:27:52 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Server",
+									"value": "nginx/1.13.11",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked",
+									"name": "Transfer-Encoding",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"name": "Vary",
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.16",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60",
+									"name": "X-RateLimit-Limit",
+									"description": "Custom header"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59",
+									"name": "X-RateLimit-Remaining",
+									"description": "Custom header"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": false,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6Ikp1WkQxK1o5VEZibmN1NERMeGpQTHc9PSIsInZhbHVlIjoiZ0pKNHI3ZlhkdCtyXC9LaEdqSnpaMGp6MXFGeXByWEZGVGRiVzlnWlZ4QVwveHVPbjdmY3RTN2ZlQlFVR1BZMERuIiwibWFjIjoiZDlhMzg0NGU4OWY2ODVjMGE1ODVhNTE5YzFhZDAzZjc3Y2EyMjE4NDU4MTYwMDEyZDZlNjdjNDcwNDJmYzIyNSJ9",
+									"key": "XSRF-TOKEN"
+								},
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6IlwvMjdCUFE2citUQUpBWVo0cFpraFpnPT0iLCJ2YWx1ZSI6ImxBdG9POGsrU044akh4UWRXd3R5ang4YWJiYjJEUWlGaGEwSGpsSHJOWnl1R200eStMQXdrcFh1TklIdVlqV3EiLCJtYWMiOiIzMTRlNzc4MzM2ZWQ4ODJlMmNkNjQ4YWIzMzNiNmE3YTRlYjkzNzA2OGZjOWQzMDNhOTdkOTNkZDM1MmUzY2RmIn0%3D",
+									"key": "laravel_session"
+								}
+							],
+							"body": "{\"status\":0,\"msg\":\"Unauthenticated.\",\"data\":null}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "donation",
+			"item": [
+				{
+					"name": "donation request create",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "api_token",
+									"value": "Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27",
+									"type": "text"
+								},
+								{
+									"key": "patient_name",
+									"value": "محمد احمد",
+									"type": "text"
+								},
+								{
+									"key": "patient_age",
+									"value": "35",
+									"type": "text"
+								},
+								{
+									"key": "blood_type",
+									"value": "A+",
+									"type": "text"
+								},
+								{
+									"key": "bags_num",
+									"value": "2",
+									"type": "text"
+								},
+								{
+									"key": "hospital_name",
+									"value": "مستشفى الطوارئ",
+									"type": "text"
+								},
+								{
+									"key": "hospital_address",
+									"value": " شارع جيهان - المنصورة",
+									"type": "text"
+								},
+								{
+									"key": "city_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "phone",
+									"value": "01157903000",
+									"type": "text"
+								},
+								{
+									"key": "notes",
+									"value": "الحالة حرجة ومستعجلة",
+									"type": "text"
+								},
+								{
+									"key": "latitude",
+									"value": "31.7655",
+									"type": "text"
+								},
+								{
+									"key": "longitude",
+									"value": "30.7541",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://ipda3.com/blood-bank/api/v1/donation-request/create",
+							"protocol": "http",
+							"host": [
+								"ipda3",
+								"com"
+							],
+							"path": [
+								"blood-bank",
+								"api",
+								"v1",
+								"donation-request",
+								"create"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "donation requests",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://ipda3.com/blood-bank/api/v1/donation-requests?api_token=Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27",
+							"protocol": "http",
+							"host": [
+								"ipda3",
+								"com"
+							],
+							"path": [
+								"blood-bank",
+								"api",
+								"v1",
+								"donation-requests"
+							],
+							"query": [
+								{
+									"key": "api_token",
+									"value": "Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27"
+								},
+								{
+									"key": "blood_type",
+									"value": "A-",
+									"disabled": true
+								},
+								{
+									"key": "city_id",
+									"value": "1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "posts (unauth)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://blood-bank.test/api/v1/posts?api_token=Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH28",
+									"protocol": "http",
+									"host": [
+										"blood-bank",
+										"test"
+									],
+									"path": [
+										"api",
+										"v1",
+										"posts"
+									],
+									"query": [
+										{
+											"key": "api_token",
+											"value": "Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH28"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private",
+									"name": "Cache-Control",
+									"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip",
+									"name": "Content-Encoding",
+									"description": "The type of encoding used on the data."
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 06 Oct 2018 12:27:52 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Server",
+									"value": "nginx/1.13.11",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked",
+									"name": "Transfer-Encoding",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"name": "Vary",
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.16",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60",
+									"name": "X-RateLimit-Limit",
+									"description": "Custom header"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59",
+									"name": "X-RateLimit-Remaining",
+									"description": "Custom header"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": false,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6Ikp1WkQxK1o5VEZibmN1NERMeGpQTHc9PSIsInZhbHVlIjoiZ0pKNHI3ZlhkdCtyXC9LaEdqSnpaMGp6MXFGeXByWEZGVGRiVzlnWlZ4QVwveHVPbjdmY3RTN2ZlQlFVR1BZMERuIiwibWFjIjoiZDlhMzg0NGU4OWY2ODVjMGE1ODVhNTE5YzFhZDAzZjc3Y2EyMjE4NDU4MTYwMDEyZDZlNjdjNDcwNDJmYzIyNSJ9",
+									"key": "XSRF-TOKEN"
+								},
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6IlwvMjdCUFE2citUQUpBWVo0cFpraFpnPT0iLCJ2YWx1ZSI6ImxBdG9POGsrU044akh4UWRXd3R5ang4YWJiYjJEUWlGaGEwSGpsSHJOWnl1R200eStMQXdrcFh1TklIdVlqV3EiLCJtYWMiOiIzMTRlNzc4MzM2ZWQ4ODJlMmNkNjQ4YWIzMzNiNmE3YTRlYjkzNzA2OGZjOWQzMDNhOTdkOTNkZDM1MmUzY2RmIn0%3D",
+									"key": "laravel_session"
+								}
+							],
+							"body": "{\"status\":0,\"msg\":\"Unauthenticated.\",\"data\":null}"
+						},
+						{
+							"name": "posts (success)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://blood-bank.test/api/v1/posts?api_token=Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27",
+									"protocol": "http",
+									"host": [
+										"blood-bank",
+										"test"
+									],
+									"path": [
+										"api",
+										"v1",
+										"posts"
+									],
+									"query": [
+										{
+											"key": "api_token",
+											"value": "Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private",
+									"name": "Cache-Control",
+									"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip",
+									"name": "Content-Encoding",
+									"description": "The type of encoding used on the data."
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 06 Oct 2018 12:26:28 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Server",
+									"value": "nginx/1.13.11",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked",
+									"name": "Transfer-Encoding",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"name": "Vary",
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.16",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60",
+									"name": "X-RateLimit-Limit",
+									"description": "Custom header"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "57",
+									"name": "X-RateLimit-Remaining",
+									"description": "Custom header"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": false,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6Ikp1WkQxK1o5VEZibmN1NERMeGpQTHc9PSIsInZhbHVlIjoiZ0pKNHI3ZlhkdCtyXC9LaEdqSnpaMGp6MXFGeXByWEZGVGRiVzlnWlZ4QVwveHVPbjdmY3RTN2ZlQlFVR1BZMERuIiwibWFjIjoiZDlhMzg0NGU4OWY2ODVjMGE1ODVhNTE5YzFhZDAzZjc3Y2EyMjE4NDU4MTYwMDEyZDZlNjdjNDcwNDJmYzIyNSJ9",
+									"key": "XSRF-TOKEN"
+								},
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6IlwvMjdCUFE2citUQUpBWVo0cFpraFpnPT0iLCJ2YWx1ZSI6ImxBdG9POGsrU044akh4UWRXd3R5ang4YWJiYjJEUWlGaGEwSGpsSHJOWnl1R200eStMQXdrcFh1TklIdVlqV3EiLCJtYWMiOiIzMTRlNzc4MzM2ZWQ4ODJlMmNkNjQ4YWIzMzNiNmE3YTRlYjkzNzA2OGZjOWQzMDNhOTdkOTNkZDM1MmUzY2RmIn0%3D",
+									"key": "laravel_session"
+								}
+							],
+							"body": "{\"status\":1,\"msg\":\"success\",\"data\":[{\"id\":1,\"created_at\":null,\"updated_at\":null,\"title\":\"\\u0627\\u062d\\u062a\\u064a\\u0627\\u0637\\u0627\\u062a \\u0627\\u0644\\u062a\\u0628\\u0631\\u0639 \\u0628\\u0627\\u0644\\u062f\\u0645\",\"content\":\"\\u0627\\u062d\\u062a\\u064a\\u0627\\u0637\\u0627\\u062a \\u0627\\u0644\\u062a\\u0628\\u0631\\u0639 \\u0628\\u0627\\u0644\\u062f\\u0645\",\"thumbnail\":\"test\",\"publish_date\":\"2018-10-01\",\"category_id\":1}]}"
+						}
+					]
+				},
+				{
+					"name": "donation details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://ipda3.com/blood-bank/api/v1/donation-request?api_token=Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27&donation_id=1",
+							"protocol": "http",
+							"host": [
+								"ipda3",
+								"com"
+							],
+							"path": [
+								"blood-bank",
+								"api",
+								"v1",
+								"donation-request"
+							],
+							"query": [
+								{
+									"key": "api_token",
+									"value": "Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27"
+								},
+								{
+									"key": "donation_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "posts (unauth)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://blood-bank.test/api/v1/posts?api_token=Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH28",
+									"protocol": "http",
+									"host": [
+										"blood-bank",
+										"test"
+									],
+									"path": [
+										"api",
+										"v1",
+										"posts"
+									],
+									"query": [
+										{
+											"key": "api_token",
+											"value": "Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH28"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private",
+									"name": "Cache-Control",
+									"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip",
+									"name": "Content-Encoding",
+									"description": "The type of encoding used on the data."
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 06 Oct 2018 12:27:52 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Server",
+									"value": "nginx/1.13.11",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked",
+									"name": "Transfer-Encoding",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"name": "Vary",
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.16",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60",
+									"name": "X-RateLimit-Limit",
+									"description": "Custom header"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59",
+									"name": "X-RateLimit-Remaining",
+									"description": "Custom header"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": false,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6Ikp1WkQxK1o5VEZibmN1NERMeGpQTHc9PSIsInZhbHVlIjoiZ0pKNHI3ZlhkdCtyXC9LaEdqSnpaMGp6MXFGeXByWEZGVGRiVzlnWlZ4QVwveHVPbjdmY3RTN2ZlQlFVR1BZMERuIiwibWFjIjoiZDlhMzg0NGU4OWY2ODVjMGE1ODVhNTE5YzFhZDAzZjc3Y2EyMjE4NDU4MTYwMDEyZDZlNjdjNDcwNDJmYzIyNSJ9",
+									"key": "XSRF-TOKEN"
+								},
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6IlwvMjdCUFE2citUQUpBWVo0cFpraFpnPT0iLCJ2YWx1ZSI6ImxBdG9POGsrU044akh4UWRXd3R5ang4YWJiYjJEUWlGaGEwSGpsSHJOWnl1R200eStMQXdrcFh1TklIdVlqV3EiLCJtYWMiOiIzMTRlNzc4MzM2ZWQ4ODJlMmNkNjQ4YWIzMzNiNmE3YTRlYjkzNzA2OGZjOWQzMDNhOTdkOTNkZDM1MmUzY2RmIn0%3D",
+									"key": "laravel_session"
+								}
+							],
+							"body": "{\"status\":0,\"msg\":\"Unauthenticated.\",\"data\":null}"
+						},
+						{
+							"name": "posts (success)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://blood-bank.test/api/v1/posts?api_token=Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27",
+									"protocol": "http",
+									"host": [
+										"blood-bank",
+										"test"
+									],
+									"path": [
+										"api",
+										"v1",
+										"posts"
+									],
+									"query": [
+										{
+											"key": "api_token",
+											"value": "Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private",
+									"name": "Cache-Control",
+									"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip",
+									"name": "Content-Encoding",
+									"description": "The type of encoding used on the data."
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 06 Oct 2018 12:26:28 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Server",
+									"value": "nginx/1.13.11",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked",
+									"name": "Transfer-Encoding",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"name": "Vary",
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.16",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60",
+									"name": "X-RateLimit-Limit",
+									"description": "Custom header"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "57",
+									"name": "X-RateLimit-Remaining",
+									"description": "Custom header"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": false,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6Ikp1WkQxK1o5VEZibmN1NERMeGpQTHc9PSIsInZhbHVlIjoiZ0pKNHI3ZlhkdCtyXC9LaEdqSnpaMGp6MXFGeXByWEZGVGRiVzlnWlZ4QVwveHVPbjdmY3RTN2ZlQlFVR1BZMERuIiwibWFjIjoiZDlhMzg0NGU4OWY2ODVjMGE1ODVhNTE5YzFhZDAzZjc3Y2EyMjE4NDU4MTYwMDEyZDZlNjdjNDcwNDJmYzIyNSJ9",
+									"key": "XSRF-TOKEN"
+								},
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6IlwvMjdCUFE2citUQUpBWVo0cFpraFpnPT0iLCJ2YWx1ZSI6ImxBdG9POGsrU044akh4UWRXd3R5ang4YWJiYjJEUWlGaGEwSGpsSHJOWnl1R200eStMQXdrcFh1TklIdVlqV3EiLCJtYWMiOiIzMTRlNzc4MzM2ZWQ4ODJlMmNkNjQ4YWIzMzNiNmE3YTRlYjkzNzA2OGZjOWQzMDNhOTdkOTNkZDM1MmUzY2RmIn0%3D",
+									"key": "laravel_session"
+								}
+							],
+							"body": "{\"status\":1,\"msg\":\"success\",\"data\":[{\"id\":1,\"created_at\":null,\"updated_at\":null,\"title\":\"\\u0627\\u062d\\u062a\\u064a\\u0627\\u0637\\u0627\\u062a \\u0627\\u0644\\u062a\\u0628\\u0631\\u0639 \\u0628\\u0627\\u0644\\u062f\\u0645\",\"content\":\"\\u0627\\u062d\\u062a\\u064a\\u0627\\u0637\\u0627\\u062a \\u0627\\u0644\\u062a\\u0628\\u0631\\u0639 \\u0628\\u0627\\u0644\\u062f\\u0645\",\"thumbnail\":\"test\",\"publish_date\":\"2018-10-01\",\"category_id\":1}]}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "posts",
+			"item": [
+				{
+					"name": "posts",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://ipda3.com/blood-bank/api/v1/posts?api_token=Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27&page=1",
+							"protocol": "http",
+							"host": [
+								"ipda3",
+								"com"
+							],
+							"path": [
+								"blood-bank",
+								"api",
+								"v1",
+								"posts"
+							],
+							"query": [
+								{
+									"key": "api_token",
+									"value": "Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27"
+								},
+								{
+									"key": "page",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "posts (unauth)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://blood-bank.test/api/v1/posts?api_token=Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH28",
+									"protocol": "http",
+									"host": [
+										"blood-bank",
+										"test"
+									],
+									"path": [
+										"api",
+										"v1",
+										"posts"
+									],
+									"query": [
+										{
+											"key": "api_token",
+											"value": "Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH28"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private",
+									"name": "Cache-Control",
+									"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip",
+									"name": "Content-Encoding",
+									"description": "The type of encoding used on the data."
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 06 Oct 2018 12:27:52 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Server",
+									"value": "nginx/1.13.11",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked",
+									"name": "Transfer-Encoding",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"name": "Vary",
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.16",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60",
+									"name": "X-RateLimit-Limit",
+									"description": "Custom header"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59",
+									"name": "X-RateLimit-Remaining",
+									"description": "Custom header"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": false,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6Ikp1WkQxK1o5VEZibmN1NERMeGpQTHc9PSIsInZhbHVlIjoiZ0pKNHI3ZlhkdCtyXC9LaEdqSnpaMGp6MXFGeXByWEZGVGRiVzlnWlZ4QVwveHVPbjdmY3RTN2ZlQlFVR1BZMERuIiwibWFjIjoiZDlhMzg0NGU4OWY2ODVjMGE1ODVhNTE5YzFhZDAzZjc3Y2EyMjE4NDU4MTYwMDEyZDZlNjdjNDcwNDJmYzIyNSJ9",
+									"key": "XSRF-TOKEN"
+								},
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6IlwvMjdCUFE2citUQUpBWVo0cFpraFpnPT0iLCJ2YWx1ZSI6ImxBdG9POGsrU044akh4UWRXd3R5ang4YWJiYjJEUWlGaGEwSGpsSHJOWnl1R200eStMQXdrcFh1TklIdVlqV3EiLCJtYWMiOiIzMTRlNzc4MzM2ZWQ4ODJlMmNkNjQ4YWIzMzNiNmE3YTRlYjkzNzA2OGZjOWQzMDNhOTdkOTNkZDM1MmUzY2RmIn0%3D",
+									"key": "laravel_session"
+								}
+							],
+							"body": "{\"status\":0,\"msg\":\"Unauthenticated.\",\"data\":null}"
+						},
+						{
+							"name": "posts (success)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://blood-bank.test/api/v1/posts?api_token=Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27",
+									"protocol": "http",
+									"host": [
+										"blood-bank",
+										"test"
+									],
+									"path": [
+										"api",
+										"v1",
+										"posts"
+									],
+									"query": [
+										{
+											"key": "api_token",
+											"value": "Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private",
+									"name": "Cache-Control",
+									"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip",
+									"name": "Content-Encoding",
+									"description": "The type of encoding used on the data."
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 06 Oct 2018 12:26:28 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Server",
+									"value": "nginx/1.13.11",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked",
+									"name": "Transfer-Encoding",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"name": "Vary",
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.16",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60",
+									"name": "X-RateLimit-Limit",
+									"description": "Custom header"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "57",
+									"name": "X-RateLimit-Remaining",
+									"description": "Custom header"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": false,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6Ikp1WkQxK1o5VEZibmN1NERMeGpQTHc9PSIsInZhbHVlIjoiZ0pKNHI3ZlhkdCtyXC9LaEdqSnpaMGp6MXFGeXByWEZGVGRiVzlnWlZ4QVwveHVPbjdmY3RTN2ZlQlFVR1BZMERuIiwibWFjIjoiZDlhMzg0NGU4OWY2ODVjMGE1ODVhNTE5YzFhZDAzZjc3Y2EyMjE4NDU4MTYwMDEyZDZlNjdjNDcwNDJmYzIyNSJ9",
+									"key": "XSRF-TOKEN"
+								},
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6IlwvMjdCUFE2citUQUpBWVo0cFpraFpnPT0iLCJ2YWx1ZSI6ImxBdG9POGsrU044akh4UWRXd3R5ang4YWJiYjJEUWlGaGEwSGpsSHJOWnl1R200eStMQXdrcFh1TklIdVlqV3EiLCJtYWMiOiIzMTRlNzc4MzM2ZWQ4ODJlMmNkNjQ4YWIzMzNiNmE3YTRlYjkzNzA2OGZjOWQzMDNhOTdkOTNkZDM1MmUzY2RmIn0%3D",
+									"key": "laravel_session"
+								}
+							],
+							"body": "{\"status\":1,\"msg\":\"success\",\"data\":[{\"id\":1,\"created_at\":null,\"updated_at\":null,\"title\":\"\\u0627\\u062d\\u062a\\u064a\\u0627\\u0637\\u0627\\u062a \\u0627\\u0644\\u062a\\u0628\\u0631\\u0639 \\u0628\\u0627\\u0644\\u062f\\u0645\",\"content\":\"\\u0627\\u062d\\u062a\\u064a\\u0627\\u0637\\u0627\\u062a \\u0627\\u0644\\u062a\\u0628\\u0631\\u0639 \\u0628\\u0627\\u0644\\u062f\\u0645\",\"thumbnail\":\"test\",\"publish_date\":\"2018-10-01\",\"category_id\":1}]}"
+						}
+					]
+				},
+				{
+					"name": "post details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://ipda3.com/blood-bank/api/v1/post?api_token=Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27&post_id=1",
+							"protocol": "http",
+							"host": [
+								"ipda3",
+								"com"
+							],
+							"path": [
+								"blood-bank",
+								"api",
+								"v1",
+								"post"
+							],
+							"query": [
+								{
+									"key": "api_token",
+									"value": "Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27"
+								},
+								{
+									"key": "post_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "posts (unauth)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://blood-bank.test/api/v1/posts?api_token=Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH28",
+									"protocol": "http",
+									"host": [
+										"blood-bank",
+										"test"
+									],
+									"path": [
+										"api",
+										"v1",
+										"posts"
+									],
+									"query": [
+										{
+											"key": "api_token",
+											"value": "Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH28"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private",
+									"name": "Cache-Control",
+									"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip",
+									"name": "Content-Encoding",
+									"description": "The type of encoding used on the data."
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 06 Oct 2018 12:27:52 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Server",
+									"value": "nginx/1.13.11",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked",
+									"name": "Transfer-Encoding",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"name": "Vary",
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.16",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60",
+									"name": "X-RateLimit-Limit",
+									"description": "Custom header"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59",
+									"name": "X-RateLimit-Remaining",
+									"description": "Custom header"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": false,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6Ikp1WkQxK1o5VEZibmN1NERMeGpQTHc9PSIsInZhbHVlIjoiZ0pKNHI3ZlhkdCtyXC9LaEdqSnpaMGp6MXFGeXByWEZGVGRiVzlnWlZ4QVwveHVPbjdmY3RTN2ZlQlFVR1BZMERuIiwibWFjIjoiZDlhMzg0NGU4OWY2ODVjMGE1ODVhNTE5YzFhZDAzZjc3Y2EyMjE4NDU4MTYwMDEyZDZlNjdjNDcwNDJmYzIyNSJ9",
+									"key": "XSRF-TOKEN"
+								},
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6IlwvMjdCUFE2citUQUpBWVo0cFpraFpnPT0iLCJ2YWx1ZSI6ImxBdG9POGsrU044akh4UWRXd3R5ang4YWJiYjJEUWlGaGEwSGpsSHJOWnl1R200eStMQXdrcFh1TklIdVlqV3EiLCJtYWMiOiIzMTRlNzc4MzM2ZWQ4ODJlMmNkNjQ4YWIzMzNiNmE3YTRlYjkzNzA2OGZjOWQzMDNhOTdkOTNkZDM1MmUzY2RmIn0%3D",
+									"key": "laravel_session"
+								}
+							],
+							"body": "{\"status\":0,\"msg\":\"Unauthenticated.\",\"data\":null}"
+						},
+						{
+							"name": "posts (success)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://blood-bank.test/api/v1/posts?api_token=Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27",
+									"protocol": "http",
+									"host": [
+										"blood-bank",
+										"test"
+									],
+									"path": [
+										"api",
+										"v1",
+										"posts"
+									],
+									"query": [
+										{
+											"key": "api_token",
+											"value": "Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private",
+									"name": "Cache-Control",
+									"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip",
+									"name": "Content-Encoding",
+									"description": "The type of encoding used on the data."
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 06 Oct 2018 12:26:28 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Server",
+									"value": "nginx/1.13.11",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked",
+									"name": "Transfer-Encoding",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"name": "Vary",
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.16",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60",
+									"name": "X-RateLimit-Limit",
+									"description": "Custom header"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "57",
+									"name": "X-RateLimit-Remaining",
+									"description": "Custom header"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": false,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6Ikp1WkQxK1o5VEZibmN1NERMeGpQTHc9PSIsInZhbHVlIjoiZ0pKNHI3ZlhkdCtyXC9LaEdqSnpaMGp6MXFGeXByWEZGVGRiVzlnWlZ4QVwveHVPbjdmY3RTN2ZlQlFVR1BZMERuIiwibWFjIjoiZDlhMzg0NGU4OWY2ODVjMGE1ODVhNTE5YzFhZDAzZjc3Y2EyMjE4NDU4MTYwMDEyZDZlNjdjNDcwNDJmYzIyNSJ9",
+									"key": "XSRF-TOKEN"
+								},
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6IlwvMjdCUFE2citUQUpBWVo0cFpraFpnPT0iLCJ2YWx1ZSI6ImxBdG9POGsrU044akh4UWRXd3R5ang4YWJiYjJEUWlGaGEwSGpsSHJOWnl1R200eStMQXdrcFh1TklIdVlqV3EiLCJtYWMiOiIzMTRlNzc4MzM2ZWQ4ODJlMmNkNjQ4YWIzMzNiNmE3YTRlYjkzNzA2OGZjOWQzMDNhOTdkOTNkZDM1MmUzY2RmIn0%3D",
+									"key": "laravel_session"
+								}
+							],
+							"body": "{\"status\":1,\"msg\":\"success\",\"data\":[{\"id\":1,\"created_at\":null,\"updated_at\":null,\"title\":\"\\u0627\\u062d\\u062a\\u064a\\u0627\\u0637\\u0627\\u062a \\u0627\\u0644\\u062a\\u0628\\u0631\\u0639 \\u0628\\u0627\\u0644\\u062f\\u0645\",\"content\":\"\\u0627\\u062d\\u062a\\u064a\\u0627\\u0637\\u0627\\u062a \\u0627\\u0644\\u062a\\u0628\\u0631\\u0639 \\u0628\\u0627\\u0644\\u062f\\u0645\",\"thumbnail\":\"test\",\"publish_date\":\"2018-10-01\",\"category_id\":1}]}"
+						}
+					]
+				},
+				{
+					"name": "favourites list",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://ipda3.com/blood-bank/api/v1/my-favourites?api_token=Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27",
+							"protocol": "http",
+							"host": [
+								"ipda3",
+								"com"
+							],
+							"path": [
+								"blood-bank",
+								"api",
+								"v1",
+								"my-favourites"
+							],
+							"query": [
+								{
+									"key": "api_token",
+									"value": "Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "posts (success)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://blood-bank.test/api/v1/posts?api_token=Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27",
+									"protocol": "http",
+									"host": [
+										"blood-bank",
+										"test"
+									],
+									"path": [
+										"api",
+										"v1",
+										"posts"
+									],
+									"query": [
+										{
+											"key": "api_token",
+											"value": "Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private",
+									"name": "Cache-Control",
+									"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip",
+									"name": "Content-Encoding",
+									"description": "The type of encoding used on the data."
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 06 Oct 2018 12:26:28 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Server",
+									"value": "nginx/1.13.11",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked",
+									"name": "Transfer-Encoding",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"name": "Vary",
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.16",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60",
+									"name": "X-RateLimit-Limit",
+									"description": "Custom header"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "57",
+									"name": "X-RateLimit-Remaining",
+									"description": "Custom header"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": false,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6Ikp1WkQxK1o5VEZibmN1NERMeGpQTHc9PSIsInZhbHVlIjoiZ0pKNHI3ZlhkdCtyXC9LaEdqSnpaMGp6MXFGeXByWEZGVGRiVzlnWlZ4QVwveHVPbjdmY3RTN2ZlQlFVR1BZMERuIiwibWFjIjoiZDlhMzg0NGU4OWY2ODVjMGE1ODVhNTE5YzFhZDAzZjc3Y2EyMjE4NDU4MTYwMDEyZDZlNjdjNDcwNDJmYzIyNSJ9",
+									"key": "XSRF-TOKEN"
+								},
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6IlwvMjdCUFE2citUQUpBWVo0cFpraFpnPT0iLCJ2YWx1ZSI6ImxBdG9POGsrU044akh4UWRXd3R5ang4YWJiYjJEUWlGaGEwSGpsSHJOWnl1R200eStMQXdrcFh1TklIdVlqV3EiLCJtYWMiOiIzMTRlNzc4MzM2ZWQ4ODJlMmNkNjQ4YWIzMzNiNmE3YTRlYjkzNzA2OGZjOWQzMDNhOTdkOTNkZDM1MmUzY2RmIn0%3D",
+									"key": "laravel_session"
+								}
+							],
+							"body": "{\"status\":1,\"msg\":\"success\",\"data\":[{\"id\":1,\"created_at\":null,\"updated_at\":null,\"title\":\"\\u0627\\u062d\\u062a\\u064a\\u0627\\u0637\\u0627\\u062a \\u0627\\u0644\\u062a\\u0628\\u0631\\u0639 \\u0628\\u0627\\u0644\\u062f\\u0645\",\"content\":\"\\u0627\\u062d\\u062a\\u064a\\u0627\\u0637\\u0627\\u062a \\u0627\\u0644\\u062a\\u0628\\u0631\\u0639 \\u0628\\u0627\\u0644\\u062f\\u0645\",\"thumbnail\":\"test\",\"publish_date\":\"2018-10-01\",\"category_id\":1}]}"
+						},
+						{
+							"name": "posts (unauth)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://blood-bank.test/api/v1/posts?api_token=Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH28",
+									"protocol": "http",
+									"host": [
+										"blood-bank",
+										"test"
+									],
+									"path": [
+										"api",
+										"v1",
+										"posts"
+									],
+									"query": [
+										{
+											"key": "api_token",
+											"value": "Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH28"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private",
+									"name": "Cache-Control",
+									"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip",
+									"name": "Content-Encoding",
+									"description": "The type of encoding used on the data."
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 06 Oct 2018 12:27:52 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Server",
+									"value": "nginx/1.13.11",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked",
+									"name": "Transfer-Encoding",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"name": "Vary",
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.16",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60",
+									"name": "X-RateLimit-Limit",
+									"description": "Custom header"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59",
+									"name": "X-RateLimit-Remaining",
+									"description": "Custom header"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": false,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6Ikp1WkQxK1o5VEZibmN1NERMeGpQTHc9PSIsInZhbHVlIjoiZ0pKNHI3ZlhkdCtyXC9LaEdqSnpaMGp6MXFGeXByWEZGVGRiVzlnWlZ4QVwveHVPbjdmY3RTN2ZlQlFVR1BZMERuIiwibWFjIjoiZDlhMzg0NGU4OWY2ODVjMGE1ODVhNTE5YzFhZDAzZjc3Y2EyMjE4NDU4MTYwMDEyZDZlNjdjNDcwNDJmYzIyNSJ9",
+									"key": "XSRF-TOKEN"
+								},
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6IlwvMjdCUFE2citUQUpBWVo0cFpraFpnPT0iLCJ2YWx1ZSI6ImxBdG9POGsrU044akh4UWRXd3R5ang4YWJiYjJEUWlGaGEwSGpsSHJOWnl1R200eStMQXdrcFh1TklIdVlqV3EiLCJtYWMiOiIzMTRlNzc4MzM2ZWQ4ODJlMmNkNjQ4YWIzMzNiNmE3YTRlYjkzNzA2OGZjOWQzMDNhOTdkOTNkZDM1MmUzY2RmIn0%3D",
+									"key": "laravel_session"
+								}
+							],
+							"body": "{\"status\":0,\"msg\":\"Unauthenticated.\",\"data\":null}"
+						}
+					]
+				},
+				{
+					"name": "post toggle favourite",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "post_id",
+									"value": "1",
+									"type": "text"
+								},
+								{
+									"key": "api_token",
+									"value": "Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://ipda3.com/blood-bank/api/v1/post-toggle-favourite",
+							"protocol": "http",
+							"host": [
+								"ipda3",
+								"com"
+							],
+							"path": [
+								"blood-bank",
+								"api",
+								"v1",
+								"post-toggle-favourite"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "General",
+			"item": [
+				{
+					"name": "list of govenorates",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://ipda3.com/blood-bank/api/v1/governorates",
+							"protocol": "http",
+							"host": [
+								"ipda3",
+								"com"
+							],
+							"path": [
+								"blood-bank",
+								"api",
+								"v1",
+								"governorates"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list of cities",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://ipda3.com/blood-bank/api/v1/cities?governorate_id=1",
+							"protocol": "http",
+							"host": [
+								"ipda3",
+								"com"
+							],
+							"path": [
+								"blood-bank",
+								"api",
+								"v1",
+								"cities"
+							],
+							"query": [
+								{
+									"key": "governorate_id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "settings",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://ipda3.com/blood-bank/api/v1/settings?api_token=Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27",
+							"protocol": "http",
+							"host": [
+								"ipda3",
+								"com"
+							],
+							"path": [
+								"blood-bank",
+								"api",
+								"v1",
+								"settings"
+							],
+							"query": [
+								{
+									"key": "api_token",
+									"value": "Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27"
+								}
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "posts (unauth)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://blood-bank.test/api/v1/posts?api_token=Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH28",
+									"protocol": "http",
+									"host": [
+										"blood-bank",
+										"test"
+									],
+									"path": [
+										"api",
+										"v1",
+										"posts"
+									],
+									"query": [
+										{
+											"key": "api_token",
+											"value": "Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH28"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private",
+									"name": "Cache-Control",
+									"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip",
+									"name": "Content-Encoding",
+									"description": "The type of encoding used on the data."
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 06 Oct 2018 12:27:52 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Server",
+									"value": "nginx/1.13.11",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked",
+									"name": "Transfer-Encoding",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"name": "Vary",
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.16",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60",
+									"name": "X-RateLimit-Limit",
+									"description": "Custom header"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "59",
+									"name": "X-RateLimit-Remaining",
+									"description": "Custom header"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": false,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6Ikp1WkQxK1o5VEZibmN1NERMeGpQTHc9PSIsInZhbHVlIjoiZ0pKNHI3ZlhkdCtyXC9LaEdqSnpaMGp6MXFGeXByWEZGVGRiVzlnWlZ4QVwveHVPbjdmY3RTN2ZlQlFVR1BZMERuIiwibWFjIjoiZDlhMzg0NGU4OWY2ODVjMGE1ODVhNTE5YzFhZDAzZjc3Y2EyMjE4NDU4MTYwMDEyZDZlNjdjNDcwNDJmYzIyNSJ9",
+									"key": "XSRF-TOKEN"
+								},
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6IlwvMjdCUFE2citUQUpBWVo0cFpraFpnPT0iLCJ2YWx1ZSI6ImxBdG9POGsrU044akh4UWRXd3R5ang4YWJiYjJEUWlGaGEwSGpsSHJOWnl1R200eStMQXdrcFh1TklIdVlqV3EiLCJtYWMiOiIzMTRlNzc4MzM2ZWQ4ODJlMmNkNjQ4YWIzMzNiNmE3YTRlYjkzNzA2OGZjOWQzMDNhOTdkOTNkZDM1MmUzY2RmIn0%3D",
+									"key": "laravel_session"
+								}
+							],
+							"body": "{\"status\":0,\"msg\":\"Unauthenticated.\",\"data\":null}"
+						},
+						{
+							"name": "posts (success)",
+							"originalRequest": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": ""
+								},
+								"url": {
+									"raw": "http://blood-bank.test/api/v1/posts?api_token=Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27",
+									"protocol": "http",
+									"host": [
+										"blood-bank",
+										"test"
+									],
+									"path": [
+										"api",
+										"v1",
+										"posts"
+									],
+									"query": [
+										{
+											"key": "api_token",
+											"value": "Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Cache-Control",
+									"value": "no-cache, private",
+									"name": "Cache-Control",
+									"description": "Tells all caching mechanisms from server to client whether they may cache this object. It is measured in seconds"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive",
+									"name": "Connection",
+									"description": "Options that are desired for the connection"
+								},
+								{
+									"key": "Content-Encoding",
+									"value": "gzip",
+									"name": "Content-Encoding",
+									"description": "The type of encoding used on the data."
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json",
+									"name": "Content-Type",
+									"description": "The mime type of this content"
+								},
+								{
+									"key": "Date",
+									"value": "Sat, 06 Oct 2018 12:26:28 GMT",
+									"name": "Date",
+									"description": "The date and time that the message was sent"
+								},
+								{
+									"key": "Server",
+									"value": "nginx/1.13.11",
+									"name": "Server",
+									"description": "A name for the server"
+								},
+								{
+									"key": "Transfer-Encoding",
+									"value": "chunked",
+									"name": "Transfer-Encoding",
+									"description": "The form of encoding used to safely transfer the entity to the user. Currently defined methods are: chunked, compress, deflate, gzip, identity."
+								},
+								{
+									"key": "Vary",
+									"value": "Accept-Encoding",
+									"name": "Vary",
+									"description": "Tells downstream proxies how to match future request headers to decide whether the cached response can be used rather than requesting a fresh one from the origin server."
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "PHP/7.1.16",
+									"name": "X-Powered-By",
+									"description": "Specifies the technology (ASP.NET, PHP, JBoss, e.g.) supporting the web application (version details are often in X-Runtime, X-Version, or X-AspNet-Version)"
+								},
+								{
+									"key": "X-RateLimit-Limit",
+									"value": "60",
+									"name": "X-RateLimit-Limit",
+									"description": "Custom header"
+								},
+								{
+									"key": "X-RateLimit-Remaining",
+									"value": "57",
+									"name": "X-RateLimit-Remaining",
+									"description": "Custom header"
+								}
+							],
+							"cookie": [
+								{
+									"expires": "Invalid Date",
+									"httpOnly": false,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6Ikp1WkQxK1o5VEZibmN1NERMeGpQTHc9PSIsInZhbHVlIjoiZ0pKNHI3ZlhkdCtyXC9LaEdqSnpaMGp6MXFGeXByWEZGVGRiVzlnWlZ4QVwveHVPbjdmY3RTN2ZlQlFVR1BZMERuIiwibWFjIjoiZDlhMzg0NGU4OWY2ODVjMGE1ODVhNTE5YzFhZDAzZjc3Y2EyMjE4NDU4MTYwMDEyZDZlNjdjNDcwNDJmYzIyNSJ9",
+									"key": "XSRF-TOKEN"
+								},
+								{
+									"expires": "Invalid Date",
+									"httpOnly": true,
+									"domain": "blood-bank.test",
+									"path": "/",
+									"secure": false,
+									"value": "eyJpdiI6IlwvMjdCUFE2citUQUpBWVo0cFpraFpnPT0iLCJ2YWx1ZSI6ImxBdG9POGsrU044akh4UWRXd3R5ang4YWJiYjJEUWlGaGEwSGpsSHJOWnl1R200eStMQXdrcFh1TklIdVlqV3EiLCJtYWMiOiIzMTRlNzc4MzM2ZWQ4ODJlMmNkNjQ4YWIzMzNiNmE3YTRlYjkzNzA2OGZjOWQzMDNhOTdkOTNkZDM1MmUzY2RmIn0%3D",
+									"key": "laravel_session"
+								}
+							],
+							"body": "{\"status\":1,\"msg\":\"success\",\"data\":[{\"id\":1,\"created_at\":null,\"updated_at\":null,\"title\":\"\\u0627\\u062d\\u062a\\u064a\\u0627\\u0637\\u0627\\u062a \\u0627\\u0644\\u062a\\u0628\\u0631\\u0639 \\u0628\\u0627\\u0644\\u062f\\u0645\",\"content\":\"\\u0627\\u062d\\u062a\\u064a\\u0627\\u0637\\u0627\\u062a \\u0627\\u0644\\u062a\\u0628\\u0631\\u0639 \\u0628\\u0627\\u0644\\u062f\\u0645\",\"thumbnail\":\"test\",\"publish_date\":\"2018-10-01\",\"category_id\":1}]}"
+						}
+					]
+				},
+				{
+					"name": "contact us",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "api_token",
+									"value": "Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27",
+									"type": "text"
+								},
+								{
+									"key": "title",
+									"value": "Test Contact",
+									"type": "text"
+								},
+								{
+									"key": "message",
+									"value": "Help me",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://ipda3.com/blood-bank/api/v1/contact",
+							"protocol": "http",
+							"host": [
+								"ipda3",
+								"com"
+							],
+							"path": [
+								"blood-bank",
+								"api",
+								"v1",
+								"contact"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "report",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "api_token",
+									"value": "Zz9HuAjCY4kw2Ma2XaA6x7T5O3UODws1UakXI9vgFVSoY3xUXYOarHX2VH27",
+									"type": "text"
+								},
+								{
+									"key": "message",
+									"value": "Help me",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://ipda3.com/blood-bank/api/v1/report",
+							"protocol": "http",
+							"host": [
+								"ipda3",
+								"com"
+							],
+							"path": [
+								"blood-bank",
+								"api",
+								"v1",
+								"report"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "logs :)",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://ipda3.com/blood-bank/api/v1/logs",
+					"protocol": "http",
+					"host": [
+						"ipda3",
+						"com"
+					],
+					"path": [
+						"blood-bank",
+						"api",
+						"v1",
+						"logs"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
