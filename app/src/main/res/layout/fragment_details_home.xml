@@ -1,14 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context=".u.fregmants.homeCycle.DetailsHomeFragment">
-
-    <!-- TODO: Update blank fragment layout -->
+    tools:context=".u.ui.fregmants.homeCycle.DetailsHomeFragment">
+    <ImageView
+        android:id="@+id/IM_Show_Image_Details"
+        android:layout_width="match_parent"
+        android:layout_margin="@dimen/dimens_l"
+        android:layout_height="@dimen/dimens_height_logo" />
+    <RelativeLayout
+        android:layout_marginTop="@dimen/dimens_m"
+        android:layout_width="match_parent"
+        android:layout_margin="@dimen/dimens_l"
+        android:background="@android:color/white"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/IM_Show_Favorite_Details"
+            android:src="@drawable/favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            />
+        <TextView
+            android:id="@+id/TV_Show_Title_Article_Details"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|end"
+            android:text="@string/hello_blank_fragment" />
     <TextView
+        android:id="@+id/TV_Show_Details"
+        android:layout_below="@+id/IM_Show_Favorite_Details"
+        android:layout_marginTop="@dimen/dimens_l"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_gravity="start"
         android:text="@string/hello_blank_fragment" />
 
-</FrameLayout>
+    </RelativeLayout>
+
+</LinearLayout>

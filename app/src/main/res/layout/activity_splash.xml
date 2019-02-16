@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".u.activities.SplashActivity">
+    tools:context=".u.ui.activities.SplashActivity">
     <FrameLayout
         android:id="@+id/Cycle_Splash_contener"
         android:layout_width="match_parent"

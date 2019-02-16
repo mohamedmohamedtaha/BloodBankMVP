@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".u.fregmants.homeCycle.regusets.MapFragment">
+    tools:context=".u.ui.fregmants.homeCycle.regusets.MapFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
-
-</FrameLayout>
+        android:layout_height="match_parent" />
+    <TextView
+        android:layout_centerInParent="true"
+        android:textColor="@android:color/black"
+        android:id="@+id/TV_Show_Direction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <Button
+        android:id="@+id/BT_Get_Location"
+        android:text="getLocation"
+        android:background="@null"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

@@ -23,5 +23,6 @@
 
 
     <dimen name="dimens_height_logo">200dp</dimen>
+    <dimen name="dimens_half_hundrand">150dp</dimen>
 
 </resources>

@@ -3,8 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/splash"
-    tools:context=".u.fregmants.homeCycle.others.EditInformationFragment">
+    tools:context=".u.ui.fregmants.homeCycle.others.EditInformationFragment">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,11 +25,11 @@
                     android:textSize="@dimen/dimens_xl" />
             </LinearLayout>
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/Fragment_Name_Regester"
 
                 style="@style/StyleEditText"
                 >
                 <android.support.design.widget.TextInputEditText
+                    android:id="@+id/Fragment_Name_Regester"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/create_new_user"
@@ -38,11 +39,12 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/Fragment_Email_Regester"
 
                 style="@style/StyleEditText"
                 >
                 <android.support.design.widget.TextInputEditText
+                    android:id="@+id/Fragment_Email_Regester"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/email"
@@ -51,26 +53,20 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+
+            <TextView
                 android:id="@+id/Fragment_Date_Regester"
-
                 style="@style/StyleEditText"
-                >
-                <android.support.design.widget.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/date"
+                android:drawableEnd="@drawable/ic_calender"
+                android:hint="@string/date" />
 
-                    />
-
-            </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/Fragment_Blood_Regester"
 
                 style="@style/StyleEditText"
                 >
                 <android.support.design.widget.TextInputEditText
+                    android:id="@+id/Fragment_Blood_Regester"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/blood_type"
@@ -79,26 +75,31 @@
 
             </android.support.design.widget.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <TextView
                 android:id="@+id/Fragment_Last_Date_Regester"
-
                 style="@style/StyleEditText"
-                >
-                <android.support.design.widget.TextInputEditText
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/last_date"
+                android:drawableEnd="@drawable/ic_calender"
+                android:hint="@string/last_date" />
+            <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                android:id="@+id/Spinner_Gaverment"
+                style="@style/SpinnerForFragment"
+                android:hint="@string/select_gaverment"
+                app:met_floatingLabel="highlight" />
 
-                    />
 
-            </android.support.design.widget.TextInputLayout>
+            <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+                android:id="@+id/Spinner_City"
+                style="@style/SpinnerForFragment"
+                android:hint="@string/select_city"
+                app:met_floatingLabel="highlight" />
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/Fragment_Phone_Regester"
 
                 style="@style/StyleEditText"
                 >
+
                 <android.support.design.widget.TextInputEditText
+                    android:id="@+id/Fragment_Phone_Regester"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/phone"
@@ -108,11 +109,11 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/Fragment_Password_Regester"
-
                 style="@style/StyleEditText"
                 >
                 <android.support.design.widget.TextInputEditText
+                    android:id="@+id/Fragment_Password_Regester"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/password"
@@ -122,11 +123,12 @@
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
-                android:id="@+id/Fragment_Retry_Password_Regester"
 
                 style="@style/StyleEditText"
                 >
                 <android.support.design.widget.TextInputEditText
+                    android:id="@+id/Fragment_Retry_Password_Regester"
+
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/retry_password"

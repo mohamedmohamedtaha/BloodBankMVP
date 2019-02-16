@@ -1,14 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".u.fregmants.homeCycle.HomeFragment">
-
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".u.ui.fregmants.homeCycle.HomeFragment">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:drawSelectorOnTop="true"
+        android:divider="@null"
+        android:visibility="gone"
+        android:dividerHeight="0dp">
 
-</FrameLayout>
+    </android.support.v7.widget.RecyclerView>
+    <!-- Empty view is only visible when the list has no items. -->
+
+    <RelativeLayout
+        android:id="@+id/empty_view_category"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/empty_image"
+            style="@style/EmptyViewImage"
+            />
+        <TextView
+            android:id="@+id/tv_empty_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/no_data"
+            android:gravity="center"
+            android:textColor="@android:color/black"
+            android:fontFamily="@font/cairo_regular"
+            android:layout_marginTop="@dimen/dimens_xl"
+            android:textSize="@dimen/txt_size_xl"
+            android:layout_below="@+id/empty_image"
+            android:textAppearance="?android:textAppearanceMedium" />
+    </RelativeLayout>
+
+    <!-- Loading indicator is only shown before the first load -->
+
+    <ProgressBar
+        android:id="@+id/loading_indicator"
+        style="@style/Widget.AppCompat.ProgressBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:layout_centerInParent="true" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/Fab_Posts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+</RelativeLayout>

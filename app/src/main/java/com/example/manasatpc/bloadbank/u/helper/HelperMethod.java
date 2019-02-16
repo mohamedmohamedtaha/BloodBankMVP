@@ -1,8 +1,9 @@
 package com.example.manasatpc.bloadbank.u.helper;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -12,20 +13,27 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.TextView;
 
 import com.example.manasatpc.bloadbank.R;
-import com.example.manasatpc.bloadbank.u.fregmants.userCycle.LoginFragment;
+import com.example.manasatpc.bloadbank.u.ui.fregmants.userCycle.LoginFragment;
+import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 public class HelperMethod {
+    public static final String API_KEY = "API_KEY";
     private static CountDownTimer countDownTimer;
 
     //This method for handle Fragments
     public static void replece(Fragment fragment, FragmentManager fragmentManager, int id, TextView toolbar, String title, Bundle bundle) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
+        fragment.setArguments(bundle);
         transaction.replace(id, fragment);
         transaction.addToBackStack(null);
-        fragment.setArguments(bundle);
         transaction.commit();
         if (toolbar != null) {
             toolbar.setText(title);
@@ -48,8 +56,9 @@ public class HelperMethod {
     }
 
     // This method for handle Activity
-    public static void startActivity(Context context, Class<?> toActivity) {
+    public static void startActivity(Context context, Class<?> toActivity, String getAPI) {
         Intent startActivity = new Intent(context, toActivity);
+        startActivity.putExtra(API_KEY,getAPI);
         context.startActivity(startActivity);
     }
 
@@ -72,7 +81,37 @@ public class HelperMethod {
 
     }
 
-}
+    //Calender
+    public static void showCalender(Context context, String title, final TextView text_view_data, final DateModel data1) {
+        DatePickerDialog mDatePicker = new DatePickerDialog(context, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT,
+                new DatePickerDialog.OnDateSetListener() {
+            public void onDateSet(DatePicker datepicker, int selectedYear, int selectedMonth, int selectedDay) {
+                DecimalFormat mFormat = new DecimalFormat("00");
+                if (!data1.getMonth().equals(mFormat.format(Double.valueOf(selectedMonth)))) {
+                    String data = selectedYear + "-" + mFormat.format(Double.valueOf((selectedMonth + 1))) + "-" + mFormat.format(Double.valueOf(selectedDay));
+                    data1.setDate_txt(data);
+                    data1.setDay(mFormat.format(Double.valueOf(selectedDay)));
+                    data1.setMonth(mFormat.format(Double.valueOf(selectedMonth + 1)));
+                    data1.setYear(String.valueOf(selectedYear));
+                    text_view_data.setText(data);
+                }
+            }
+        }, Integer.parseInt(data1.getYear()), Integer.parseInt(data1.getMonth()), Integer.parseInt(data1.getDay()));
+        mDatePicker.setTitle(title);
+        mDatePicker.show();
+    }
+
+    //This method for show data in Spinner
+
+    public static void showGovernorates(ArrayList<String> date, Context context, MaterialBetterSpinner spinner){
+
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(context,android.R.layout.simple_dropdown_item_1line,date);
+
+        spinner.setAdapter(arrayAdapter);
+
+
+    }
+  }
 
 
 

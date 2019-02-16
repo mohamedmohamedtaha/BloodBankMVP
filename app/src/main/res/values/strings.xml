@@ -58,4 +58,56 @@
 
     <string name="no_internet">Sorry, There is not connect internet  </string>
 
+    <string name="patient_name">Patient name :  </string>
+    <string name="hospital">Hospital : </string>
+    <string name="cityDoantionRequestCreate">City : </string>
+
+
+    <string name="articles">Articles </string>
+    <string name="request_donation">Request donation</string>
+    <string name="no_data">There is not dataPost....</string>
+    <string name="no_title">There is not Title .</string>
+    <string name="details">Details</string>
+    <string name="call">call</string>
+
+
+    <string name="name">Name :  </string>
+    <string name="age">Age :  </string>
+    <string name="number_package_request">Number Package Request :  </string>
+    <string name="address_hospital">Address Hospital :  </string>
+    <string name="notes">Notes</string>
+    <string name="send_request">Send Request</string>
+    <string name="tite_message">Title Message</string>
+    <string name="text_message">Text Message</string>
+
+
+    <!-- For Fragment Preferences -->
+
+    <string name="settings_value_default_A_plus" translatable="false">A+</string>
+    <string name="settings_from_date_key_A_plus" translatable="false">A+</string>
+    <string name="settings_from_date_label_A_plus"> A+</string>
+
+    <string name="settings_value_default_A_sub" translatable="false">A-</string>
+    <string name="settings_from_date_key_A_sub" translatable="false">A-</string>
+    <string name="settings_from_date_label_A_sub"> A-</string>
+
+    <string name="settings_value_default_B_sub" translatable="false">B-</string>
+    <string name="settings_from_date_key_B_sub" translatable="false">B-</string>
+    <string name="settings_from_date_label_B_sub"> B-</string>
+
+    <string name="settings_value_default_B_plus" translatable="false">B+</string>
+    <string name="settings_from_date_key_B_plus" translatable="false">B+</string>
+    <string name="settings_from_date_label_B_plus"> B+</string>
+
+    <string name="settings_value_default_AB_plus" translatable="false">AB+</string>
+    <string name="settings_from_date_key_AB_plus" translatable="false">AB+</string>
+    <string name="settings_from_date_label_AB_plus"> AB+</string>
+
+    <string name="settings_value_default_AB_sub" translatable="false">AB-</string>
+    <string name="settings_from_date_key_AB_sub" translatable="false">AB-</string>
+    <string name="settings_from_date_label_AB_sub"> AB-</string>
+
+
+    <string name="google_android_map_api_key"> AIzaSyDNOiMkuJGxxSwLfConFex3aMwPiUQRk_0 </string>
+
 </resources>

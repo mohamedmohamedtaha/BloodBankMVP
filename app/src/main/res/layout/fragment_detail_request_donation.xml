@@ -1,14 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".u.fregmants.homeCycle.regusets.DetailRequestDonationFragment">
+    tools:context=".u.ui.fregmants.homeCycle.regusets.DetailRequestDonationFragment">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@android:color/white">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/TV_Show_Name_Details_Donation"
+        style="@style/StyleTextViewForDetaislDonation"
+        android:text="@string/name" />
+    <View
+       style="@style/StyleForView"/>
+    <TextView
+        android:id="@+id/TV_Show_Age_Details_Donation"
+        style="@style/StyleTextViewForDetaislDonation"
+        android:text="@string/age" />
+    <View
+        style="@style/StyleForView"/>
+    <TextView
+        android:id="@+id/TV_Show_Type_Blood_Details_Donation"
+        style="@style/StyleTextViewForDetaislDonation"
+        android:text="@string/blood_type" />
+    <View
+        style="@style/StyleForView"/>
+    <TextView
+        android:id="@+id/TV_Show_Number_Package_Request_Details_Donation"
+        style="@style/StyleTextViewForDetaislDonation"
+        android:text="@string/number_package_request" />
+    <View
+        style="@style/StyleForView"/>
+    <TextView
+        android:id="@+id/TV_Show_Hospital_Details_Donation"
+        style="@style/StyleTextViewForDetaislDonation"
+        android:text="@string/hospital" />
+    <View
+        style="@style/StyleForView"/>
+    <TextView
+        android:id="@+id/TV_Show_Address_Hospital_Details_Donation"
+        style="@style/StyleTextViewForDetaislDonation"
+        android:text="@string/address_hospital" />
+    <View
+        style="@style/StyleForView"/>
+    <TextView
+        android:id="@+id/TV_Show_Phone_Details_Donation"
+        style="@style/StyleTextViewForDetaislDonation"
+        android:text="@string/phone" />
+    <View
+        style="@style/StyleForView"/>
+    <TextView
+        android:id="@+id/TV_Show_Details_Details_Donation"
+        style="@style/StyleTextViewForDetaislDonation"
+        android:text="@string/details" />
+    <View
+        style="@style/StyleForView"/>
+    <Button
+        android:id="@+id/BT_Call"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
-
-</FrameLayout>
+        android:layout_height="wrap_content"
+        android:text="@string/call"
+        android:background="@color/colorButtonLogin"/>
+</LinearLayout>
+</ScrollView>
