@@ -15,12 +15,22 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="@drawable/side_nav_bar"
+            android:theme="@style/ThemeOverlay.AppCompat.Light"
             app:popupTheme="@style/AppTheme.PopupOverlay" />
 
     </android.support.design.widget.AppBarLayout>
 
     <include layout="@layout/content_home" />
 
-
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/Fab_Request_Donation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="@dimen/fab_margin"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:elevation="@dimen/dimens_m"
+        android:backgroundTint="@color/colorButtonLogin"
+        app:srcCompat="@mipmap/ic_add" />
 </android.support.design.widget.CoordinatorLayout>

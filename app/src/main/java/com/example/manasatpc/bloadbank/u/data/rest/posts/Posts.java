@@ -14,7 +14,7 @@ public class Posts {
     private String msg;
     @SerializedName("data")
     @Expose
-    private DataPosts dataPosts;
+    private DataPosts data;
 
     public Integer getStatus() {
         return status;
@@ -32,12 +32,12 @@ public class Posts {
         this.msg = msg;
     }
 
-    public DataPosts getDataPosts() {
-        return dataPosts;
+    public DataPosts getData() {
+        return data;
     }
 
-    public void setDataPosts(DataPosts dataPosts) {
-        this.dataPosts = dataPosts;
+    public void setData(DataPosts data) {
+        this.data = data;
     }
 
 }

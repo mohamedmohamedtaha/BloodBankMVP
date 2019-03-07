@@ -1,10 +1,10 @@
 
-package com.example.manasatpc.bloadbank.u.data.rest.donation;
+package com.example.manasatpc.bloadbank.u.data.rest.user.login;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class ClientDoantion {
+public class ClientLogin {
 
     @SerializedName("id")
     @Expose
@@ -33,15 +33,21 @@ public class ClientDoantion {
     @SerializedName("donation_last_date")
     @Expose
     private String donationLastDate;
-    @SerializedName("blood_type")
+    @SerializedName("blood_type_id")
     @Expose
-    private String bloodType;
+    private String bloodTypeId;
     @SerializedName("is_active")
     @Expose
     private String isActive;
     @SerializedName("pin_code")
     @Expose
     private String pinCode;
+    @SerializedName("city")
+    @Expose
+    private CityLogin city;
+    @SerializedName("blood_type")
+    @Expose
+    private BloodTypeLogin bloodType;
 
     public Integer getId() {
         return id;
@@ -115,12 +121,12 @@ public class ClientDoantion {
         this.donationLastDate = donationLastDate;
     }
 
-    public String getBloodType() {
-        return bloodType;
+    public String getBloodTypeId() {
+        return bloodTypeId;
     }
 
-    public void setBloodType(String bloodType) {
-        this.bloodType = bloodType;
+    public void setBloodTypeId(String bloodTypeId) {
+        this.bloodTypeId = bloodTypeId;
     }
 
     public String getIsActive() {
@@ -137,6 +143,22 @@ public class ClientDoantion {
 
     public void setPinCode(String pinCode) {
         this.pinCode = pinCode;
+    }
+
+    public CityLogin getCity() {
+        return city;
+    }
+
+    public void setCity(CityLogin city) {
+        this.city = city;
+    }
+
+    public BloodTypeLogin getBloodType() {
+        return bloodType;
+    }
+
+    public void setBloodType(BloodTypeLogin bloodType) {
+        this.bloodType = bloodType;
     }
 
 }

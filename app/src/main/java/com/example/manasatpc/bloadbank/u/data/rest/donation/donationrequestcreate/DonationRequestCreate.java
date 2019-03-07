@@ -14,7 +14,7 @@ public class DonationRequestCreate {
     private String msg;
     @SerializedName("data")
     @Expose
-    private DataDonationRequestCretae dataDonationRequestCretae;
+    private DataDonationRequestCreate data;
 
     public Integer getStatus() {
         return status;
@@ -32,12 +32,12 @@ public class DonationRequestCreate {
         this.msg = msg;
     }
 
-    public DataDonationRequestCretae getDataDonationRequestCretae() {
-        return dataDonationRequestCretae;
+    public DataDonationRequestCreate getData() {
+        return data;
     }
 
-    public void setDataDonationRequestCretae(DataDonationRequestCretae dataDonationRequestCretae) {
-        this.dataDonationRequestCretae = dataDonationRequestCretae;
+    public void setData(DataDonationRequestCreate data) {
+        this.data = data;
     }
 
 }

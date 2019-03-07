@@ -14,7 +14,7 @@ public class Login {
     private String msg;
     @SerializedName("data")
     @Expose
-    private LoginData loginData;
+    private DataLogin data;
 
     public Integer getStatus() {
         return status;
@@ -32,12 +32,12 @@ public class Login {
         this.msg = msg;
     }
 
-    public LoginData getLoginData() {
-        return loginData;
+    public DataLogin getData() {
+        return data;
     }
 
-    public void setLoginData(LoginData loginData) {
-        this.loginData = loginData;
+    public void setData(DataLogin data) {
+        this.data = data;
     }
 
 }

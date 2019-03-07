@@ -2,8 +2,9 @@ package com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.others;
 
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,17 +15,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.manasatpc.bloadbank.R;
-import com.example.manasatpc.bloadbank.u.adapter.AdapterArticle;
 import com.example.manasatpc.bloadbank.u.adapter.AdapterMyFavorite;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
-import com.example.manasatpc.bloadbank.u.data.rest.posts.Data2Posts;
 import com.example.manasatpc.bloadbank.u.data.rest.posts.my_favourites.DataMyFavouritesTwo;
 import com.example.manasatpc.bloadbank.u.data.rest.posts.my_favourites.MyFavourites;
-import com.example.manasatpc.bloadbank.u.data.rest.posts.post.Post;
-import com.example.manasatpc.bloadbank.u.helper.OnEndless;
+import com.example.manasatpc.bloadbank.u.helper.SaveData;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,7 +31,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.manasatpc.bloadbank.u.data.rest.RetrofitClient.getRetrofit;
-import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.API_KEY;
+import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.GET_DATA;
+import static com.example.manasatpc.bloadbank.u.ui.activities.HomeActivity.toolbar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -52,6 +50,7 @@ public class MyFavoriteFragment extends Fragment {
     private APIServices apiServices;
     AdapterMyFavorite adapterMyFavorite;
     Bundle bundle;
+    private SaveData saveData;
 
 
     public MyFavoriteFragment() {
@@ -67,16 +66,17 @@ public class MyFavoriteFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         bundle = getArguments();
 
+        saveData = getArguments().getParcelable(GET_DATA);
 
         list.setEmptyView(tvEmptyView);
         apiServices = getRetrofit().create(APIServices.class);
-        apiServices.getMyFavourites(bundle.getString(API_KEY))
+        apiServices.getMyFavourites(saveData.getApi_token())
                 .enqueue(new Callback<MyFavourites>() {
             @Override
             public void onResponse(Call<MyFavourites> call, Response<MyFavourites> response) {
                 ArrayList<DataMyFavouritesTwo> myFavourites = response.body().getData().getData();
                 if (response.body().getStatus() == 1){
-                   adapterMyFavorite = new AdapterMyFavorite(getActivity(),myFavourites);
+                    adapterMyFavorite = new AdapterMyFavorite(getActivity(),myFavourites);
                     list.setAdapter(adapterMyFavorite);
                     loadingIndicator.setVisibility(View.GONE);
 
@@ -115,5 +115,11 @@ public class MyFavoriteFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        toolbar.setTitle(R.string.my_favorite);
+
     }
 }

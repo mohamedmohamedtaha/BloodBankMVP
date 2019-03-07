@@ -3,10 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:context=".u.ui.fregmants.homeCycle.others.AboutAppFragment">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
+        android:id="@+id/TV_Show_About_App"
+        android:layout_marginTop="@dimen/dimens_6xl"
+        android:layout_marginEnd="@dimen/dimens_xl"
+        android:layout_marginStart="@dimen/dimens_xl"
+        android:layout_marginBottom="@dimen/dimens_6xl"
+        android:textSize="@dimen/txt_size_xl"
+        android:textColor="@android:color/black"
+        android:layout_gravity="end"
+        android:gravity="end"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:text="@string/hello_blank_fragment" />

@@ -1,7 +1,6 @@
 
 package com.example.manasatpc.bloadbank.u.data.rest.posts;
 
-import java.util.ArrayList;
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -13,7 +12,7 @@ public class DataPosts {
     private Integer currentPage;
     @SerializedName("data")
     @Expose
-    private ArrayList<Data2Posts> data = null;
+    private List<Data2Posts> data = null;
     @SerializedName("first_page_url")
     @Expose
     private String firstPageUrl;
@@ -28,7 +27,7 @@ public class DataPosts {
     private String lastPageUrl;
     @SerializedName("next_page_url")
     @Expose
-    private Object nextPageUrl;
+    private String nextPageUrl;
     @SerializedName("path")
     @Expose
     private String path;
@@ -53,11 +52,11 @@ public class DataPosts {
         this.currentPage = currentPage;
     }
 
-    public ArrayList<Data2Posts> getData() {
+    public List<Data2Posts> getData() {
         return data;
     }
 
-    public void setData(ArrayList<Data2Posts> data) {
+    public void setData(List<Data2Posts> data) {
         this.data = data;
     }
 
@@ -93,11 +92,11 @@ public class DataPosts {
         this.lastPageUrl = lastPageUrl;
     }
 
-    public Object getNextPageUrl() {
+    public String getNextPageUrl() {
         return nextPageUrl;
     }
 
-    public void setNextPageUrl(Object nextPageUrl) {
+    public void setNextPageUrl(String nextPageUrl) {
         this.nextPageUrl = nextPageUrl;
     }
 

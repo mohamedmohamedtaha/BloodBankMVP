@@ -1,10 +1,10 @@
 
-package com.example.manasatpc.bloadbank.u.data.rest.donation;
+package com.example.manasatpc.bloadbank.u.data.rest.general.bloodtypes;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class CityDoantion {
+public class DataBloodTypes {
 
     @SerializedName("id")
     @Expose
@@ -18,9 +18,6 @@ public class CityDoantion {
     @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("governorate_id")
-    @Expose
-    private String governorateId;
 
     public Integer getId() {
         return id;
@@ -52,14 +49,6 @@ public class CityDoantion {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getGovernorateId() {
-        return governorateId;
-    }
-
-    public void setGovernorateId(String governorateId) {
-        this.governorateId = governorateId;
     }
 
 }

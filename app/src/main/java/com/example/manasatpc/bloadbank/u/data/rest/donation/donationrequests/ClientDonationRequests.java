@@ -1,10 +1,10 @@
 
-package com.example.manasatpc.bloadbank.u.data.rest.user.login;
+package com.example.manasatpc.bloadbank.u.data.rest.donation.donationrequests;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Client {
+public class ClientDonationRequests {
 
     @SerializedName("id")
     @Expose
@@ -33,9 +33,9 @@ public class Client {
     @SerializedName("donation_last_date")
     @Expose
     private String donationLastDate;
-    @SerializedName("blood_type")
+    @SerializedName("blood_type_id")
     @Expose
-    private String bloodType;
+    private String bloodTypeId;
     @SerializedName("is_active")
     @Expose
     private String isActive;
@@ -115,12 +115,12 @@ public class Client {
         this.donationLastDate = donationLastDate;
     }
 
-    public String getBloodType() {
-        return bloodType;
+    public String getBloodTypeId() {
+        return bloodTypeId;
     }
 
-    public void setBloodType(String bloodType) {
-        this.bloodType = bloodType;
+    public void setBloodTypeId(String bloodTypeId) {
+        this.bloodTypeId = bloodTypeId;
     }
 
     public String getIsActive() {

@@ -4,7 +4,7 @@ package com.example.manasatpc.bloadbank.u.data.rest.donation.donationrequestcrea
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class CityDoantionRequestCreate {
+public class CityDonationRequestCreate {
 
     @SerializedName("id")
     @Expose
@@ -23,7 +23,7 @@ public class CityDoantionRequestCreate {
     private String governorateId;
     @SerializedName("governorate")
     @Expose
-    private GovernorateDonation governorateDonation;
+    private GovernorateDonationRequestCreate governorate;
 
     public Integer getId() {
         return id;
@@ -65,12 +65,12 @@ public class CityDoantionRequestCreate {
         this.governorateId = governorateId;
     }
 
-    public GovernorateDonation getGovernorateDonation() {
-        return governorateDonation;
+    public GovernorateDonationRequestCreate getGovernorate() {
+        return governorate;
     }
 
-    public void setGovernorateDonation(GovernorateDonation governorateDonation) {
-        this.governorateDonation = governorateDonation;
+    public void setGovernorate(GovernorateDonationRequestCreate governorate) {
+        this.governorate = governorate;
     }
 
 }

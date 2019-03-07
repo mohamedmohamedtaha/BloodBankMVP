@@ -14,20 +14,14 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.manasatpc.bloadbank.R;
 import com.example.manasatpc.bloadbank.u.data.rest.posts.my_favourites.DataMyFavouritesTwo;
-import com.example.manasatpc.bloadbank.u.data.rest.posts.my_favourites.MyFavourites;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class AdapterMyFavorite extends ArrayAdapter<DataMyFavouritesTwo> {
-    @BindView(R.id.IM_Favorite)
-    ImageView IMFavorite;
-    @BindView(R.id.TV_Show_Title_Article)
-    TextView TVShowTitleArticle;
-    @BindView(R.id.IM_Show_Picture)
-    ImageView IMShowPicture;
-    private Context context;
+
 
     public AdapterMyFavorite(@NonNull Context context, ArrayList<DataMyFavouritesTwo> myFavourites) {
         super(context, 0, myFavourites);
@@ -37,51 +31,66 @@ public class AdapterMyFavorite extends ArrayAdapter<DataMyFavouritesTwo> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         View listItemView = convertView;
+        ViewHolder viewHolder;
         //Check if there is an exsiting list item view (called convertView) that we can reuse,
         //otherwise ,if convertView is null, then inflate anew list item
         if (listItemView == null) {
             listItemView = LayoutInflater.from(getContext()).inflate(R.layout.custom_article, parent, false);
-
         }
+        viewHolder = new ViewHolder(listItemView);
 
         //find the myFavourite at the given position in the list of myFavourite
         DataMyFavouritesTwo currentMyFavourite = getItem(position);
 
 
         if (TextUtils.isEmpty(currentMyFavourite.getTitle())) {
-            TVShowTitleArticle.setText(R.string.no_title);
+            viewHolder.TVShowTitleArticle.setText(R.string.no_title);
         } else {
-            TVShowTitleArticle.setText(currentMyFavourite.getTitle());
+            viewHolder.TVShowTitleArticle.setText(currentMyFavourite.getTitle());
 
         }
         if (TextUtils.isEmpty(currentMyFavourite.getThumbnailFullPath())) {
-            Glide.with(context)
+            Glide.with(getContext())
                     .load(R.drawable.no_image)
-                    .into(IMShowPicture);
+                    .into(viewHolder.IMShowPicture);
         } else {
-            Glide.with(context)
+            Glide.with(getContext())
                     .load(currentMyFavourite.getThumbnailFullPath())
                     .error(R.drawable.no_image)
                     .centerCrop()
-                    .into(IMShowPicture);
+                    .into(viewHolder.IMShowPicture);
 
         }
-        if (currentMyFavourite.getIsFavourite() == true){
-            Glide.with(context)
+        if (currentMyFavourite.getIsFavourite()) {
+            Glide.with(getContext())
                     .load(R.drawable.favorite_bold)
                     .error(R.drawable.no_image)
                     .centerCrop()
-                    .into(IMShowPicture);
+                    .into(viewHolder.IMFavorite);
 
-        }else {
-            Glide.with(context)
+        } else {
+            Glide.with(getContext())
                     .load(R.drawable.favorite)
                     .error(R.drawable.no_image)
                     .centerCrop()
-                    .into(IMShowPicture);
+                    .into(viewHolder.IMFavorite);
         }
         return listItemView;
     }
 
 
+    static
+    class ViewHolder {
+        @BindView(R.id.IM_Favorite)
+        ImageView IMFavorite;
+        @BindView(R.id.TV_Show_Title_Article)
+        TextView TVShowTitleArticle;
+        @BindView(R.id.IM_Show_Picture)
+        ImageView IMShowPicture;
+
+        ViewHolder(View view) {
+            ButterKnife.bind(this, view);
+
+        }
+    }
 }

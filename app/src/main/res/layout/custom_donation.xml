@@ -1,21 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_marginStart="@dimen/dimens_l"
+    android:layout_marginEnd="@dimen/dimens_l"
+    android:layout_marginTop="@dimen/dimens_m"
+    android:layout_height="wrap_content">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-       android:orientation="horizontal"
+        android:background="@drawable/shape_donation"
         android:layout_height="wrap_content">
-        <de.hdodenhof.circleimageview.CircleImageView
+               <TextView
             android:id="@+id/IM_Type_Blood"
-            android:layout_marginTop="@dimen/dimens_l"
-            android:layout_marginEnd="@dimen/dimens_l"
-            android:layout_width="@dimen/dimens_xxxxl"
-            android:layout_height="@dimen/dimens_xxxxl"
-            android:src="@drawable/ic_calender"/>
+                   android:layout_marginTop="@dimen/dimens_s"
+                  android:gravity="center"
+                   android:textColor="@android:color/black"
+                   android:textStyle="bold"
+                   android:textSize="@dimen/txt_size_xl"
+            android:background="@drawable/custom_text_blood_type"
+            android:layout_width="@dimen/dimens_seventy"
+            android:layout_height="@dimen/dimens_seventy"
+            android:layout_marginStart="@dimen/dimens_s"
+            android:layout_marginEnd="@dimen/dimens_s"
+           />
     <TableLayout
-    android:orientation="horizontal"
+        android:id="@+id/table_information"
+        android:layout_marginTop="@dimen/dimens_s"
+        android:layout_toRightOf="@+id/IM_Type_Blood"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
         <TableRow>
@@ -30,8 +42,10 @@
         <TextView
             android:id="@+id/TV_Name_Patient"
             android:layout_width="wrap_content"
-            android:layout_marginStart="@dimen/dimens_m"
+            android:layout_marginStart="@dimen/dimens_s"
             android:textColor="@android:color/black"
+            android:layout_marginEnd="@dimen/dimens_s"
+
             android:layout_height="wrap_content"
             android:text="@string/patient_name"/>
 
@@ -41,6 +55,7 @@
         <TextView
             android:id="@+id/hospital"
             android:layout_width="wrap_content"
+            android:layout_marginTop="@dimen/dimens_m"
             android:layout_toEndOf="@+id/IM_Type_Blood"
             android:layout_below="@+id/name_patient"
             android:layout_height="wrap_content"
@@ -50,9 +65,12 @@
         <TextView
             android:id="@+id/TV_Hospital"
             android:layout_width="wrap_content"
-            android:layout_marginStart="@dimen/dimens_m"
+            android:layout_marginStart="@dimen/dimens_s"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
+            android:layout_marginTop="@dimen/dimens_m"
+            android:layout_marginEnd="@dimen/dimens_s"
+
             android:text="@string/hospital"/>
 
     </TableRow>
@@ -63,14 +81,16 @@
             android:layout_width="wrap_content"
             android:textColor="@android:color/black"
         android:text="@string/cityDoantionRequestCreate"
-           android:layout_height="wrap_content"/>
+        android:layout_marginTop="@dimen/dimens_m"
+        android:layout_height="wrap_content"/>
 
         <TextView
             android:id="@+id/TV_City"
             android:layout_width="wrap_content"
             android:textColor="@android:color/black"
-            android:layout_marginStart="@dimen/dimens_m"
-
+            android:layout_marginStart="@dimen/dimens_s"
+            android:layout_marginTop="@dimen/dimens_m"
+            android:layout_marginEnd="@dimen/dimens_s"
             android:layout_height="wrap_content"
             android:text="@string/cityDoantionRequestCreate"/>
     </TableRow>
@@ -78,31 +98,31 @@
 
   </TableLayout>
     <LinearLayout
-        android:layout_width="@dimen/dimens_half_hundrand"
+        android:layout_alignParentRight="true"
+        android:layout_width="@dimen/dimens_hundrand"
         android:orientation="vertical"
+        android:layout_marginTop="@dimen/dimens_m"
         android:layout_height="wrap_content">
 
         <Button
             android:id="@+id/BT_Details"
-            android:layout_width="match_parent"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:text="@string/details"
             android:layout_marginEnd="@dimen/dimens_m"
             android:layout_marginStart="@dimen/dimens_m"
-            android:layout_height="0dp"/>
+            android:layout_height="@dimen/dimens_xxxl"/>
         <Button
             android:id="@+id/BT_Call"
-            android:layout_width="match_parent"
-            android:layout_weight="1"
+            android:layout_width="wrap_content"
             android:text="@string/call"
             android:drawableRight="@android:drawable/ic_menu_call"
             android:background="@color/colorButtonLogin"
             android:layout_marginEnd="@dimen/dimens_m"
             android:layout_marginStart="@dimen/dimens_m"
-            android:layout_height="0dp"/>
+            android:layout_height="@dimen/dimens_xxl"/>
 
 
     </LinearLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
-    </android.support.v7.widget.CardView>
+    </RelativeLayout>

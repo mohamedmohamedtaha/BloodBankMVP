@@ -4,14 +4,14 @@ package com.example.manasatpc.bloadbank.u.data.rest.user.login;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class LoginData {
+public class DataLogin {
 
     @SerializedName("api_token")
     @Expose
     private String apiToken;
     @SerializedName("client")
     @Expose
-    private Client client;
+    private ClientLogin client;
 
     public String getApiToken() {
         return apiToken;
@@ -21,11 +21,11 @@ public class LoginData {
         this.apiToken = apiToken;
     }
 
-    public Client getClient() {
+    public ClientLogin getClient() {
         return client;
     }
 
-    public void setClient(Client client) {
+    public void setClient(ClientLogin client) {
         this.client = client;
     }
 

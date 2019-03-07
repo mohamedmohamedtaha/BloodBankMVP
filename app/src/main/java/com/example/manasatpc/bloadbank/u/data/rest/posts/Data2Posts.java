@@ -38,7 +38,7 @@ public class Data2Posts {
     private Boolean isFavourite;
     @SerializedName("category")
     @Expose
-    private CategoryPosts categoryPosts;
+    private CategoryPosts category;
 
     public Integer getId() {
         return id;
@@ -120,12 +120,12 @@ public class Data2Posts {
         this.isFavourite = isFavourite;
     }
 
-    public CategoryPosts getCategoryPosts() {
-        return categoryPosts;
+    public CategoryPosts getCategory() {
+        return category;
     }
 
-    public void setCategoryPosts(CategoryPosts categoryPosts) {
-        this.categoryPosts = categoryPosts;
+    public void setCategory(CategoryPosts category) {
+        this.category = category;
     }
 
 }

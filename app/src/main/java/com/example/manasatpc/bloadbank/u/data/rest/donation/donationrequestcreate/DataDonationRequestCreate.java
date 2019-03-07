@@ -4,7 +4,7 @@ package com.example.manasatpc.bloadbank.u.data.rest.donation.donationrequestcrea
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class DataDonationRequestCretae {
+public class DataDonationRequestCreate {
 
     @SerializedName("donationRequest")
     @Expose

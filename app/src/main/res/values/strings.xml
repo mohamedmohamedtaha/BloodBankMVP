@@ -31,7 +31,9 @@
     <string name="nav_header_title">Android Studio</string>
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_back">Back</string>
+    <string name="action_notification">Notification</string>
+
     <string name="email">Email</string>
     <string name="date">Date of birth</string>
     <string name="blood_type">Blood Type</string>
@@ -59,7 +61,7 @@
     <string name="no_internet">Sorry, There is not connect internet  </string>
 
     <string name="patient_name">Patient name :  </string>
-    <string name="hospital">Hospital : </string>
+    <string name="hospital">Hospital Name : </string>
     <string name="cityDoantionRequestCreate">City : </string>
 
 
@@ -79,6 +81,8 @@
     <string name="send_request">Send Request</string>
     <string name="tite_message">Title Message</string>
     <string name="text_message">Text Message</string>
+
+    <string name="select_number_package">Select Number Package Blood  </string>
 
 
     <!-- For Fragment Preferences -->
@@ -109,5 +113,7 @@
 
 
     <string name="google_android_map_api_key"> AIzaSyDNOiMkuJGxxSwLfConFex3aMwPiUQRk_0 </string>
+    <string name="exit_app">Press Back again to Exit.</string>
+    <string name="some_text">هذا النص هو مثال لعرض نصوص اخرى تاتي من الموقع وهذا فقط اختبار لها</string>
 
 </resources>

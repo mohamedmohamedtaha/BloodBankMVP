@@ -56,13 +56,28 @@
     <TextView
         android:id="@+id/TV_Show_Details_Details_Donation"
         style="@style/StyleTextViewForDetaislDonation"
+        android:gravity="top"
+        android:lines="7"
         android:text="@string/details" />
+
+
     <View
         style="@style/StyleForView"/>
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dimens_height_logo"
+        android:layout_marginEnd="@dimen/dimens_xl"
+        android:layout_marginStart="@dimen/dimens_xl"
+        android:layout_marginBottom="@dimen/dimens_xl"/>
     <Button
         android:id="@+id/BT_Call"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="@dimen/dimens_xl"
+        android:layout_marginStart="@dimen/dimens_xl"
+        android:layout_marginBottom="@dimen/dimens_xl"
         android:text="@string/call"
         android:background="@color/colorButtonLogin"/>
 </LinearLayout>

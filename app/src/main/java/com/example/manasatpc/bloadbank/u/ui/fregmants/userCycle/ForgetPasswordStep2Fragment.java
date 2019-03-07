@@ -3,6 +3,7 @@ package com.example.manasatpc.bloadbank.u.ui.fregmants.userCycle;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.Parcelable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -17,6 +18,7 @@ import com.example.manasatpc.bloadbank.R;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.data.rest.user.newpassword.NewPassword;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
+import com.example.manasatpc.bloadbank.u.helper.SaveData;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,6 +29,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.manasatpc.bloadbank.u.data.rest.RetrofitClient.getRetrofit;
+import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.GET_DATA;
 import static com.example.manasatpc.bloadbank.u.ui.fregmants.userCycle.ForgetPasswordStep1Fragment.PHONE;
 
 public class ForgetPasswordStep2Fragment extends Fragment {
@@ -49,6 +52,7 @@ public class ForgetPasswordStep2Fragment extends Fragment {
     String savePhone;
     @BindView(R.id.TV_Remind_Time)
     TextView TVRemindTime;
+    private SaveData saveData;
 
     public ForgetPasswordStep2Fragment() {
         // Required empty public constructor
@@ -63,11 +67,14 @@ public class ForgetPasswordStep2Fragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         getPhoneBundle = getArguments();
         savePhone = getPhoneBundle.getString(PHONE);
+
+        saveData = getArguments().getParcelable(GET_DATA);
+
         // for check network
         boolean check_network = HelperMethod.isNetworkConnected(getActivity(),getView());
         if (check_network == true) {
             HelperMethod.startCountdownTimer(getActivity(),getActivity().findViewById(android.R.id.content)
-                    ,getActivity().getSupportFragmentManager(),TVRemindTime);
+                    ,getActivity().getSupportFragmentManager(),TVRemindTime,saveData);
         }
         return view;
     }
@@ -105,7 +112,7 @@ public class ForgetPasswordStep2Fragment extends Fragment {
                     ForgetStep2Progress.setVisibility(View.GONE);
                     Toast.makeText(getActivity(), newPassword1.getMsg(), Toast.LENGTH_SHORT).show();
                     LoginFragment loginFragment = new LoginFragment();
-                    HelperMethod.replece(loginFragment, getActivity().getSupportFragmentManager(), R.id.Cycle_User_contener, null, null, null);
+                    HelperMethod.replece(loginFragment, getActivity().getSupportFragmentManager(), R.id.Cycle_User_contener, null, null, saveData);
 
                 } else {
                     ForgetStep2Progress.setVisibility(View.GONE);

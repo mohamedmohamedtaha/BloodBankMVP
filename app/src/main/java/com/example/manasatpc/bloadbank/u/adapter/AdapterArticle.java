@@ -1,8 +1,6 @@
 package com.example.manasatpc.bloadbank.u.adapter;
 
-import android.app.Activity;
 import android.content.Context;
-import android.database.Cursor;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -14,13 +12,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.manasatpc.bloadbank.R;
-import com.example.manasatpc.bloadbank.u.data.rest.general.cities.DataCities;
 import com.example.manasatpc.bloadbank.u.data.rest.posts.Data2Posts;
-import com.example.manasatpc.bloadbank.u.data.rest.posts.DataPosts;
-import com.example.manasatpc.bloadbank.u.data.rest.posts.Posts;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -32,10 +26,11 @@ public class AdapterArticle extends RecyclerView.Adapter<AdapterArticle.ArticleV
     private saveFavorite saveFavorite;
     private ArrayList<Data2Posts> dataPosts = new ArrayList<>();
 
-    public AdapterArticle(Context context, ArrayList<Data2Posts> dataPosts,showDetial mListener) {
+    public AdapterArticle(Context context, ArrayList<Data2Posts> dataPosts,showDetial mListener,saveFavorite saveFavorite) {
         this.context = context;
         this.dataPosts = dataPosts;
         this.mListener = mListener;
+        this.saveFavorite = saveFavorite;
     }
 
 
@@ -66,11 +61,23 @@ public class AdapterArticle extends RecyclerView.Adapter<AdapterArticle.ArticleV
             holder.TVShowTitleArticle.setText(dataPosts.get(position).getTitle());
 
         }
+        if (dataPosts.get(position).getIsFavourite()){
+            Glide.with(context)
+                    .load(R.drawable.favorite_bold)
+                    .into(holder.IMFavorite);
+        }else{
+            Glide.with(context)
+                    .load(R.drawable.favorite)
+                    .error(R.drawable.no_image)
+                    .centerCrop()
+                    .into(holder.IMFavorite);
+
+        }
         if (TextUtils.isEmpty(dataPosts.get(position).getThumbnailFullPath())){
             Glide.with(context)
                     .load(R.drawable.no_image)
                     .into(holder.IMShowPicture);
-        }else {
+        }else{
             Glide.with(context)
                     .load(dataPosts.get(position).getThumbnailFullPath())
                     .error(R.drawable.no_image)
@@ -109,8 +116,10 @@ public class AdapterArticle extends RecyclerView.Adapter<AdapterArticle.ArticleV
             IMFavorite.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     int position = getAdapterPosition();
-                    if (mListener != null) saveFavorite.itemSaveFavorite(position);
+                    Data2Posts data2Posts1 = dataPosts.get(position);
+                    if (mListener != null) saveFavorite.itemSaveFavorite(data2Posts1);
 
 
                 }
@@ -133,7 +142,7 @@ public class AdapterArticle extends RecyclerView.Adapter<AdapterArticle.ArticleV
         void itemShowDetail(Data2Posts position);
     }
     public interface saveFavorite {
-        void itemSaveFavorite(int position);
+        void itemSaveFavorite(Data2Posts position);
     }
 
 

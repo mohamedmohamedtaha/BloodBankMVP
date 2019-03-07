@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.manasatpc.bloadbank.R;
+import com.example.manasatpc.bloadbank.u.helper.GPSTracker;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.location.places.GeoDataClient;
@@ -104,17 +105,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
         unbinder = ButterKnife.bind(this, view);
 
         //Retricve location and camira position from savedinstance state.
-        if (savedInstanceState != null){
+        if (savedInstanceState != null) {
             mLastKnownLocation = savedInstanceState.getParcelable(KEY_LOCATION);
             mcameraPosition = savedInstanceState.getParcelable(KEY_CAMOIRA_POSITION);
         }
 
-      //  client = LocationServices.getFusedLocationProviderClient(getActivity());
+        //  client = LocationServices.getFusedLocationProviderClient(getActivity());
 
 //Construct a GeoDataClient
-        mGeoDataClient = Places.getGeoDataClient(getActivity(),null);
+        mGeoDataClient = Places.getGeoDataClient(getActivity(), null);
         //Construct a PlaceDetectionClient
-        mPlaceDetectionClient = Places.getPlaceDetectionClient(getActivity(),null);
+        mPlaceDetectionClient = Places.getPlaceDetectionClient(getActivity(), null);
 
         //Construct a FusedLocationProviderClient
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
@@ -124,15 +125,16 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 
         mapView.getMapAsync(this);
 
-        showCurrentPlace();
+        //  showCurrentPlace();
 
         return view;
     }
-// Saves the state of the map when the activity is paued
+
+    // Saves the state of the map when the activity is paued
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        if (googleMap != null){
-            outState.putParcelable(KEY_CAMOIRA_POSITION,googleMap.getCameraPosition());
+        if (googleMap != null) {
+            outState.putParcelable(KEY_CAMOIRA_POSITION, googleMap.getCameraPosition());
             outState.putParcelable(KEY_LOCATION, mLastKnownLocation);
             super.onSaveInstanceState(outState);
         }
@@ -167,6 +169,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         googleMap = googleMap;
 
+        GPSTracker gpsTracker = new GPSTracker(getActivity(), getActivity());
+        gpsTracker.getLocation();
+/*
         googleMap.setInfoWindowAdapter(new GoogleMap.InfoWindowAdapter() {
             @Override
             public View getInfoWindow(Marker marker) {
@@ -179,7 +184,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 return null;
             }
         });
-
+*/
         //Prompt the user for permission
         getLocationPermission();
 
@@ -208,6 +213,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
 */
 
     }
+
     private void getDeviceLocation() {
         /* Get the best and most recent location of the device, which may be null in rare
         cases when a location isnotavailable
@@ -218,12 +224,23 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
                 locationResult.addOnCompleteListener(getActivity(), new OnCompleteListener<Location>() {
                     @Override
                     public void onComplete(@NonNull Task<Location> task) {
-                        if (task.isSuccessful()) {
-
+                        if (task.isSuccessful() && task.getResult() != null) {
                             //Set the map's camera position to the current location of the device.
+                            //   if (mLastKnownLocation !=null)
                             mLastKnownLocation = task.getResult();
+                            Double Latiude = mLastKnownLocation.getLatitude();
+                            Double longtude = mLastKnownLocation.getLongitude();
+
+//                           googleMap.setMinZoomPreference(12);
+                        //    LatLng latLng = new LatLng(longtude, Latiude);
+                          //  MarkerOptions markerOptions = new MarkerOptions();
+                            //markerOptions.position(latLng);
+                           // googleMap.addMarker(markerOptions);
+                           // googleMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+                            // Toast.makeText(getActivity(), "Current Location: " + Latiude +
+                            //       longtude, Toast.LENGTH_SHORT).show();
                             googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(
-                                    new LatLng(mLastKnownLocation.getLatitude(), mLastKnownLocation.getLatitude()),
+                                    new LatLng(Latiude, longtude),
                                     DEFAULT_ZOOM));
                         } else {
                             Toast.makeText(getActivity(), "Current Location is null. Usinf defaults.", Toast.LENGTH_SHORT).show();
@@ -238,18 +255,19 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
-//Prompts the user for permission to use the device location.
-    private void getLocationPermission(){
+
+    //Prompts the user for permission to use the device location.
+    private void getLocationPermission() {
         /*
          * Request location permission, so that we can get the location of the
          * device. The result of the permission request is handled by a callback,
          * onRequestPermissionsResult.
          */
-        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),Manifest.permission
-    .ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){
+        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(), android.Manifest.permission
+                .ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mLocationPermissionGranted = true;
-        }else {
-            ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+        } else {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION},
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
 
@@ -258,67 +276,67 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 
-      mLocationPermissionGranted = false;
-      switch (requestCode){
-          case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION:{
-              //If request is ancelled, the result arrays are empty.
-              if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                  mLocationPermissionGranted = true;
-              }
+        mLocationPermissionGranted = false;
+        switch (requestCode) {
+            case PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION: {
+                //If request is ancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    mLocationPermissionGranted = true;
+                }
 
-          }
-      }
-      updateLocationUI();
+            }
+        }
+        updateLocationUI();
     }
+
     /*
     Prompts the user to select the current place from a list of likely places, and shows the
     current place on the map - provided the user has granted locationpermission
      */
-    private void showCurrentPlace(){
-        if (googleMap ==null){
+    private void showCurrentPlace() {
+        if (googleMap == null) {
             return;
         }
-        if (mLocationPermissionGranted){
+        if (mLocationPermissionGranted) {
 
-            @SuppressWarnings("MissingPermission") final
-            Task<PlaceLikelihoodBufferResponse> placeResult =
+            @SuppressWarnings("MissingPermission") final Task<PlaceLikelihoodBufferResponse> placeResult =
                     mPlaceDetectionClient.getCurrentPlace(null);
             placeResult.addOnCompleteListener(new OnCompleteListener<PlaceLikelihoodBufferResponse>() {
                 @Override
                 public void onComplete(@NonNull Task<PlaceLikelihoodBufferResponse> task) {
-                    if (task.isSuccessful() && task.getResult() != null){
+                    if (task.isSuccessful() && task.getResult() != null) {
                         PlaceLikelihoodBufferResponse likelyPlaces = task.getResult();
                         int count;
-                        if (likelyPlaces.getCount() < M_MAX_ENTRIES){
+                        if (likelyPlaces.getCount() < M_MAX_ENTRIES) {
                             count = likelyPlaces.getCount();
-                        }else {
+                        } else {
                             count = M_MAX_ENTRIES;
                         }
-                        int i= 0;
+                        int i = 0;
                         mLikelyPlaceNames = new String[count];
                         mLikelyPlaceAdresses = new String[count];
                         mLikelyPlaceAttributions = new String[count];
                         mLikelyPlaceLatLngs = new LatLng[count];
 
-                        for (PlaceLikelihood placeLikelihood : likelyPlaces){
+                        for (PlaceLikelihood placeLikelihood : likelyPlaces) {
                             mLikelyPlaceNames[i] = (String) placeLikelihood.getPlace().getName();
                             mLikelyPlaceAdresses[i] = (String) placeLikelihood.getPlace().getAddress();
                             mLikelyPlaceAttributions[i] = (String) placeLikelihood.getPlace().getAttributions();
                             mLikelyPlaceLatLngs[i] = placeLikelihood.getPlace().getLatLng();
                             i++;
-                            if (i > (count - 1)){
+                            if (i > (count - 1)) {
                                 break;
                             }
 
                         }
                         likelyPlaces.release();
                         openPlacesDialog();
-                    }else {
-                        Toast.makeText(getActivity(),"Not :" +  task.getException(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity(), "Not :" + task.getException(), Toast.LENGTH_SHORT).show();
                     }
                 }
             });
-        }else {
+        } else {
             Toast.makeText(getActivity(), "Theuser didnot grant location permission.", Toast.LENGTH_SHORT).show();
 
 
@@ -332,6 +350,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
             getLocationPermission();
         }
     }
+
     private void openPlacesDialog() {
         // Ask the user to choose the place where they are now.
         DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
@@ -367,24 +386,25 @@ public class MapFragment extends Fragment implements OnMapReadyCallback {
     /*
 Updates the map's UI settings based on whether the user has granted location permission.
  */
-private void updateLocationUI(){
-    if (googleMap == null){
-        return;
-    }
-    try {
-        if (mLocationPermissionGranted){
-            googleMap.setMyLocationEnabled(true);
-            googleMap.getUiSettings().setMyLocationButtonEnabled(true);
-        }else {
-            googleMap.setMyLocationEnabled(false);
-            googleMap.getUiSettings().setMyLocationButtonEnabled(false);
-            mLastKnownLocation =null;
-            getLocationPermission();
+    private void updateLocationUI() {
+        if (googleMap == null) {
+            return;
         }
-    }catch (SecurityException e){
-        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        try {
+            if (mLocationPermissionGranted) {
+                googleMap.setMyLocationEnabled(true);
+                googleMap.getUiSettings().setMyLocationButtonEnabled(true);
+            } else {
+                googleMap.setMyLocationEnabled(false);
+                googleMap.getUiSettings().setMyLocationButtonEnabled(false);
+                mLastKnownLocation = null;
+                getLocationPermission();
+            }
+        } catch (SecurityException e) {
+            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
-}
+
     /*
     Handles the result of the request for locationpermissions
      */

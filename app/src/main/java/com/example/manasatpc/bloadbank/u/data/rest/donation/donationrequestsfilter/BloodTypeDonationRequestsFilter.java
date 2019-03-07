@@ -1,10 +1,10 @@
 
-package com.example.manasatpc.bloadbank.u.data.rest.donation.donationrequestcreate;
+package com.example.manasatpc.bloadbank.u.data.rest.donation.donationrequestsfilter;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class GovernorateDonation {
+public class BloodTypeDonationRequestsFilter {
 
     @SerializedName("id")
     @Expose

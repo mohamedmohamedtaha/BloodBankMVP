@@ -143,6 +143,7 @@
         android:text="@string/connect_with_us"
         android:layout_marginEnd="@dimen/dimens_l"
         android:layout_marginStart="@dimen/dimens_l"
+        android:layout_marginBottom="@dimen/dimens_l"
         />
 </LinearLayout>
 </ScrollView>

@@ -33,9 +33,9 @@ public class ClientDonationRequest {
     @SerializedName("donation_last_date")
     @Expose
     private String donationLastDate;
-    @SerializedName("blood_type")
+    @SerializedName("blood_type_id")
     @Expose
-    private String bloodType;
+    private String bloodTypeId;
     @SerializedName("is_active")
     @Expose
     private String isActive;
@@ -115,12 +115,12 @@ public class ClientDonationRequest {
         this.donationLastDate = donationLastDate;
     }
 
-    public String getBloodType() {
-        return bloodType;
+    public String getBloodTypeId() {
+        return bloodTypeId;
     }
 
-    public void setBloodType(String bloodType) {
-        this.bloodType = bloodType;
+    public void setBloodTypeId(String bloodTypeId) {
+        this.bloodTypeId = bloodTypeId;
     }
 
     public String getIsActive() {

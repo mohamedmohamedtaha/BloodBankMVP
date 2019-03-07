@@ -2,6 +2,9 @@ package com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.others;
 
 
 import android.os.Bundle;
+import android.os.Parcelable;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
@@ -16,6 +19,7 @@ import com.example.manasatpc.bloadbank.R;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.data.rest.user.profile.Profile;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
+import com.example.manasatpc.bloadbank.u.helper.SaveData;
 import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.HomeFragment;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
@@ -28,6 +32,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.manasatpc.bloadbank.u.data.rest.RetrofitClient.getRetrofit;
+import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.GET_DATA;
+import static com.example.manasatpc.bloadbank.u.ui.activities.HomeActivity.toolbar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -59,6 +65,7 @@ public class EditInformationFragment extends Fragment {
     Button regesterBt;
     Unbinder unbinder;
     private APIServices apiServices;
+    private SaveData saveData;
 
     public EditInformationFragment() {
         // Required empty public constructor
@@ -71,29 +78,16 @@ public class EditInformationFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_edit_information, container, false);
         unbinder = ButterKnife.bind(this, view);
+        saveData = getArguments().getParcelable(GET_DATA);
 
         apiServices = getRetrofit().create(APIServices.class);
-        /*apiServices.getProfile().enqueue(new Callback<Profile>() {
-            @Override
-            public void onResponse(Call<Profile> call, Response<Profile> response) {
-                Profile profile = response.body();
-                if (profile.getStatus() == 1) {
-                    FragmentNameRegester.setText(profile.getProfileData().getUser().getName());
-                    FragmentBloodRegester.setText(profile.getProfileData().getUser().getBloodType());
-                    FragmentEmailRegester.setText(profile.getProfileData().getUser().getEmail());
-                    FragmentLastDateRegester.setText(profile.getProfileData().getUser().getDonationLastDate());
-                    FragmentDateRegester.setText(profile.getProfileData().getUser().getBirthDate());
-                    FragmentPhoneRegester.setText(profile.getProfileData().getUser().getPhone());
 
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Profile> call, Throwable t) {
-
-            }
-        });
-*/
+        FragmentBloodRegester.setText(saveData.getBloodType());
+        FragmentDateRegester.setText(saveData.getBirthDate());
+        FragmentEmailRegester.setText(saveData.getEmail());
+        FragmentLastDateRegester.setText(saveData.getDonationLastDate());
+        FragmentNameRegester.setText(saveData.getName());
+        FragmentPhoneRegester.setText(saveData.getPhone());
 
         return view;
     }
@@ -121,6 +115,11 @@ public class EditInformationFragment extends Fragment {
         String phone = FragmentPhoneRegester.getText().toString().trim();
         String password = FragmentPasswordRegester.getText().toString().trim();
         String retry_password = FragmentRetryPasswordRegester.getText().toString().trim();
+        if (new_user.isEmpty() || email.isEmpty() || date_birth.isEmpty() || blood_type.isEmpty()
+                || last_date.isEmpty() || phone.isEmpty() || password.isEmpty() ||retry_password.isEmpty() ){
+            Toast.makeText(getActivity(), getString(R.string.all_filed_request), Toast.LENGTH_SHORT).show();
+            return;
+        }
 
 
         Call<Profile> profileCall = apiServices.getProfile(new_user, email,
@@ -137,7 +136,7 @@ public class EditInformationFragment extends Fragment {
                         Toast.makeText(getActivity(), profile.getMsg(), Toast.LENGTH_LONG).show();
                         HomeFragment homeFragment = new HomeFragment();
                         HelperMethod.replece(homeFragment, getActivity().getSupportFragmentManager(),
-                                R.id.Cycle_Home_contener, null, null, null);
+                                R.id.Cycle_Home_contener, toolbar, getString(R.string.home), saveData);
 
 
                     }
@@ -152,5 +151,12 @@ public class EditInformationFragment extends Fragment {
 
             }
         });
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        toolbar.setTitle(R.string.edit_information);
+
     }
 }

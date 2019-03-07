@@ -12,9 +12,9 @@ public class DonationRequest {
     @SerializedName("patient_age")
     @Expose
     private String patientAge;
-    @SerializedName("blood_type")
+    @SerializedName("blood_type_id")
     @Expose
-    private String bloodType;
+    private String bloodTypeId;
     @SerializedName("bags_num")
     @Expose
     private String bagsNum;
@@ -53,7 +53,10 @@ public class DonationRequest {
     private Integer id;
     @SerializedName("city")
     @Expose
-    private CityDoantionRequestCreate city;
+    private CityDonationRequestCreate city;
+    @SerializedName("blood_type")
+    @Expose
+    private BloodTypeDonationRequestCreate bloodType;
 
     public String getPatientName() {
         return patientName;
@@ -71,12 +74,12 @@ public class DonationRequest {
         this.patientAge = patientAge;
     }
 
-    public String getBloodType() {
-        return bloodType;
+    public String getBloodTypeId() {
+        return bloodTypeId;
     }
 
-    public void setBloodType(String bloodType) {
-        this.bloodType = bloodType;
+    public void setBloodTypeId(String bloodTypeId) {
+        this.bloodTypeId = bloodTypeId;
     }
 
     public String getBagsNum() {
@@ -175,12 +178,20 @@ public class DonationRequest {
         this.id = id;
     }
 
-    public CityDoantionRequestCreate getCity() {
+    public CityDonationRequestCreate getCity() {
         return city;
     }
 
-    public void setCity(CityDoantionRequestCreate cityDoantionRequestCreate) {
-        this.city = cityDoantionRequestCreate;
+    public void setCity(CityDonationRequestCreate city) {
+        this.city = city;
+    }
+
+    public BloodTypeDonationRequestCreate getBloodType() {
+        return bloodType;
+    }
+
+    public void setBloodType(BloodTypeDonationRequestCreate bloodType) {
+        this.bloodType = bloodType;
     }
 
 }

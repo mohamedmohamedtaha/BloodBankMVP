@@ -72,7 +72,6 @@ public class ForgetPasswordStep1Fragment extends Fragment {
             return;
         }
         final String phone = FragmentPhoneForgetStep1.getText().toString().trim();
-
         APIServices apiServices = getRetrofit().create(APIServices.class);
         Call<ResetPassword> resetPassword = apiServices.getResetPassword(phone);
         resetPassword.enqueue(new Callback<ResetPassword>() {

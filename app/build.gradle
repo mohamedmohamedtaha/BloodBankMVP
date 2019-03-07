@@ -49,12 +49,14 @@ dependencies {
     //Spinner
     implementation 'com.weiwangcn.betterspinner:library-material:1.1.0'
     implementation 'com.google.android.gms:play-services-maps:11.4.2'
-   // implementation 'com.google.firebase:firebase-messaging:17.3.4'
     // implementation 'com.google.android.gms:play-services:11.4.2'
   //  implementation 'com.google.android.gms:play-services:12.0.1'
-  //  implementation 'com.google.firebase:firebase-messaging:16.0.7'
     implementation 'com.google.firebase:firebase-messaging:11.4.2'
     implementation 'com.google.android.gms:play-services-location:11.4.2'
     implementation 'com.google.android.gms:play-services-places:11.4.2'
+
+    // dexter runtime permissions
+    implementation 'com.karumi:dexter:4.2.0'
+
 
 }

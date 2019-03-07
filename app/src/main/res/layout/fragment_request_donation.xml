@@ -30,16 +30,12 @@
 
         </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout style="@style/StyleEditText">
+        <Spinner
+            android:id="@+id/Spinner_Blood_Types_Request_Donation"
+            style="@style/SpinnerForFragment"
+           />
 
-            <android.support.design.widget.TextInputEditText
-                android:id="@+id/ET_Type_Blood_Patient"
-                style="@style/StyleEditTextNull"
-                android:hint="@string/blood_type" />
-
-        </android.support.design.widget.TextInputLayout>
-
-        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+        <Spinner
             android:id="@+id/Spinner_Number_Package"
             style="@style/SpinnerForFragment"
             android:hint="@string/number_package_request"
@@ -56,19 +52,19 @@
         </android.support.design.widget.TextInputLayout>
 
         <TextView
-            android:id="@+id/Fragment_Date_Regester"
+            android:id="@+id/Fragment_Adrees_Hospital"
             style="@style/StyleEditText"
             android:drawableEnd="@drawable/ic_map"
-            android:hint="@string/date" />
+            android:hint="@string/address_hospital" />
 
-        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+        <Spinner
             android:id="@+id/Spinner_Gaverment_Request_Donation"
             style="@style/SpinnerForFragment"
             android:hint="@string/select_gaverment"
             app:met_floatingLabel="highlight" />
 
 
-        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+        <Spinner
             android:id="@+id/Spinner_City_Request_Donation"
             style="@style/SpinnerForFragment"
             android:hint="@string/select_city"

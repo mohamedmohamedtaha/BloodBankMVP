@@ -1,10 +1,10 @@
 
-package com.example.manasatpc.bloadbank.u.data.rest.donation.donationrequest;
+package com.example.manasatpc.bloadbank.u.data.rest.donation.donationrequestsfilter;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class DataDoantionRequest {
+public class Data2DonationRequestsFilter {
 
     @SerializedName("id")
     @Expose
@@ -24,9 +24,9 @@ public class DataDoantionRequest {
     @SerializedName("patient_age")
     @Expose
     private String patientAge;
-    @SerializedName("blood_type")
+    @SerializedName("blood_type_id")
     @Expose
-    private String bloodType;
+    private String bloodTypeId;
     @SerializedName("bags_num")
     @Expose
     private String bagsNum;
@@ -53,10 +53,13 @@ public class DataDoantionRequest {
     private String longitude;
     @SerializedName("city")
     @Expose
-    private CityDonationRequest city;
+    private CityDonationRequestsFilter city;
     @SerializedName("client")
     @Expose
-    private ClientDonationRequest client;
+    private ClientDonationRequestsFilter client;
+    @SerializedName("blood_type")
+    @Expose
+    private BloodTypeDonationRequestsFilter bloodType;
 
     public Integer getId() {
         return id;
@@ -106,12 +109,12 @@ public class DataDoantionRequest {
         this.patientAge = patientAge;
     }
 
-    public String getBloodType() {
-        return bloodType;
+    public String getBloodTypeId() {
+        return bloodTypeId;
     }
 
-    public void setBloodType(String bloodType) {
-        this.bloodType = bloodType;
+    public void setBloodTypeId(String bloodTypeId) {
+        this.bloodTypeId = bloodTypeId;
     }
 
     public String getBagsNum() {
@@ -178,20 +181,28 @@ public class DataDoantionRequest {
         this.longitude = longitude;
     }
 
-    public CityDonationRequest getCity() {
+    public CityDonationRequestsFilter getCity() {
         return city;
     }
 
-    public void setCity(CityDonationRequest cityDonationRequest) {
-        this.city = cityDonationRequest;
+    public void setCity(CityDonationRequestsFilter city) {
+        this.city = city;
     }
 
-    public ClientDonationRequest getClient() {
+    public ClientDonationRequestsFilter getClient() {
         return client;
     }
 
-    public void setClient(ClientDonationRequest clientDonationRequest) {
-        this.client = clientDonationRequest;
+    public void setClient(ClientDonationRequestsFilter client) {
+        this.client = client;
+    }
+
+    public BloodTypeDonationRequestsFilter getBloodType() {
+        return bloodType;
+    }
+
+    public void setBloodType(BloodTypeDonationRequestsFilter bloodType) {
+        this.bloodType = bloodType;
     }
 
 }

@@ -2,7 +2,6 @@ package com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.regusets;
 
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,10 +15,12 @@ import android.widget.Toast;
 import com.example.manasatpc.bloadbank.R;
 import com.example.manasatpc.bloadbank.u.adapter.AdapterDonation;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
-import com.example.manasatpc.bloadbank.u.data.rest.donation.DataDonation;
-import com.example.manasatpc.bloadbank.u.data.rest.donation.Donation;
+import com.example.manasatpc.bloadbank.u.data.rest.donation.donationrequests.Data2DonationRequests;
+import com.example.manasatpc.bloadbank.u.data.rest.donation.donationrequests.DataDonationRequests;
+import com.example.manasatpc.bloadbank.u.data.rest.donation.donationrequests.DonationRequests;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 import com.example.manasatpc.bloadbank.u.helper.OnEndless;
+import com.example.manasatpc.bloadbank.u.helper.SaveData;
 
 import java.util.ArrayList;
 
@@ -31,7 +32,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.manasatpc.bloadbank.u.data.rest.RetrofitClient.getRetrofit;
-import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.API_KEY;
+import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.GET_DATA;
+import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.makePhoneCall;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,13 +48,12 @@ public class ListRequestsDonationFragment extends Fragment {
     @BindView(R.id.loading_indicator)
     ProgressBar loadingIndicator;
     Unbinder unbinder;
-    @BindView(R.id.Fab_List_Request_Donation)
-    FloatingActionButton FabListRequestDonation;
     private int max = 0;
-    ArrayList<DataDonation> dataDonations = new ArrayList<>();
+    ArrayList<Data2DonationRequests> dataDonations = new ArrayList<>();
     private AdapterDonation adapterDonation;
     private APIServices apiServices;
-    Bundle bundle ;
+    Bundle bundle;
+    private SaveData saveData;
 
     public ListRequestsDonationFragment() {
         // Required empty public constructor
@@ -66,6 +67,10 @@ public class ListRequestsDonationFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_list_requests_donation, container, false);
         unbinder = ButterKnife.bind(this, view);
         bundle = getArguments();
+
+        saveData = getArguments().getParcelable(GET_DATA);
+        dataDonations.clear();
+
         apiServices = getRetrofit().create(APIServices.class);
 
 
@@ -82,26 +87,26 @@ public class ListRequestsDonationFragment extends Fragment {
             }
         };
         list.addOnScrollListener(onEndless);
-        adapterDonation = new AdapterDonation(getActivity(), dataDonations, new AdapterDonation.showDetial() {
+        adapterDonation = new AdapterDonation(getActivity(), dataDonations, new AdapterDonation.showDetials() {
             @Override
-            public void itemShowDetail(DataDonation position) {
+            public void itemShowDetail(Data2DonationRequests position) {
                 int donationRequest = position.getId();
-                Toast.makeText(getActivity(), "AA : " + donationRequest, Toast.LENGTH_SHORT).show();
+                //  Toast.makeText(getActivity(), "AA : " + donationRequest, Toast.LENGTH_SHORT).show();
                 DetailRequestDonationFragment detailRequestDonationFragment = new DetailRequestDonationFragment();
                 HelperMethod.replece(detailRequestDonationFragment, getActivity().getSupportFragmentManager(),
-                        R.id.Cycle_Home_contener, null, null, null);
+                        R.id.Cycle_Home_contener, null, null, saveData);
 
+            }
+        }, new AdapterDonation.makeCall() {
+            @Override
+            public void itemMakeCall(Data2DonationRequests position) {
+                String positioncurrent = position.getPhone();
+                makePhoneCall(getActivity(), positioncurrent);
             }
         });
         list.setAdapter(adapterDonation);
         getDonation();
-        FabListRequestDonation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DetailRequestDonationFragment detailRequestDonationFragment = new DetailRequestDonationFragment();
-                HelperMethod.replece(detailRequestDonationFragment, getActivity().getSupportFragmentManager(), R.id.Cycle_Home_contener, null, null, null);
-            }
-        });
+
 
         return view;
     }
@@ -109,13 +114,13 @@ public class ListRequestsDonationFragment extends Fragment {
     private void getDonation() {
 //"8KTqGqCh3ofQvl0DySaPNBw0TZODwgxlfZ0nHmWxigWlrKK3cpVLJQEb0bju"
 
-        apiServices.getDonationRequests(bundle.getString(API_KEY))
-                .enqueue(new Callback<Donation>() {
+        apiServices.getDonationRequests(saveData.getApi_token())
+                .enqueue(new Callback<DonationRequests>() {
                     @Override
-                    public void onResponse(Call<Donation> call, Response<Donation> response) {
+                    public void onResponse(Call<DonationRequests> call, Response<DonationRequests> response) {
                         try {
                             loadingIndicator.setVisibility(View.VISIBLE);
-                            Donation donation = response.body();
+                            DonationRequests donation = response.body();
                             if (donation.getStatus() == 1) {
                                 list.setVisibility(View.VISIBLE);
                                 loadingIndicator.setVisibility(View.GONE);
@@ -137,7 +142,7 @@ public class ListRequestsDonationFragment extends Fragment {
                     }
 
                     @Override
-                    public void onFailure(Call<Donation> call, Throwable t) {
+                    public void onFailure(Call<DonationRequests> call, Throwable t) {
                         Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
                         getProperties();
 
@@ -158,4 +163,6 @@ public class ListRequestsDonationFragment extends Fragment {
         super.onDestroyView();
         unbinder.unbind();
     }
+
+
 }
