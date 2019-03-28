@@ -2,9 +2,6 @@ package com.example.manasatpc.bloadbank.u.helper;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.widget.TextView;
-
-import com.example.manasatpc.bloadbank.u.data.rest.general.contact.Contact;
 
 import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.API_KEY;
 

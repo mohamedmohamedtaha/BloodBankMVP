@@ -3,15 +3,33 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".u.ui.fregmants.homeCycle.regusets.ListRequestsDonationFragment">
+    <RelativeLayout
+        android:id="@+id/linear"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimens_l"
+            android:layout_marginEnd="@dimen/dimens_l"
+            android:layout_marginTop="@dimen/dimens_m"
+            android:background="@drawable/background_spinner"
+            >
+            <Spinner
+                android:id="@+id/ListRequestsDonationFragment_Select_Blood_Type"
+                style="@style/SpinnerForFragment"
+                android:popupBackground="@android:color/white"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                />
+        </RelativeLayout>
     <android.support.v7.widget.RecyclerView
+        android:layout_below="@+id/linear"
+        android:layout_marginTop="@dimen/dimens_m"
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:drawSelectorOnTop="true"
         android:divider="@null"
-        android:visibility="gone"
+
         android:dividerHeight="0dp">
 
     </android.support.v7.widget.RecyclerView>

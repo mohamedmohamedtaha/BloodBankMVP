@@ -14,12 +14,10 @@ import android.widget.Toast;
 import com.example.manasatpc.bloadbank.R;
 import com.example.manasatpc.bloadbank.u.adapter.AdapterNotification;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
-import com.example.manasatpc.bloadbank.u.data.rest.notification.getnotificationssettings.DataGetNotificationSsettings;
-import com.example.manasatpc.bloadbank.u.data.rest.notification.getnotificationssettings.GetNotificationSsettings;
+import com.example.manasatpc.bloadbank.u.data.model.notification.getnotificationssettings.GetNotificationSsettings;
 import com.example.manasatpc.bloadbank.u.helper.SaveData;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

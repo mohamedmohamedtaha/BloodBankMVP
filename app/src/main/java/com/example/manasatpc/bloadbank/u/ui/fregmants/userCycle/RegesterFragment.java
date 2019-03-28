@@ -15,17 +15,16 @@ import android.widget.Toast;
 
 import com.example.manasatpc.bloadbank.R;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
-import com.example.manasatpc.bloadbank.u.data.rest.general.bloodtypes.BloodTypes;
-import com.example.manasatpc.bloadbank.u.data.rest.general.bloodtypes.DataBloodTypes;
-import com.example.manasatpc.bloadbank.u.data.rest.general.cities.Cities;
-import com.example.manasatpc.bloadbank.u.data.rest.general.cities.DataCities;
-import com.example.manasatpc.bloadbank.u.data.rest.general.governorates.Governorates;
-import com.example.manasatpc.bloadbank.u.data.rest.general.governorates.GovernoratesData;
-import com.example.manasatpc.bloadbank.u.data.rest.user.register.Register;
+import com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes.BloodTypes;
+import com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes.DataBloodTypes;
+import com.example.manasatpc.bloadbank.u.data.model.general.cities.Cities;
+import com.example.manasatpc.bloadbank.u.data.model.general.cities.DataCities;
+import com.example.manasatpc.bloadbank.u.data.model.general.governorates.Governorates;
+import com.example.manasatpc.bloadbank.u.data.model.general.governorates.GovernoratesData;
+import com.example.manasatpc.bloadbank.u.data.model.user.register.Register;
 import com.example.manasatpc.bloadbank.u.helper.DateModel;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 import com.example.manasatpc.bloadbank.u.helper.SaveData;
-import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -95,7 +94,7 @@ public class RegesterFragment extends Fragment {
     int blood_type;
     ArrayList<String> strings = new ArrayList<>();
     final ArrayList<Integer> Ids = new ArrayList<>();
-    final ArrayList<Integer> IdsCity = new ArrayList<>();
+    private ArrayList<Integer> IdsCity = new ArrayList<>();
     final ArrayList<Integer> IdsBloodType = new ArrayList<>();
 
     APIServices apiServices;
@@ -139,8 +138,8 @@ public class RegesterFragment extends Fragment {
                     try {
                         Governorates governorates1 = response.body();
 
-                    //    strings.add("");
-                      //  Ids.add(0);
+                       strings.add("");
+                        Ids.add(0);
 
                         List<GovernoratesData> governoratesData = governorates1.getData();
                         for (int i = 0; i < governoratesData.size(); i++) {
@@ -216,6 +215,7 @@ public class RegesterFragment extends Fragment {
             public void onResponse(Call<Cities> call, Response<Cities> response) {
                 String getResult;
                 ArrayList<String> strings = new ArrayList<>();
+                IdsCity = new ArrayList<>();
                 Cities cities = response.body();
                 if (cities.getStatus() == 1) {
 
@@ -305,6 +305,9 @@ public class RegesterFragment extends Fragment {
         String phone = FragmentPhoneRegester.getText().toString().trim();
         String password = FragmentPasswordRegester.getText().toString().trim();
         String retry_password = FragmentRetryPasswordRegester.getText().toString().trim();
+        if (IdsCity.isEmpty()) {
+            return;
+        }
         int cityId = IdsCity.get(SpinnerCity.getSelectedItemPosition());
 
         APIServices apiServices = getRetrofit().create(APIServices.class);

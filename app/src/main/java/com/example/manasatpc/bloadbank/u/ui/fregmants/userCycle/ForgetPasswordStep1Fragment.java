@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import com.example.manasatpc.bloadbank.R;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
-import com.example.manasatpc.bloadbank.u.data.rest.user.resetpassword.ResetPassword;
+import com.example.manasatpc.bloadbank.u.data.model.user.resetpassword.ResetPassword;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 
 import butterknife.BindView;
@@ -72,6 +72,8 @@ public class ForgetPasswordStep1Fragment extends Fragment {
             return;
         }
         final String phone = FragmentPhoneForgetStep1.getText().toString().trim();
+        if (!phone.isEmpty()) {
+            ForgetStep1Progress.setVisibility(View.VISIBLE);
         APIServices apiServices = getRetrofit().create(APIServices.class);
         Call<ResetPassword> resetPassword = apiServices.getResetPassword(phone);
         resetPassword.enqueue(new Callback<ResetPassword>() {
@@ -79,8 +81,7 @@ public class ForgetPasswordStep1Fragment extends Fragment {
             public void onResponse(Call<ResetPassword> call, Response<ResetPassword> response) {
                 ResetPassword resetPassword1 = response.body();
                 bundle.putString(PHONE, phone);
-                if (!phone.isEmpty()) {
-                    ForgetStep1Progress.setVisibility(View.VISIBLE);
+
                     if (resetPassword1.getStatus() == 1) {
                         ForgetPasswordStep2Fragment forgetPasswordStep2Fragment = new ForgetPasswordStep2Fragment();
                         HelperMethod.replece(forgetPasswordStep2Fragment, getActivity().getSupportFragmentManager(),
@@ -92,9 +93,7 @@ public class ForgetPasswordStep1Fragment extends Fragment {
                         ForgetStep1Progress.setVisibility(View.GONE);
                         Toast.makeText(getActivity(), resetPassword1.getMsg(), Toast.LENGTH_LONG).show();
                     }
-                } else {
-                    FragmentPhoneForgetStep1.setError(getString(R.string.filed_request));
-                }
+
 
             }
 
@@ -106,6 +105,9 @@ public class ForgetPasswordStep1Fragment extends Fragment {
 
             }
         });
+        } else {
+            FragmentPhoneForgetStep1.setError(getString(R.string.filed_request));
+        }
 
 
     }

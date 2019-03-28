@@ -9,11 +9,8 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 
 import com.example.manasatpc.bloadbank.R;
-import com.example.manasatpc.bloadbank.u.data.rest.notification.getnotificationssettings.DataGetNotificationSsettings;
-import com.example.manasatpc.bloadbank.u.data.rest.notification.getnotificationssettings.GetNotificationSsettings;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -50,9 +47,7 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
 
     @Override
     public int getItemCount() {
-        if (getNotificationsSettingsList != null) {
-            return getNotificationsSettingsList.size();
-        }return 0;
+        return getNotificationsSettingsList.size();
     }
 
     @OnClick(R.id.CB_Recycler_View)
@@ -70,8 +65,6 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
             super(itemView);
             view = itemView;
             ButterKnife.bind(this,view);
-
-
         }
     }
 

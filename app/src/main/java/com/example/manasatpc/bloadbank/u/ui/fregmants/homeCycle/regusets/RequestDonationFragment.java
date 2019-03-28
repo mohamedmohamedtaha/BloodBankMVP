@@ -16,13 +16,13 @@ import android.widget.Toast;
 
 import com.example.manasatpc.bloadbank.R;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
-import com.example.manasatpc.bloadbank.u.data.rest.donation.donationrequestcreate.DonationRequestCreate;
-import com.example.manasatpc.bloadbank.u.data.rest.general.bloodtypes.BloodTypes;
-import com.example.manasatpc.bloadbank.u.data.rest.general.bloodtypes.DataBloodTypes;
-import com.example.manasatpc.bloadbank.u.data.rest.general.cities.Cities;
-import com.example.manasatpc.bloadbank.u.data.rest.general.cities.DataCities;
-import com.example.manasatpc.bloadbank.u.data.rest.general.governorates.Governorates;
-import com.example.manasatpc.bloadbank.u.data.rest.general.governorates.GovernoratesData;
+import com.example.manasatpc.bloadbank.u.data.model.donation.donationrequestcreate.DonationRequestCreate;
+import com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes.BloodTypes;
+import com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes.DataBloodTypes;
+import com.example.manasatpc.bloadbank.u.data.model.general.cities.Cities;
+import com.example.manasatpc.bloadbank.u.data.model.general.cities.DataCities;
+import com.example.manasatpc.bloadbank.u.data.model.general.governorates.Governorates;
+import com.example.manasatpc.bloadbank.u.data.model.general.governorates.GovernoratesData;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 import com.example.manasatpc.bloadbank.u.helper.SaveData;
 

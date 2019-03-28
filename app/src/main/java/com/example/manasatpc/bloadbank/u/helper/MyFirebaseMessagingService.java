@@ -29,28 +29,21 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
-        notificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             setupChannels();
         }
-
-        NotificationCompat.Builder notificationBuilder =
-                new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
-                        .setSmallIcon(R.mipmap.ic_launcher)
-                        .setContentTitle(remoteMessage.getData().get("title"))
-                        .setStyle(new NotificationCompat.BigPictureStyle()
-                                .setSummaryText(remoteMessage.getData().get("message")))
-                        .setContentText(remoteMessage.getData().get("message"))
-                        .setAutoCancel(true)
-                        .setSound(defaultSoundUri);
-
+        NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this, ADMIN_CHANNEL_ID)
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setContentTitle(remoteMessage.getData().get("title"))
+                .setStyle(new NotificationCompat.BigPictureStyle()
+                        .setSummaryText(remoteMessage.getData().get("message")))
+                .setContentText(remoteMessage.getData().get("message"))
+                .setAutoCancel(true)
+                .setSound(defaultSoundUri);
         notificationManager.notify(notificationId, notificationBuilder.build());
-
     }
-
-
     @RequiresApi(api = Build.VERSION_CODES.O)
     private void setupChannels() {
         CharSequence adminChannelName = "";

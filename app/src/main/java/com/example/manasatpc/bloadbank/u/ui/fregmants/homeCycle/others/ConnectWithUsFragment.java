@@ -1,7 +1,6 @@
 package com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.others;
 
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,15 +17,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.util.Util;
 import com.example.manasatpc.bloadbank.R;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
-import com.example.manasatpc.bloadbank.u.data.rest.general.contact.Contact;
-import com.example.manasatpc.bloadbank.u.data.rest.general.settings.Settings;
+import com.example.manasatpc.bloadbank.u.data.model.general.contact.Contact;
+import com.example.manasatpc.bloadbank.u.data.model.general.settings.Settings;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 import com.example.manasatpc.bloadbank.u.helper.RememberMy;
 import com.example.manasatpc.bloadbank.u.helper.SaveData;
-import com.example.manasatpc.bloadbank.u.ui.activities.HomeActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".u.ui.fregmants.homeCycle.DetailsHomeFragment">
     <ImageView
-        android:id="@+id/IM_Show_Image_Details"
+        android:id="@+id/DetailsHomeFragment_IM_Show_Image_Details"
         android:layout_width="match_parent"
         android:layout_margin="@dimen/dimens_l"
         android:layout_height="@dimen/dimens_height_logo" />
@@ -17,21 +17,27 @@
         android:background="@android:color/white"
         android:layout_height="wrap_content">
         <ImageView
-            android:id="@+id/IM_Show_Favorite_Details"
+            android:id="@+id/DetailsHomeFragment_IM_Show_Favorite_Details"
             android:src="@drawable/favorite"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             />
+        <ProgressBar
+            android:id="@+id/DetailsHomeFragment_Login_Progress"
+            style="@style/StyleProgressBar"
+            android:layout_gravity="center"
+            />
+
         <TextView
-            android:id="@+id/TV_Show_Title_Article_Details"
+            android:id="@+id/DetailsHomeFragment_TV_Show_Title_Article_Details"
             android:layout_alignParentRight="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center|end"
             android:text="@string/hello_blank_fragment" />
     <TextView
-        android:id="@+id/TV_Show_Details"
-        android:layout_below="@+id/IM_Show_Favorite_Details"
+        android:id="@+id/DetailsHomeFragment_TV_Show_Details"
+        android:layout_below="@+id/DetailsHomeFragment_TV_Show_Title_Article_Details"
         android:layout_marginTop="@dimen/dimens_l"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

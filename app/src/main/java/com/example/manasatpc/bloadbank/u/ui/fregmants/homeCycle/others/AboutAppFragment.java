@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.example.manasatpc.bloadbank.R;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
-import com.example.manasatpc.bloadbank.u.data.rest.general.settings.Settings;
+import com.example.manasatpc.bloadbank.u.data.model.general.settings.Settings;
 import com.example.manasatpc.bloadbank.u.helper.SaveData;
 
 import butterknife.BindView;

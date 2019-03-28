@@ -1,27 +1,27 @@
 <resources>
     <string name="app_name">بنك الدم</string>
     <string name="copy_right">جميع الحقوق محفوظة لشركة إبداع تك للبرمجيات 2018</string>
-    <string name="skip">Skip</string>
+    <string name="skip">تخطى</string>
     <string name="phone">Phone</string>
     <string name="check_code">Check code</string>
     <string name="time_out">Time Out ! Request again to reset password.</string>
-    <string name="remind_time">Time remaining :</string>
+    <string name="remind_time">الوقت المتبقي :</string>
 
-    <string name="password">Password</string>
-    <string name="retry_password">Retry Password</string>
-    <string name="select_gaverment">Gaverment</string>
-    <string name="select_city">City</string>
+    <string name="password">كلمة المرور</string>
+    <string name="retry_password">إعادة كلمة المرور</string>
+    <string name="select_gaverment">الحي</string>
+    <string name="select_city">المدينة</string>
 
 
-    <string name="rememberMy">Remember My</string>
-    <string name="forget_password">Do you forget password</string>
-    <string name="forget_my_password">forget password</string>
+    <string name="rememberMy">تذكرني</string>
+    <string name="forget_password">هل نسيت كلمة المرور</string>
+    <string name="forget_my_password">نسيت كلمة المرور</string>
     <string name="code_change_my_password">Code change password</string>
 
-    <string name="send">Send </string>
+    <string name="send">إرسال </string>
 
-    <string name="login">Login </string>
-    <string name="create_new_user">create new user</string>
+    <string name="login">دخول </string>
+    <string name="create_new_user">إنشاء حساب جديد</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -35,52 +35,52 @@
     <string name="action_notification">Notification</string>
 
     <string name="email">Email</string>
-    <string name="date">Date of birth</string>
-    <string name="blood_type">Blood Type</string>
+    <string name="date">تاريخ الميلاد</string>
+    <string name="blood_type">نوع فصيلة الدم</string>
     <string name="last_date">Last Date for Donate</string>
-    <string name="regester">Regester</string>
-    <string name="change_password">Change Password</string>
+    <string name="regester">تسجيل</string>
+    <string name="change_password">تغيير كلمة المرور</string>
 
 
     <!-- TODO:  texts  for activity_home_drawer.xml -->
 
-    <string name="my_information">My Information</string>
-    <string name="setting_notification">Settings Notification</string>
-    <string name="my_favorite">My favorite</string>
-    <string name="home">Home</string>
-    <string name="used_information">Used Information</string>
-    <string name="connect_with_us">Connect with us</string>
-    <string name="about_app">About App</string>
-    <string name="evaluate_app">Evaluate app</string>
-    <string name="sign_out">SignOut</string>
-    <string name="edit_information">Edit Information</string>
+    <string name="my_information">معلوماتي</string>
+    <string name="setting_notification">اعدادات الإشعارات</string>
+    <string name="my_favorite">المفضلة</string>
+    <string name="home">الرئيسية</string>
+    <string name="used_information">تعليمات الاستخدام</string>
+    <string name="connect_with_us">تواصل معنا</string>
+    <string name="about_app">عن التطبيق</string>
+    <string name="evaluate_app">تقييم التطبيق على المتجر</string>
+    <string name="sign_out">تسجيل الخروج</string>
+    <string name="edit_information"> تعديل البيانات </string>
 
-    <string name="filed_request">this field is required</string>
-    <string name="all_filed_request">All fields is required</string>
+    <string name="filed_request">هذا الحقل مطلوب</string>
+    <string name="all_filed_request">كل الحقول مطلوبة</string>
 
-    <string name="no_internet">Sorry, There is not connect internet  </string>
+    <string name="no_internet">للأسف , لا يوجداتصال بالانترنت </string>
 
-    <string name="patient_name">Patient name :  </string>
-    <string name="hospital">Hospital Name : </string>
-    <string name="cityDoantionRequestCreate">City : </string>
-
-
-    <string name="articles">Articles </string>
-    <string name="request_donation">Request donation</string>
-    <string name="no_data">There is not dataPost....</string>
-    <string name="no_title">There is not Title .</string>
-    <string name="details">Details</string>
-    <string name="call">call</string>
+    <string name="patient_name">اسم المريض :  </string>
+    <string name="hospital">اسم المستشفى : </string>
+    <string name="cityDoantionRequestCreate">المدينة : </string>
 
 
-    <string name="name">Name :  </string>
-    <string name="age">Age :  </string>
-    <string name="number_package_request">Number Package Request :  </string>
-    <string name="address_hospital">Address Hospital :  </string>
-    <string name="notes">Notes</string>
-    <string name="send_request">Send Request</string>
-    <string name="tite_message">Title Message</string>
-    <string name="text_message">Text Message</string>
+    <string name="articles">المقالات </string>
+    <string name="request_donation">طلبات التبرع</string>
+    <string name="no_data">لا توجد بيانات...</string>
+    <string name="no_title">لا يوجد عنوان</string>
+    <string name="details">تفاصيل</string>
+    <string name="call">اتصال</string>
+
+
+    <string name="name">الاسم :  </string>
+    <string name="age">العمر :  </string>
+    <string name="number_package_request">عدد الاكياس :  </string>
+    <string name="address_hospital">عنوان المستشفى :  </string>
+    <string name="notes">ملاحظات</string>
+    <string name="send_request">إرسال الطلب</string>
+    <string name="tite_message">عنوان الرسالة</string>
+    <string name="text_message">نص الرسالة</string>
 
     <string name="select_number_package">Select Number Package Blood  </string>
 
@@ -115,5 +115,6 @@
     <string name="google_android_map_api_key"> AIzaSyDNOiMkuJGxxSwLfConFex3aMwPiUQRk_0 </string>
     <string name="exit_app">Press Back again to Exit.</string>
     <string name="some_text">هذا النص هو مثال لعرض نصوص اخرى تاتي من الموقع وهذا فقط اختبار لها</string>
+    <string name="enter_search">ادخل كلمة البحث هنا</string>
 
 </resources>

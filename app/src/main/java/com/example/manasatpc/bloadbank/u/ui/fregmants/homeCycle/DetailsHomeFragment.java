@@ -2,26 +2,20 @@ package com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle;
 
 
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.manasatpc.bloadbank.R;
+import com.example.manasatpc.bloadbank.u.data.model.posts.post.Post;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
-import com.example.manasatpc.bloadbank.u.data.rest.posts.post.Post;
 import com.example.manasatpc.bloadbank.u.helper.DrawerLocker;
 import com.example.manasatpc.bloadbank.u.helper.SaveData;
 
@@ -43,14 +37,16 @@ import static com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.HomeFragm
 public class DetailsHomeFragment extends Fragment {
 
 
-    @BindView(R.id.IM_Show_Image_Details)
-    ImageView IMShowImageDetails;
-    @BindView(R.id.IM_Show_Favorite_Details)
-    ImageView IMShowFavoriteDetails;
-    @BindView(R.id.TV_Show_Title_Article_Details)
-    TextView TVShowTitleArticleDetails;
-    @BindView(R.id.TV_Show_Details)
-    TextView TVShowDetails;
+    @BindView(R.id.DetailsHomeFragment_IM_Show_Image_Details)
+    ImageView DetailsHomeFragmentIMShowImageDetails;
+    @BindView(R.id.DetailsHomeFragment_IM_Show_Favorite_Details)
+    ImageView DetailsHomeFragmentIMShowFavoriteDetails;
+    @BindView(R.id.DetailsHomeFragment_Login_Progress)
+    ProgressBar DetailsHomeFragmentLoginProgress;
+    @BindView(R.id.DetailsHomeFragment_TV_Show_Title_Article_Details)
+    TextView DetailsHomeFragmentTVShowTitleArticleDetails;
+    @BindView(R.id.DetailsHomeFragment_TV_Show_Details)
+    TextView DetailsHomeFragmentTVShowDetails;
     Unbinder unbinder;
     private APIServices apiServices;
     Bundle bundle;
@@ -67,36 +63,47 @@ public class DetailsHomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_details_home, container, false);
         unbinder = ButterKnife.bind(this, view);
         saveData = getArguments().getParcelable(GET_DATA);
-        toolbar = (Toolbar)getActivity().findViewById(R.id.toolbar);
-        ((DrawerLocker)getActivity()).setDraweEnabled(false);
+        toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        ((DrawerLocker) getActivity()).setDraweEnabled(false);
 
-            bundle = getArguments();
+        bundle = getArguments();
         int postId = bundle.getInt(POST_ID);
-         apiServices =  getRetrofit().create(APIServices.class);
-         apiServices.getPost(saveData.getApi_token(),postId).enqueue(new Callback<Post>() {
-             @Override
-             public void onResponse(Call<Post> call, Response<Post> response) {
-                 Post post = response.body();
-                 if (post.getStatus() == 1){
-                     TVShowTitleArticleDetails.setText(post.getDataPost().getTitle());
-                     toolbar.setTitle(post.getDataPost().getTitle());
+        apiServices = getRetrofit().create(APIServices.class);
+        DetailsHomeFragmentLoginProgress.setVisibility(View.VISIBLE);
+        apiServices.getPost(saveData.getApi_token(), postId).enqueue(new Callback<Post>() {
+            @Override
+            public void onResponse(Call<Post> call, Response<Post> response) {
+                Post post = response.body();
+                if (post.getStatus() == 1) {
+                    DetailsHomeFragmentLoginProgress.setVisibility(View.GONE);
+                    DetailsHomeFragmentTVShowTitleArticleDetails.setText(post.getDataPost().getTitle());
+                    toolbar.setTitle(post.getDataPost().getTitle());
+                    DetailsHomeFragmentTVShowDetails.setText(post.getDataPost().getContent());
+                    Glide.with(getActivity()).load(post.getDataPost().getThumbnailFullPath())
+                            .error(R.drawable.no_image).centerCrop().into(DetailsHomeFragmentIMShowImageDetails);
+                    if (post.getDataPost().getIsFavourite()) {
+                        Glide.with(getActivity()).load(R.drawable.favorite_bold)
+                                .error(R.drawable.no_image).centerCrop().into(DetailsHomeFragmentIMShowFavoriteDetails);
+                    } else {
+                        Glide.with(getActivity()).load(R.drawable.favorite)
+                                .error(R.drawable.no_image).centerCrop().into(DetailsHomeFragmentIMShowFavoriteDetails);
 
-                     TVShowDetails.setText(post.getDataPost().getContent());
-                     Glide.with(getActivity()).load(post.getDataPost().getThumbnailFullPath())
-                             .error(R.drawable.no_image).centerCrop().into(IMShowImageDetails);
-                 }else {
-                     Toast.makeText(getActivity(), post.getMsg(), Toast.LENGTH_SHORT).show();
-                     toolbar.setTitle("");
+                    }
+                } else {
+                    DetailsHomeFragmentLoginProgress.setVisibility(View.GONE);
+                    Toast.makeText(getActivity(), post.getMsg(), Toast.LENGTH_SHORT).show();
+                    toolbar.setTitle("");
 
-                 }
-             }
+                }
+            }
 
-             @Override
-             public void onFailure(Call<Post> call, Throwable t) {
-                 Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            @Override
+            public void onFailure(Call<Post> call, Throwable t) {
+                DetailsHomeFragmentLoginProgress.setVisibility(View.GONE);
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
 
-             }
-         });
+            }
+        });
         return view;
     }
 

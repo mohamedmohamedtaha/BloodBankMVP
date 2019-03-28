@@ -1,7 +1,6 @@
 package com.example.manasatpc.bloadbank.u.ui.fregmants.userCycle;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -17,7 +16,7 @@ import com.example.manasatpc.bloadbank.R;
 import com.example.manasatpc.bloadbank.u.helper.SaveData;
 import com.example.manasatpc.bloadbank.u.ui.activities.HomeActivity;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
-import com.example.manasatpc.bloadbank.u.data.rest.user.login.Login;
+import com.example.manasatpc.bloadbank.u.data.model.user.login.Login;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 import com.example.manasatpc.bloadbank.u.helper.RememberMy;
 
@@ -74,7 +73,7 @@ public class LoginFragment extends Fragment {
         //for check if the user in login or not
         remeberMy = new RememberMy(getActivity());
         if (remeberMy.isRemember()) {
-            HelperMethod.startActivity(getActivity(), HomeActivity.class,getAPI_key);
+            HelperMethod.startActivity(getActivity(), HomeActivity.class, getAPI_key);
         }
         return view;
     }
@@ -123,30 +122,25 @@ public class LoginFragment extends Fragment {
                                 Login login = response.body();
 
 
-
                                 if (login.getStatus() == 1) {
                                     SaveData saveData = new SaveData(login.getData().getApiToken(),
-                                            login.getData().getClient().getName(),login.getData().getClient().getPhone()
+                                            login.getData().getClient().getName(), login.getData().getClient().getPhone()
                                             , login.getData().getClient().getEmail()
-                                    ,login.getData().getClient().getBirthDate(),login.getData().getClient().getCityId(),
-                                            login.getData().getClient().getDonationLastDate(),login.getData().getClient().getBloodTypeId());
-
-
+                                            , login.getData().getClient().getBirthDate(), login.getData().getClient().getCityId(),
+                                            login.getData().getClient().getDonationLastDate(), login.getData().getClient().getBloodTypeId());
 
 
                                     if (CBRemeberMy.isChecked()) {
-                                        remeberMy.saveDateUser(phone, password,getAPI_key);
+                                        remeberMy.saveDateUser(phone, password, getAPI_key);
                                     }
-                                   // HelperMethod.startActivity(getActivity(), HomeActivity.class,getAPI_key);
-                                    HelperMethod.startActivity(getActivity(), HomeActivity.class,saveData);
+                                    // HelperMethod.startActivity(getActivity(), HomeActivity.class,getAPI_key);
+                                    HelperMethod.startActivity(getActivity(), HomeActivity.class, saveData);
 
 
                                     Toast.makeText(getActivity(), login.getMsg(), Toast.LENGTH_LONG).show();
                                     loginProgress.setVisibility(View.GONE);
 
-                                    }
-
-                                 else {
+                                } else {
                                     Toast.makeText(getActivity(), login.getMsg(), Toast.LENGTH_LONG).show();
                                     loginProgress.setVisibility(View.GONE);
 

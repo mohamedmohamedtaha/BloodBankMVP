@@ -116,11 +116,18 @@ public class HelperMethod {
                 Snackbar.make(view, context.getString(R.string.time_out), Snackbar.LENGTH_LONG).show();
                 HelperMethod.startActivity(context, LoginActivity.class, saveData);
 
-                //    LoginFragment loginFragment = new LoginFragment();
-                //      replece(loginFragment, fragmentManager, R.id.Cycle_User_contener, null, null, null);
+                    LoginFragment loginFragment = new LoginFragment();
+                      replece(loginFragment, fragmentManager, R.id.Cycle_User_contener, null, null, saveData);
             }
-        }.start();
+        };
+        countDownTimer.start();
 
+    }
+    public static void stopCountdownTimer(){
+        if (countDownTimer !=null){
+            countDownTimer.cancel();
+            countDownTimer= null;
+        }
     }
 
     //Calender

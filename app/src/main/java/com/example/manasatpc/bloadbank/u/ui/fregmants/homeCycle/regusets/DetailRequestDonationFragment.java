@@ -2,9 +2,7 @@ package com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.regusets;
 
 
 import android.Manifest;
-import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -19,9 +17,8 @@ import android.widget.Toast;
 
 import com.example.manasatpc.bloadbank.R;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
-import com.example.manasatpc.bloadbank.u.data.rest.donation.donationrequest.DonationRequest;
+import com.example.manasatpc.bloadbank.u.data.model.donation.donationrequest.DonationRequest;
 import com.example.manasatpc.bloadbank.u.helper.DrawerLocker;
-import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 import com.example.manasatpc.bloadbank.u.helper.SaveData;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -72,13 +69,15 @@ public class DetailRequestDonationFragment extends Fragment implements OnMapRead
     private APIServices apiServices;
     private GoogleMap gMap;
     private static final String MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey";
-    Double longitude,latiude;
+    Double longitude, latiude;
     SaveData saveData;
     private String savePhone;
     private static final int REQUEST_CALL = 1;
+
     public DetailRequestDonationFragment() {
         // Required empty public constructor
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -86,11 +85,11 @@ public class DetailRequestDonationFragment extends Fragment implements OnMapRead
         View view = inflater.inflate(R.layout.fragment_detail_request_donation, container, false);
         unbinder = ButterKnife.bind(this, view);
         saveData = getArguments().getParcelable(GET_DATA);
-        ((DrawerLocker)getActivity()).setDraweEnabled(false);
+        ((DrawerLocker) getActivity()).setDraweEnabled(false);
 
         Bundle mapViewBundle = null;
 
-        if (savedInstanceState != null){
+        if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY);
         }
 
@@ -111,11 +110,12 @@ public class DetailRequestDonationFragment extends Fragment implements OnMapRead
                             TVShowPhoneDetailsDonation.append(savePhone);
                             TVShowDetailsDetailsDonation.append(donationRequest.getData().getNotes());
                             latiude = Double.parseDouble(donationRequest.getData().getLatitude());
-                            longitude =Double.parseDouble(donationRequest.getData().getLongitude());
+                            longitude = Double.parseDouble(donationRequest.getData().getLongitude());
                         } else {
                             Toast.makeText(getActivity(), donationRequest.getMsg(), Toast.LENGTH_SHORT).show();
                         }
                     }
+
                     @Override
                     public void onFailure(Call<DonationRequest> call, Throwable t) {
                         Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
@@ -126,13 +126,14 @@ public class DetailRequestDonationFragment extends Fragment implements OnMapRead
         mapView.getMapAsync(this);
         return view;
     }
+
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         Bundle mapViewBundle = outState.getBundle(MAP_VIEW_BUNDLE_KEY);
-        if (mapViewBundle == null){
+        if (mapViewBundle == null) {
             mapViewBundle = new Bundle();
-            outState.putBundle(MAP_VIEW_BUNDLE_KEY,mapViewBundle);
+            outState.putBundle(MAP_VIEW_BUNDLE_KEY, mapViewBundle);
         }
         mapView.onSaveInstanceState(mapViewBundle);
     }
@@ -142,16 +143,19 @@ public class DetailRequestDonationFragment extends Fragment implements OnMapRead
         super.onResume();
         mapView.onResume();
     }
+
     @Override
     public void onStart() {
         super.onStart();
         mapView.onStart();
     }
+
     @Override
     public void onStop() {
         super.onStop();
         mapView.onStop();
     }
+
     @Override
     public void onPause() {
         mapView.onPause();
@@ -164,6 +168,7 @@ public class DetailRequestDonationFragment extends Fragment implements OnMapRead
         super.onLowMemory();
         mapView.onLowMemory();
     }
+
     @Override
     public void onDestroyView() {
         mapView.onDestroy();
@@ -175,20 +180,19 @@ public class DetailRequestDonationFragment extends Fragment implements OnMapRead
     public void onViewClicked() {
 
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE) !=
-                PackageManager.PERMISSION_GRANTED){
-            ActivityCompat.requestPermissions(getActivity(),new String[]{Manifest.permission.CALL_PHONE},REQUEST_CALL);
-        }else {
-            makePhoneCall(getActivity(),savePhone);
+                PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL);
+        } else {
+            makePhoneCall(getActivity(), savePhone);
         }
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_CALL){
-            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED){
-                makePhoneCall(getActivity(),savePhone);
-            }
-            else {
+        if (requestCode == REQUEST_CALL) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                makePhoneCall(getActivity(), savePhone);
+            } else {
                 Toast.makeText(getActivity(), "Permission Denied", Toast.LENGTH_SHORT).show();
             }
         }
@@ -199,11 +203,11 @@ public class DetailRequestDonationFragment extends Fragment implements OnMapRead
     public void onMapReady(GoogleMap googleMap) {
         gMap = googleMap;
         gMap.setMinZoomPreference(12);
-        LatLng latLng = new LatLng(longitude,latiude);
-            MarkerOptions markerOptions = new MarkerOptions();
-            markerOptions.position(latLng);
-            gMap.addMarker(markerOptions);
-            gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        LatLng latLng = new LatLng(longitude, latiude);
+        MarkerOptions markerOptions = new MarkerOptions();
+        markerOptions.position(latLng);
+        gMap.addMarker(markerOptions);
+        gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
 
-        }
+    }
 }

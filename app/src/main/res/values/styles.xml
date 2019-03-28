@@ -43,13 +43,18 @@
     </style>
 
     <!-- Customize Spinner for Fragment StokeWearehouse. -->
-    <style name="SpinnerForFragment" >
+   <!-- <style name="SpinnerForFragment" >
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginEnd">@dimen/dimens_l</item>
         <item name="android:layout_marginStart">@dimen/dimens_l</item>
         <item name="android:background">@drawable/shape</item>
         <item name="android:textColorHint">@android:color/black</item>
+
+    </style> -->
+    <style name="SpinnerForFragment" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/dimens_xxxxl</item>
 
     </style>
 
@@ -60,7 +65,7 @@
         <item name="android:layout_centerInParent">true</item>
         <item name="android:indeterminateDrawable">@drawable/custom_prograsbar</item>
         <item name="android:indeterminate">true</item>
-        <item name="android:visibility">gone</item>
+        <item name="android:visibility">invisible</item>
            </style>
     <style name="StyleForImageViewForSplashActivity">
         <item name="android:layout_width">wrap_content</item>

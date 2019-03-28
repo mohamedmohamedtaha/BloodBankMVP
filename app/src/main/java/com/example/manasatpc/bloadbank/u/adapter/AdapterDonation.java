@@ -10,8 +10,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.manasatpc.bloadbank.R;
-import com.example.manasatpc.bloadbank.u.data.rest.donation.donationrequests.Data2DonationRequests;
-import com.example.manasatpc.bloadbank.u.data.rest.donation.donationrequests.DataDonationRequests;
+import com.example.manasatpc.bloadbank.u.data.model.donation.donationrequests.Data2DonationRequests;
 
 import java.util.ArrayList;
 

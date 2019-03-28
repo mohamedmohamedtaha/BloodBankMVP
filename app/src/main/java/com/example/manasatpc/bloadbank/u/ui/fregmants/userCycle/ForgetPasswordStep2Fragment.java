@@ -3,7 +3,6 @@ package com.example.manasatpc.bloadbank.u.ui.fregmants.userCycle;
 
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Parcelable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,7 +15,7 @@ import android.widget.Toast;
 
 import com.example.manasatpc.bloadbank.R;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
-import com.example.manasatpc.bloadbank.u.data.rest.user.newpassword.NewPassword;
+import com.example.manasatpc.bloadbank.u.data.model.user.newpassword.NewPassword;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 import com.example.manasatpc.bloadbank.u.helper.SaveData;
 
@@ -99,6 +98,7 @@ public class ForgetPasswordStep2Fragment extends Fragment {
             Toast.makeText(getActivity(), getString(R.string.all_filed_request), Toast.LENGTH_LONG).show();
             return;
         }
+        ForgetStep2Progress.setVisibility(View.VISIBLE);
 
         APIServices = getRetrofit().create(APIServices.class);
 
@@ -106,9 +106,9 @@ public class ForgetPasswordStep2Fragment extends Fragment {
         newPasswordCall.enqueue(new Callback<NewPassword>() {
             @Override
             public void onResponse(Call<NewPassword> call, Response<NewPassword> response) {
-                ForgetStep2Progress.setVisibility(View.VISIBLE);
                 NewPassword newPassword1 = response.body();
                 if (newPassword1.getStatus() == 1) {
+                    HelperMethod.stopCountdownTimer();
                     ForgetStep2Progress.setVisibility(View.GONE);
                     Toast.makeText(getActivity(), newPassword1.getMsg(), Toast.LENGTH_SHORT).show();
                     LoginFragment loginFragment = new LoginFragment();

@@ -3,10 +3,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".u.ui.fregmants.homeCycle.HomeFragment">
+    <LinearLayout
+        android:id="@+id/linear"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.design.widget.TextInputLayout
+            style="@style/StyleEditText">
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/HomeFragment_Tiet_Search"
+            style="@style/StyleEditTextNull"
+            android:hint="@string/enter_search"
+            android:drawableStart="@drawable/ic_search"
+          />
+        </android.support.design.widget.TextInputLayout>
+
+    </LinearLayout>
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/list"
+        android:layout_below="@+id/linear"
+        android:id="@+id/HomeFragment_Recycle_View"
+        android:layout_marginEnd="@dimen/dimens_m"
+        android:layout_marginStart="@dimen/dimens_m"
+        android:layout_marginTop="@dimen/dimens_m"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:drawSelectorOnTop="true"
@@ -18,17 +37,17 @@
     <!-- Empty view is only visible when the list has no items. -->
 
     <RelativeLayout
-        android:id="@+id/empty_view_category"
+        android:id="@+id/HomeFragment_RL_Empty_View"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true">
 
         <ImageView
-            android:id="@+id/empty_image"
+            android:id="@+id/HomeFragment_Empty_Image"
             style="@style/EmptyViewImage"
             />
         <TextView
-            android:id="@+id/tv_empty_view"
+            android:id="@+id/HomeFragment_TV_Empty_View"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/no_data"
@@ -37,14 +56,14 @@
             android:fontFamily="@font/cairo_regular"
             android:layout_marginTop="@dimen/dimens_xl"
             android:textSize="@dimen/txt_size_xl"
-            android:layout_below="@+id/empty_image"
+            android:layout_below="@+id/HomeFragment_Empty_Image"
             android:textAppearance="?android:textAppearanceMedium" />
     </RelativeLayout>
 
     <!-- Loading indicator is only shown before the first load -->
 
     <ProgressBar
-        android:id="@+id/loading_indicator"
+        android:id="@+id/HomeFragment_Loading_Indicator"
         style="@style/Widget.AppCompat.ProgressBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

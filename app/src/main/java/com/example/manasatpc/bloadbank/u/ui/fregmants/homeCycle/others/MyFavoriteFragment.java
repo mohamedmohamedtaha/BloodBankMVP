@@ -17,8 +17,8 @@ import android.widget.Toast;
 import com.example.manasatpc.bloadbank.R;
 import com.example.manasatpc.bloadbank.u.adapter.AdapterMyFavorite;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
-import com.example.manasatpc.bloadbank.u.data.rest.posts.my_favourites.DataMyFavouritesTwo;
-import com.example.manasatpc.bloadbank.u.data.rest.posts.my_favourites.MyFavourites;
+import com.example.manasatpc.bloadbank.u.data.model.posts.my_favourites.DataMyFavouritesTwo;
+import com.example.manasatpc.bloadbank.u.data.model.posts.my_favourites.MyFavourites;
 import com.example.manasatpc.bloadbank.u.helper.SaveData;
 
 import java.util.ArrayList;

@@ -33,23 +33,22 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         int fragments = getSupportFragmentManager().getBackStackEntryCount();
-        if (fragments == 1){
-            if (exitApp){
+        if (fragments == 1) {
+            if (exitApp) {
                 HelperMethod.closeApp(getApplicationContext());
                 return;
             }
             exitApp = true;
             Toast.makeText(this, getString(R.string.exit_app), Toast.LENGTH_SHORT).show();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
 
-                        exitApp = false;
+                    exitApp = false;
 
-                    }
-                },2000);
-            }
-               else {
+                }
+            }, 2000);
+        } else {
             super.onBackPressed();
 
         }

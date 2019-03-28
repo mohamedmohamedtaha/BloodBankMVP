@@ -57,11 +57,23 @@
             android:drawableEnd="@drawable/ic_calender"
             android:hint="@string/date" />
 
-        <Spinner
-            android:id="@+id/Fragment_Blood_Regester"
-            style="@style/SpinnerForFragment"
-            android:hint="@string/select_city"
-            />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimens_l"
+            android:layout_marginEnd="@dimen/dimens_l"
+            android:layout_marginTop="@dimen/dimens_m"
+            android:background="@drawable/background_spinner"
+            >
+
+            <Spinner
+                android:id="@+id/Fragment_Blood_Regester"
+                style="@style/SpinnerForFragment"
+                android:hint="@string/select_city"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                />
+        </RelativeLayout>
 
         <TextView
             android:id="@+id/Fragment_Last_Date_Regester"
@@ -69,32 +81,49 @@
             android:drawableEnd="@drawable/ic_calender"
             android:hint="@string/last_date" />
 
-        <Spinner
-            android:id="@+id/Spinner_Gaverment"
-            style="@style/SpinnerForFragment"
-            android:hint="@string/select_gaverment"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimens_l"
+            android:layout_marginEnd="@dimen/dimens_l"
+            android:layout_marginTop="@dimen/dimens_m"
+            android:background="@drawable/background_spinner"
+            >
 
+            <Spinner
+                android:id="@+id/Spinner_Gaverment"
+                style="@style/SpinnerForFragment"
+                android:hint="@string/select_gaverment"
+                android:popupBackground="@android:color/white"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                />
+        </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimens_l"
+            android:layout_marginEnd="@dimen/dimens_l"
+            android:layout_marginTop="@dimen/dimens_m"
+            android:background="@drawable/background_spinner">
 
-             />
+            <Spinner
+                android:id="@+id/Spinner_City"
+                style="@style/SpinnerForFragment"
+                android:popupBackground="@android:color/white"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:hint="@string/select_city" />
+        </RelativeLayout>
 
-
-        <Spinner
-            android:id="@+id/Spinner_City"
-            style="@style/SpinnerForFragment"
-            android:hint="@string/select_city"
-             />
 
         <android.support.design.widget.TextInputLayout
-
             style="@style/StyleEditText">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/Fragment_Phone_Regester"
                 style="@style/StyleEditTextNull"
-
-                android:hint="@string/phone"
-
-                />
+                android:hint="@string/phone" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -105,10 +134,7 @@
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/Fragment_Password_Regester"
                 style="@style/StyleEditTextNull"
-
-                android:hint="@string/password"
-
-                />
+                android:hint="@string/password" />
 
         </android.support.design.widget.TextInputLayout>
 
