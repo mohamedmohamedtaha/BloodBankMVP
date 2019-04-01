@@ -15,8 +15,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.manasatpc.bloadbank.R;
-import com.example.manasatpc.bloadbank.u.ui.activities.LoginActivity;
 import com.example.manasatpc.bloadbank.u.adapter.AdapterSlider;
+import com.example.manasatpc.bloadbank.u.ui.activities.LoginActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,17 +27,14 @@ import butterknife.Unbinder;
  * A simple {@link Fragment} subclass.
  */
 public class SliderFragment extends Fragment {
-
-    @BindView(R.id.ViewPager)
-    android.support.v4.view.ViewPager ViewPager;
-    @BindView(R.id.DotLayout)
-    LinearLayout DotLayout;
-    @BindView(R.id.Skip)
-    Button Skip;
-
+    @BindView(R.id.SliderFragment_ViewPager)
+    ViewPager SliderFragmentViewPager;
+    @BindView(R.id.SliderFragment_DotLayout)
+    LinearLayout SliderFragmentDotLayout;
+    @BindView(R.id.SliderFragment_Skip)
+    Button SliderFragmentSkip;
     Unbinder unbinder;
     private int[] layouts;
-
     private AdapterSlider adapterSlider;
     private TextView[] dottv;
 
@@ -45,19 +42,16 @@ public class SliderFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_slider, container, false);
         unbinder = ButterKnife.bind(this, view);
-
-
         layouts = new int[]{R.layout.info_1, R.layout.info_2};
         adapterSlider = new AdapterSlider(getActivity(), layouts);
-        ViewPager.setAdapter(adapterSlider);
-        ViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        SliderFragmentViewPager.setAdapter(adapterSlider);
+        SliderFragmentViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -69,31 +63,25 @@ public class SliderFragment extends Fragment {
 
                 }
                 setDotLayout(position);
-
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
         setDotLayout(0);
-
-
         return view;
-
     }
 
     private void setDotLayout(int page) {
-        DotLayout.removeAllViews();
+        SliderFragmentDotLayout.removeAllViews();
         dottv = new TextView[layouts.length];
         for (int i = 0; i < dottv.length; i++) {
             dottv[i] = new TextView(getActivity());
             dottv[i].setText(Html.fromHtml("&#8226"));
             dottv[i].setTextSize(30);
-
             dottv[i].setTextColor(Color.parseColor("#000000"));
-            DotLayout.addView(dottv[i]);
+            SliderFragmentDotLayout.addView(dottv[i]);
         }
 
         //set current dot active
@@ -103,8 +91,7 @@ public class SliderFragment extends Fragment {
 
     }
 
-
-    @OnClick(R.id.Skip)
+    @OnClick(R.id.SliderFragment_Skip)
     public void onViewClicked() {
         startLoginActivity();
     }
@@ -112,8 +99,6 @@ public class SliderFragment extends Fragment {
     private void startLoginActivity() {
         Intent startLoginActivity = new Intent(getActivity(), LoginActivity.class);
         getActivity().startActivity(startLoginActivity);
-
-
     }
 
     @Override

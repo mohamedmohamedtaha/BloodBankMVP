@@ -18,9 +18,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.manasatpc.bloadbank.R;
-import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.data.model.general.contact.Contact;
 import com.example.manasatpc.bloadbank.u.data.model.general.settings.Settings;
+import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 import com.example.manasatpc.bloadbank.u.helper.RememberMy;
 import com.example.manasatpc.bloadbank.u.helper.SaveData;
@@ -74,7 +74,7 @@ public class ConnectWithUsFragment extends Fragment {
     private RememberMy rememberMy;
     private String getAPI_key;
     private SaveData saveData;
-    private String urlYouTube, urlWhatsApp,urlTwitter, urlInstgram,urlGooglePlus,urlFacebook;
+    private String urlYouTube, urlWhatsApp, urlTwitter, urlInstgram, urlGooglePlus, urlFacebook;
 
     public ConnectWithUsFragment() {
         // Required empty public constructor
@@ -91,9 +91,9 @@ public class ConnectWithUsFragment extends Fragment {
 
         saveData = getArguments().getParcelable(GET_DATA);
         String email = saveData.getEmail();
-        String name= saveData.getName();
-        String phone= saveData.getPhone();
-        getAPI_key=bundle.getString(API_KEY);
+        String name = saveData.getName();
+        String phone = saveData.getPhone();
+        getAPI_key = bundle.getString(API_KEY);
         FragmentConnectUsPhone.append(phone);
         FragmentConnectUsEmail.append(email);
         FragmentConnectUsName.append(name);
@@ -104,7 +104,7 @@ public class ConnectWithUsFragment extends Fragment {
             @Override
             public void onResponse(Call<Settings> call, Response<Settings> response) {
                 Settings settings = response.body();
-                if (settings.getStatus() == 1){
+                if (settings.getStatus() == 1) {
                     urlGooglePlus = settings.getData().getGoogleUrl();
                     urlInstgram = settings.getData().getInstagramUrl();
                     urlTwitter = settings.getData().getTwitterUrl();
@@ -112,7 +112,7 @@ public class ConnectWithUsFragment extends Fragment {
                     urlYouTube = settings.getData().getYoutubeUrl();
                     urlFacebook = settings.getData().getFacebookUrl();
 
-                }else {
+                } else {
                     Toast.makeText(getActivity(), settings.getMsg(), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -151,7 +151,7 @@ public class ConnectWithUsFragment extends Fragment {
                 break;
             case R.id.IM_whatsApp:
                 Uri uri = Uri.parse("smsto:" + urlWhatsApp);
-                Intent openWhatsApp = new Intent(Intent.ACTION_SENDTO,uri);
+                Intent openWhatsApp = new Intent(Intent.ACTION_SENDTO, uri);
                 openWhatsApp.putExtra(Intent.EXTRA_TEXT, "this is my text");
                 openWhatsApp.setPackage("com.whatsapp");
                 startActivity(openWhatsApp);
@@ -160,37 +160,39 @@ public class ConnectWithUsFragment extends Fragment {
                 HelperMethod.openWebSite(getActivity(), urlGooglePlus);
                 break;
             case R.id.BT_Send_Message:
-                final String title_message = FragmentConnectUsTitle.getText().toString();
-                final String text_message = FragmentConnectUsTextMessage.getText().toString();
+                final String title_message = FragmentConnectUsTitle.getText().toString().trim();
+                final String text_message = FragmentConnectUsTextMessage.getText().toString().trim();
                 apiServices = getRetrofit().create(APIServices.class);
-                if ( TextUtils.isEmpty(title_message) || TextUtils.isEmpty(text_message)){
-                    Toast.makeText(getActivity(), getString(R.string.filed_request), Toast.LENGTH_SHORT).show();}
-                else {
-                    apiServices.getContact(getAPI_key,title_message,text_message).enqueue(new Callback<Contact>() {
-                    @Override
-                    public void onResponse(Call<Contact> call, Response<Contact> response) {
-                        Contact contact = response.body();
+                if (TextUtils.isEmpty(title_message) || TextUtils.isEmpty(text_message)) {
+                    Toast.makeText(getActivity(), getString(R.string.filed_request), Toast.LENGTH_SHORT).show();
+                } else {
+                    apiServices.getContact(getAPI_key, title_message, text_message).enqueue(new Callback<Contact>() {
+                        @Override
+                        public void onResponse(Call<Contact> call, Response<Contact> response) {
+                            Contact contact = response.body();
 
-                            if ( contact.getStatus() == 1 ){
+                            if (contact.getStatus() == 1) {
                                 Toast.makeText(getActivity(), contact.getMsg(), Toast.LENGTH_SHORT).show();
                                 FragmentConnectUsTitle.setText("");
                                 FragmentConnectUsTextMessage.setText("");
-                            }
-                            else {
+                            } else {
                                 Toast.makeText(getActivity(), contact.getMsg(), Toast.LENGTH_SHORT).show();
                             }
                         }
 
-                    @Override
-                    public void onFailure(Call<Contact> call, Throwable t) {
-                        Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                        @Override
+                        public void onFailure(Call<Contact> call, Throwable t) {
+                            Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
 
-                    }
-                });}
+                        }
+                    });
+                }
 
                 break;
+            default:
         }
     }
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);

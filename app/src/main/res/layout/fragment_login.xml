@@ -16,19 +16,19 @@
         <android.support.design.widget.TextInputLayout style="@style/StyleEditText">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/Fragment_Phone_Login"
+                android:id="@+id/LoginFragment_Phone"
                 style="@style/StyleEditTextNull"
+                android:inputType="number"
                 android:hint="@string/phone" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout style="@style/StyleEditText">
 
             <android.support.design.widget.TextInputEditText
-                android:id="@+id/Fragment_Password_Login"
+                android:id="@+id/LoginFragment_Password"
                 style="@style/StyleEditTextNull"
-                android:hint="@string/password"
-
-                />
+                android:inputType="textPassword"
+                android:hint="@string/password" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -37,26 +37,24 @@
             android:layout_height="wrap_content">
 
             <ProgressBar
-                android:id="@+id/login_progress"
-                style="@style/StyleProgressBar"
-
-
-                />
+                android:id="@+id/LoginFragment_Progress_Bar"
+                style="@style/StyleProgressBar" />
 
             <TextView
-                android:id="@+id/forget_password"
+                android:id="@+id/LoginFragment_Forget_Password"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="start"
                 android:layout_marginStart="@dimen/dimens_l"
                 android:layout_marginTop="@dimen/dimens_l"
-                android:drawableStart="@drawable/ic_warning"
+                android:drawableEnd="@drawable/ic_warning"
+                android:drawablePadding="@dimen/dimens_m"
                 android:fontFamily="@font/cairo_regular"
                 android:gravity="center"
                 android:text="@string/forget_password" />
 
             <CheckBox
-                android:id="@+id/CB_Remeber_My"
+                android:id="@+id/LoginFragment_CB_Remeber_My"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
@@ -64,18 +62,20 @@
                 android:layout_marginTop="@dimen/dimens_l"
                 android:layout_marginEnd="@dimen/dimens_l"
                 android:fontFamily="@font/cairo_regular"
-                android:text="@string/rememberMy" />
+                android:text="@string/rememberMy"
+                android:button="@null"
+                android:drawableRight="?android:attr/listChoiceIndicatorMultiple"/>
 
         </RelativeLayout>
 
         <Button
-            android:id="@+id/login"
+            android:id="@+id/LoginFragment_BT_Login"
             style="@style/StyleButton"
             android:background="@color/colorButtonLogin"
             android:text="@string/login" />
 
         <Button
-            android:id="@+id/cretae_new_user"
+            android:id="@+id/LoginFragment_BT_Register"
             style="@style/StyleButton"
             android:background="@color/colorButtonCreate"
             android:text="@string/create_new_user" />

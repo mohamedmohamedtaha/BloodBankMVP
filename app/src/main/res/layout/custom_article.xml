@@ -1,36 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_marginTop="@dimen/dimens_l"
-    android:layout_height="wrap_content">
-<RelativeLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/dimens_l">
 
-    <ImageView
-        android:id="@+id/IM_Favorite"
-        android:layout_width="@dimen/dimens_xl"
-        android:layout_height="@dimen/dimens_xl"
-
-        />
-    <TextView
-        android:id="@+id/TV_Show_Title_Article"
-        android:text="@string/remind_time"
-        android:layout_alignParentRight="true"
-        android:textColor="@android:color/black"
-        android:textSize="@dimen/txt_size_m"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
-
-    <ImageView
-        android:id="@+id/IM_Show_Picture"
-        android:src="@drawable/favorite"
-        android:layout_below="@+id/TV_Show_Title_Article"
-        android:layout_marginTop="@dimen/dimens_l"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimens_height_logo"
-        />
+        android:layout_height="wrap_content">
 
-</RelativeLayout>
+        <ImageView
+            android:id="@+id/IM_Favorite"
+            android:layout_width="@dimen/dimens_xl"
+            android:layout_height="@dimen/dimens_xl"
+            android:layout_marginTop="@dimen/dimens_m"
+            android:layout_marginStart="@dimen/dimens_m"/>
+
+        <TextView
+            android:id="@+id/TV_Show_Title_Article"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="@dimen/dimens_m"
+            android:layout_marginEnd="@dimen/dimens_m"
+            android:text="@string/remind_time"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/txt_size_m" />
+
+        <ImageView
+            android:id="@+id/IM_Show_Picture"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimens_height_logo"
+            android:layout_below="@+id/TV_Show_Title_Article"
+            android:layout_marginTop="@dimen/dimens_s"
+            android:src="@drawable/favorite" />
+    </RelativeLayout>
 </android.support.v7.widget.CardView>

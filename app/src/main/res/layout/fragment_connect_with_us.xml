@@ -3,147 +3,159 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     tools:context=".u.ui.fregmants.homeCycle.others.ConnectWithUsFragment">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
-    <!-- TODO: Update blank fragment layout -->
-    <ImageView
-        android:layout_gravity="center"
-        android:layout_width="@dimen/dimens_height_logo"
-        android:layout_height="@dimen/dimens_height_logo"
-        android:src="@mipmap/logo"
-        />
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/phone"
-        android:gravity="center"
-        android:drawablePadding="@dimen/dimens_s"
-        android:layout_marginTop="@dimen/dimens_l"
-        android:drawableStart="@drawable/ic_call"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/email"
-        android:gravity="center"
-        android:drawablePadding="@dimen/dimens_s"
-        android:layout_marginTop="@dimen/dimens_l"
 
-        android:drawableStart="@drawable/ic_connect"/>
     <LinearLayout
-        android:layout_marginTop="@dimen/dimens_xxl"
         android:layout_width="match_parent"
-        android:layout_marginEnd="@dimen/dimens_xxxxl"
-        android:layout_marginStart="@dimen/dimens_xxxxl"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <!-- TODO: Update blank fragment layout -->
         <ImageView
-            android:id="@+id/IM_Face_Book"
+            android:layout_width="@dimen/dimens_height_logo"
+            android:layout_height="@dimen/dimens_height_logo"
+            android:layout_gravity="center"
+            android:src="@mipmap/logo" />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_face"
-            />
-        <ImageView
-            android:id="@+id/IM_Twitter"
+            android:layout_gravity="end"
+            android:layout_marginTop="@dimen/dimens_l"
+            android:layout_marginEnd="@dimen/dimens_xl"
+            android:drawableEnd="@drawable/ic_phone"
+            android:drawablePadding="@dimen/dimens_m"
+            android:gravity="center"
+            android:text="@string/phone" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginTop="@dimen/dimens_l"
+            android:layout_marginEnd="@dimen/dimens_xl"
+            android:drawableEnd="@drawable/ic_email"
+            android:drawablePadding="@dimen/dimens_s"
+            android:gravity="center"
+            android:text="@string/email" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/dimens_xl"
+            android:layout_marginTop="@dimen/dimens_xxl"
+            android:layout_marginEnd="@dimen/dimens_xl"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/IM_Face_Book"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:src="@drawable/ic_face" />
+
+            <ImageView
+                android:id="@+id/IM_Twitter"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimens_m"
+                android:layout_weight="1"
+                android:src="@drawable/ic_twitter" />
+
+            <ImageView
+                android:id="@+id/IM_YouTube"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimens_m"
+                android:layout_weight="1"
+                android:src="@drawable/ic_youtube" />
+
+            <ImageView
+                android:id="@+id/IM_Instgram"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimens_m"
+                android:layout_weight="1"
+                android:src="@drawable/ic_instgram" />
+
+            <ImageView
+                android:id="@+id/IM_whatsApp"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimens_m"
+                android:layout_weight="1"
+                android:src="@drawable/ic_whatsapp" />
+
+            <ImageView
+                android:id="@+id/IM_GooglePlus"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimens_m"
+                android:layout_weight="1"
+                android:src="@drawable/ic_googleplus" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dimens_xxxxl"
+            android:layout_marginTop="@dimen/txt_size_xl"
+            android:background="@color/colorButtonRegester"
+            android:gravity="center"
+            android:text="@string/connect_with_us"
+            android:textColor="@android:color/white" />
+
+        <TextView
+            android:id="@+id/Fragment_Connect_Us_Name"
+            style="@style/StyleTextViewForContectUS"
+            android:hint="@string/patient_name" />
+
+        <TextView
+            android:id="@+id/Fragment_Connect_Us_Email"
+            style="@style/StyleTextViewForContectUS"
+            android:hint="@string/email" />
+
+        <TextView
+            android:id="@+id/Fragment_Connect_Us_Phone"
+            style="@style/StyleTextViewForContectUS"
+            android:hint="@string/phone" />
+
+
+        <android.support.design.widget.TextInputLayout
+
+            style="@style/StyleEditText">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/Fragment_Connect_Us_title"
+                style="@style/StyleEditTextNull"
+                android:hint="@string/tite_message"
+
+                />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout style="@style/StyleEditText">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/Fragment_Connect_Us_Text_Message"
+                style="@style/StyleEditTextNull"
+                android:hint="@string/text_message"
+                android:inputType="textMultiLine"
+                android:lines="5"
+
+                />
+
+        </android.support.design.widget.TextInputLayout>
+
+        <Button
+            android:id="@+id/BT_Send_Message"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/dimens_l"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_twitter"
-            />
-        <ImageView
-            android:id="@+id/IM_YouTube"
-            android:layout_marginStart="@dimen/dimens_l"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_youtube"
-            />
-        <ImageView
-            android:id="@+id/IM_Instgram"
-            android:layout_marginStart="@dimen/dimens_l"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_instgram"
-            />
-        <ImageView
-            android:id="@+id/IM_whatsApp"
-            android:layout_marginStart="@dimen/dimens_l"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_whatsapp"
-            />
-        <ImageView
-            android:id="@+id/IM_GooglePlus"
-            android:layout_marginStart="@dimen/dimens_l"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_googleplus"
-            />
+            android:layout_marginTop="@dimen/txt_size_xl"
+            android:layout_marginEnd="@dimen/dimens_l"
+            android:layout_marginBottom="@dimen/dimens_l"
+            android:background="@color/colorButtonRegester"
+            android:text="@string/connect_with_us"
+            android:textColor="@android:color/white" />
     </LinearLayout>
-    <TextView
-        android:layout_marginTop="@dimen/txt_size_xl"
-        android:layout_width="match_parent"
-        android:gravity="center"
-        android:background="@color/colorButtonRegester"
-        android:layout_height="@dimen/dimens_xxxxl"
-        android:textColor="@android:color/white"
-        android:text="@string/connect_with_us"
-        />
-       <TextView
-        android:id="@+id/Fragment_Connect_Us_Name"
-        style="@style/StyleTextViewForContectUS"
-        android:hint="@string/patient_name" />
-    <TextView
-        android:id="@+id/Fragment_Connect_Us_Email"
-        style="@style/StyleTextViewForContectUS"
-        android:hint="@string/email" />
-
-    <TextView
-        android:id="@+id/Fragment_Connect_Us_Phone"
-        style="@style/StyleTextViewForContectUS"
-        android:hint="@string/phone" />
-
-
-    <android.support.design.widget.TextInputLayout
-
-        style="@style/StyleEditText">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/Fragment_Connect_Us_title"
-            style="@style/StyleEditTextNull"
-            android:hint="@string/tite_message"
-
-            />
-
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        style="@style/StyleEditText"
-        >
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/Fragment_Connect_Us_Text_Message"
-            style="@style/StyleEditTextNull"
-            android:hint="@string/text_message"
-            android:inputType="textMultiLine"
-            android:lines="5"
-
-            />
-
-    </android.support.design.widget.TextInputLayout>
-    <Button
-        android:layout_marginTop="@dimen/txt_size_xl"
-        android:id="@+id/BT_Send_Message"
-        android:layout_width="match_parent"
-        android:background="@color/colorButtonRegester"
-        android:layout_height="wrap_content"
-        android:textColor="@android:color/white"
-        android:text="@string/connect_with_us"
-        android:layout_marginEnd="@dimen/dimens_l"
-        android:layout_marginStart="@dimen/dimens_l"
-        android:layout_marginBottom="@dimen/dimens_l"
-        />
-</LinearLayout>
 </ScrollView>

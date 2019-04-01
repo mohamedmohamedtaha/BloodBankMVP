@@ -1,128 +1,109 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_marginStart="@dimen/dimens_l"
-    android:layout_marginEnd="@dimen/dimens_l"
-    android:layout_marginTop="@dimen/dimens_m"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_marginStart="@dimen/dimens_s"
+    android:layout_marginEnd="@dimen/dimens_s"
+    android:layout_marginTop="@dimen/dimens_s"
+    android:background="@drawable/background_custom_donation"
     android:layout_height="wrap_content">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:background="@drawable/shape_donation"
-        android:layout_height="wrap_content">
-               <TextView
-            android:id="@+id/IM_Type_Blood"
-                   android:layout_marginTop="@dimen/dimens_s"
-                  android:gravity="center"
-                   android:textColor="@android:color/black"
-                   android:textStyle="bold"
-                   android:textSize="@dimen/txt_size_xl"
-            android:background="@drawable/custom_text_blood_type"
-            android:layout_width="@dimen/dimens_seventy"
-            android:layout_height="@dimen/dimens_seventy"
-            android:layout_marginStart="@dimen/dimens_s"
-            android:layout_marginEnd="@dimen/dimens_s"
-           />
-    <TableLayout
-        android:id="@+id/table_information"
-        android:layout_marginTop="@dimen/dimens_s"
-        android:layout_toRightOf="@+id/IM_Type_Blood"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
-        <TableRow>
-
-        <TextView
-            android:id="@+id/name_patient"
-            android:layout_width="wrap_content"
-            android:textColor="@android:color/black"
-            android:layout_height="wrap_content"
-            android:text="@string/patient_name"/>
-
-        <TextView
-            android:id="@+id/TV_Name_Patient"
-            android:layout_width="wrap_content"
-            android:layout_marginStart="@dimen/dimens_s"
-            android:textColor="@android:color/black"
-            android:layout_marginEnd="@dimen/dimens_s"
-
-            android:layout_height="wrap_content"
-            android:text="@string/patient_name"/>
-
-    </TableRow>
-
-    <TableRow>
-        <TextView
-            android:id="@+id/hospital"
-            android:layout_width="wrap_content"
-            android:layout_marginTop="@dimen/dimens_m"
-            android:layout_toEndOf="@+id/IM_Type_Blood"
-            android:layout_below="@+id/name_patient"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:text="@string/hospital"/>
-        android:text="@string/cityDoantionRequestCreate"/>
-        <TextView
-            android:id="@+id/TV_Hospital"
-            android:layout_width="wrap_content"
-            android:layout_marginStart="@dimen/dimens_s"
-            android:layout_height="wrap_content"
-            android:textColor="@android:color/black"
-            android:layout_marginTop="@dimen/dimens_m"
-            android:layout_marginEnd="@dimen/dimens_s"
-
-            android:text="@string/hospital"/>
-
-    </TableRow>
-    <TableRow>
-
-    <TextView
-            android:id="@+id/cityDoantionRequestCreate"
-            android:layout_width="wrap_content"
-            android:textColor="@android:color/black"
-        android:text="@string/cityDoantionRequestCreate"
-        android:layout_marginTop="@dimen/dimens_m"
-        android:layout_height="wrap_content"/>
-
-        <TextView
-            android:id="@+id/TV_City"
-            android:layout_width="wrap_content"
-            android:textColor="@android:color/black"
-            android:layout_marginStart="@dimen/dimens_s"
-            android:layout_marginTop="@dimen/dimens_m"
-            android:layout_marginEnd="@dimen/dimens_s"
-            android:layout_height="wrap_content"
-            android:text="@string/cityDoantionRequestCreate"/>
-    </TableRow>
-
-
-  </TableLayout>
     <LinearLayout
-        android:layout_alignParentRight="true"
         android:layout_width="@dimen/dimens_hundrand"
         android:orientation="vertical"
+        android:id="@+id/linear"
         android:layout_marginTop="@dimen/dimens_m"
         android:layout_height="wrap_content">
-
         <Button
             android:id="@+id/BT_Details"
             android:layout_width="wrap_content"
             android:text="@string/details"
-            android:layout_marginEnd="@dimen/dimens_m"
-            android:layout_marginStart="@dimen/dimens_m"
+            android:layout_marginStart="@dimen/dimens_s"
             android:layout_height="@dimen/dimens_xxxl"/>
         <Button
             android:id="@+id/BT_Call"
             android:layout_width="wrap_content"
             android:text="@string/call"
+            android:textColor="@android:color/white"
             android:drawableRight="@android:drawable/ic_menu_call"
             android:background="@color/colorButtonLogin"
-            android:layout_marginEnd="@dimen/dimens_m"
-            android:layout_marginStart="@dimen/dimens_m"
+            android:layout_marginStart="@dimen/dimens_s"
             android:layout_height="@dimen/dimens_xxl"/>
-
-
     </LinearLayout>
-    </RelativeLayout>
+    <TableLayout
+        android:id="@+id/table_information"
+        android:layout_marginTop="@dimen/dimens_s"
+        android:layout_toEndOf="@+id/linear"
+        android:layout_toStartOf="@+id/IM_Type_Blood"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TableRow>
+            <TextView
+                android:id="@+id/TV_Name_Patient"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="@dimen/dimens_s"
+                android:textColor="@android:color/black"
+                android:layout_marginEnd="@dimen/dimens_s"
+                android:layout_height="wrap_content"
+                tools:text="@string/patient_name"/>
+            <TextView
+                android:id="@+id/name_patient"
+                android:layout_width="wrap_content"
+                android:textColor="@android:color/black"
+                android:layout_height="wrap_content"
+                android:text="@string/patient_name"/>
 
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:id="@+id/TV_Hospital"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="@dimen/dimens_s"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:layout_marginTop="@dimen/dimens_m"
+                android:layout_marginEnd="@dimen/dimens_s"
+                tools:text="@string/hospital"/>
+            <TextView
+                android:id="@+id/hospital"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="@dimen/dimens_m"
+                android:layout_toEndOf="@+id/IM_Type_Blood"
+                android:layout_below="@+id/name_patient"
+                android:layout_height="wrap_content"
+                android:textColor="@android:color/black"
+                android:text="@string/hospital"/>
+
+        </TableRow>
+        <TableRow>
+            <TextView
+                android:id="@+id/TV_City"
+                android:layout_width="wrap_content"
+                android:textColor="@android:color/black"
+                android:layout_marginStart="@dimen/dimens_s"
+                android:layout_marginTop="@dimen/dimens_m"
+                android:layout_marginEnd="@dimen/dimens_s"
+                android:layout_height="wrap_content"
+                tools:text="@string/cityDoantionRequestCreate"/>
+            <TextView
+                android:id="@+id/cityDoantionRequestCreate"
+                android:layout_width="wrap_content"
+                android:textColor="@android:color/black"
+                android:text="@string/cityDoantionRequestCreate"
+                android:layout_marginTop="@dimen/dimens_m"
+                android:layout_height="wrap_content"/>
+               </TableRow>
+    </TableLayout>
+<TextView
+    android:id="@+id/IM_Type_Blood"
+    android:layout_alignParentEnd="true"
+    android:layout_marginTop="@dimen/dimens_s"
+    android:gravity="center"
+    android:textColor="@android:color/black"
+    android:textStyle="bold"
+    android:textSize="@dimen/txt_size_xl"
+    android:background="@drawable/custom_text_blood_type"
+    android:layout_width="@dimen/dimens_seventy"
+    android:layout_height="@dimen/dimens_seventy"
+    android:layout_marginStart="@dimen/dimens_s"
+    android:layout_marginEnd="@dimen/dimens_s" />
     </RelativeLayout>

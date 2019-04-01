@@ -38,8 +38,6 @@ import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.GET_DATA;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, DrawerLocker {
-
-
     private static final String SAVE_TITLE = "save_title";
     // @BindView(R.id.toolbar)
     public static Toolbar toolbar;
@@ -198,19 +196,19 @@ public class HomeActivity extends AppCompatActivity
 
                 break;
             case R.id.sign_out:
- /*               logout.removeDateUser(this);
+                logout.removeDateUser(this);
               //  finish();
                 HelperMethod.startActivity(getApplicationContext(), LoginActivity.class,saveData);
-*/
+
             /*
                 LoginFragment loginFragment = new LoginFragment();
                 HelperMethod.replece(loginFragment, getSupportFragmentManager(),
                         R.id.Cycle_Home_contener, null, null, saveData);*/
 
 
-                MapFragment mapFragment = new MapFragment();
+/*                MapFragment mapFragment = new MapFragment();
                 HelperMethod.replece(mapFragment, getSupportFragmentManager(),
-                        R.id.Cycle_Home_contener, null, null, saveData);
+                        R.id.Cycle_Home_contener, null, null, saveData);*/
                 break;
             default:
                 CustomFragment customFragmentDefault = new CustomFragment();

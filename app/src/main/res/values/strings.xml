@@ -2,9 +2,9 @@
     <string name="app_name">بنك الدم</string>
     <string name="copy_right">جميع الحقوق محفوظة لشركة إبداع تك للبرمجيات 2018</string>
     <string name="skip">تخطى</string>
-    <string name="phone">Phone</string>
-    <string name="check_code">Check code</string>
-    <string name="time_out">Time Out ! Request again to reset password.</string>
+    <string name="phone">الجوال</string>
+    <string name="check_code">كود التحقق</string>
+    <string name="time_out">الوقت انتهى , اطلب كود جديد</string>
     <string name="remind_time">الوقت المتبقي :</string>
 
     <string name="password">كلمة المرور</string>
@@ -16,7 +16,7 @@
     <string name="rememberMy">تذكرني</string>
     <string name="forget_password">هل نسيت كلمة المرور</string>
     <string name="forget_my_password">نسيت كلمة المرور</string>
-    <string name="code_change_my_password">Code change password</string>
+    <string name="code_change_my_password">كود تغيير كلمةالمرور</string>
 
     <string name="send">إرسال </string>
 
@@ -34,10 +34,10 @@
     <string name="action_back">Back</string>
     <string name="action_notification">Notification</string>
 
-    <string name="email">Email</string>
+    <string name="email">البريد الإلكتروني</string>
     <string name="date">تاريخ الميلاد</string>
     <string name="blood_type">نوع فصيلة الدم</string>
-    <string name="last_date">Last Date for Donate</string>
+    <string name="last_date">اخر مرة للتبرع</string>
     <string name="regester">تسجيل</string>
     <string name="change_password">تغيير كلمة المرور</string>
 
@@ -116,5 +116,7 @@
     <string name="exit_app">Press Back again to Exit.</string>
     <string name="some_text">هذا النص هو مثال لعرض نصوص اخرى تاتي من الموقع وهذا فقط اختبار لها</string>
     <string name="enter_search">ادخل كلمة البحث هنا</string>
+    <string name="selct_blood_and_city">اختر نوع فصيلةالدم والمدينة</string>
+    <string name="alarm">تنبية بخصوص طلبك</string>
 
 </resources>

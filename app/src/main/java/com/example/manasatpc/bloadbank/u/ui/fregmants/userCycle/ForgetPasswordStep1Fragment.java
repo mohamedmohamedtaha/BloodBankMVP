@@ -12,8 +12,8 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.manasatpc.bloadbank.R;
-import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.data.model.user.resetpassword.ResetPassword;
+import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 
 import butterknife.BindView;
@@ -31,17 +31,15 @@ import static com.example.manasatpc.bloadbank.u.data.rest.RetrofitClient.getRetr
  */
 public class ForgetPasswordStep1Fragment extends Fragment {
 
-    @BindView(R.id.Fragment_Phone_Forget_Step1)
-    TextInputEditText FragmentPhoneForgetStep1;
-    @BindView(R.id.bt_Send_Forget_Step1)
-    Button btSendForgetStep1;
-    Unbinder unbinder;
-    @BindView(R.id.Forget_Step1_progress)
-    ProgressBar ForgetStep1Progress;
-    Bundle bundle;
-
     public static final String PHONE = "phone";
-
+    @BindView(R.id.ForgetPasswordStep1Fragment_Phone)
+    TextInputEditText ForgetPasswordStep1FragmentPhone;
+    @BindView(R.id.ForgetPasswordStep1Fragment_BT_Send)
+    Button ForgetPasswordStep1FragmentBTSend;
+    @BindView(R.id.ForgetPasswordStep1Fragment_Progress_Bar)
+    ProgressBar ForgetPasswordStep1FragmentProgressBar;
+    Unbinder unbinder;
+    Bundle bundle;
 
     public ForgetPasswordStep1Fragment() {
         // Required empty public constructor
@@ -64,51 +62,44 @@ public class ForgetPasswordStep1Fragment extends Fragment {
         unbinder.unbind();
     }
 
-    @OnClick(R.id.bt_Send_Forget_Step1)
+    @OnClick(R.id.ForgetPasswordStep1Fragment_BT_Send)
     public void onViewClicked() {
         // for check network
-        boolean check_network = HelperMethod.isNetworkConnected(getActivity(),getView());
+        boolean check_network = HelperMethod.isNetworkConnected(getActivity(), getView());
         if (check_network == false) {
             return;
         }
-        final String phone = FragmentPhoneForgetStep1.getText().toString().trim();
+        final String phone = ForgetPasswordStep1FragmentPhone.getText().toString().trim();
         if (!phone.isEmpty()) {
-            ForgetStep1Progress.setVisibility(View.VISIBLE);
-        APIServices apiServices = getRetrofit().create(APIServices.class);
-        Call<ResetPassword> resetPassword = apiServices.getResetPassword(phone);
-        resetPassword.enqueue(new Callback<ResetPassword>() {
-            @Override
-            public void onResponse(Call<ResetPassword> call, Response<ResetPassword> response) {
-                ResetPassword resetPassword1 = response.body();
-                bundle.putString(PHONE, phone);
-
+            ForgetPasswordStep1FragmentProgressBar.setVisibility(View.VISIBLE);
+            APIServices apiServices = getRetrofit().create(APIServices.class);
+            Call<ResetPassword> resetPassword = apiServices.getResetPassword(phone);
+            resetPassword.enqueue(new Callback<ResetPassword>() {
+                @Override
+                public void onResponse(Call<ResetPassword> call, Response<ResetPassword> response) {
+                    ResetPassword resetPassword1 = response.body();
+                    bundle.putString(PHONE, phone);
                     if (resetPassword1.getStatus() == 1) {
                         ForgetPasswordStep2Fragment forgetPasswordStep2Fragment = new ForgetPasswordStep2Fragment();
                         HelperMethod.replece(forgetPasswordStep2Fragment, getActivity().getSupportFragmentManager(),
                                 R.id.Cycle_User_contener, null, null, bundle);
 
                         Toast.makeText(getActivity(), resetPassword1.getMsg(), Toast.LENGTH_LONG).show();
-                        ForgetStep1Progress.setVisibility(View.GONE);
+                        ForgetPasswordStep1FragmentProgressBar.setVisibility(View.GONE);
                     } else {
-                        ForgetStep1Progress.setVisibility(View.GONE);
+                        ForgetPasswordStep1FragmentProgressBar.setVisibility(View.GONE);
                         Toast.makeText(getActivity(), resetPassword1.getMsg(), Toast.LENGTH_LONG).show();
                     }
+                }
 
-
-            }
-
-            @Override
-            public void onFailure(Call<ResetPassword> call, Throwable t) {
-                ForgetStep1Progress.setVisibility(View.GONE);
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
-
-
-            }
-        });
+                @Override
+                public void onFailure(Call<ResetPassword> call, Throwable t) {
+                    ForgetPasswordStep1FragmentProgressBar.setVisibility(View.GONE);
+                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
+                }
+            });
         } else {
-            FragmentPhoneForgetStep1.setError(getString(R.string.filed_request));
+            ForgetPasswordStep1FragmentPhone.setError(getString(R.string.filed_request));
         }
-
-
     }
 }

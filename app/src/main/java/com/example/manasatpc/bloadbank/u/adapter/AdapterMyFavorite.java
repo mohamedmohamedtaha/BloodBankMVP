@@ -77,8 +77,6 @@ public class AdapterMyFavorite extends ArrayAdapter<DataMyFavouritesTwo> {
         }
         return listItemView;
     }
-
-
     static
     class ViewHolder {
         @BindView(R.id.IM_Favorite)

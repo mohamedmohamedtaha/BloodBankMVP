@@ -7,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import com.example.manasatpc.bloadbank.R;
@@ -17,18 +19,20 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AdapterDonation extends RecyclerView.Adapter<AdapterDonation.DonationViewHolder> {
+public class AdapterDonation extends RecyclerView.Adapter<AdapterDonation.DonationViewHolder> implements Filterable {
     private showDetials mListener ;
     private makeCall makeCall;
-
     private Context context;
     private ArrayList<Data2DonationRequests> dataDonations = new ArrayList<>();
+    ArrayList<Data2DonationRequests> data2DonationRequestsArrayListSearch = new ArrayList<>();
+    Data2DonationRequests data2DonationRequests;
 
     public AdapterDonation(Context context, ArrayList<Data2DonationRequests> dataDonations,showDetials mListener,makeCall makeCall) {
         this.context = context;
         this.dataDonations = dataDonations;
         this.mListener = mListener;
         this.makeCall = makeCall;
+        this.data2DonationRequestsArrayListSearch = dataDonations;
     }
 
     @NonNull
@@ -50,27 +54,62 @@ public class AdapterDonation extends RecyclerView.Adapter<AdapterDonation.Donati
 
     @Override
     public void onBindViewHolder(@NonNull DonationViewHolder holder, int position) {
-        holder.TVCity.setText( dataDonations.get(position).getCity().getName());
-       holder.TVHospital.setText(dataDonations.get(position).getHospitalName());
-        holder.TVNamePatient.setText(dataDonations.get(position).getPatientName());
-        holder.IMTypeBlood.setText(dataDonations.get(position).getBloodType().getName());
+        data2DonationRequests = data2DonationRequestsArrayListSearch.get(position);
+        holder.TVCity.setText( data2DonationRequests.getCity().getName());
+       holder.TVHospital.setText(data2DonationRequests.getHospitalName());
+        holder.TVNamePatient.setText(data2DonationRequests.getPatientName());
+        holder.IMTypeBlood.setText(data2DonationRequests.getBloodType().getName());
     }
 
     @Override
     public int getItemCount() {
-        return dataDonations.size();
+        return data2DonationRequestsArrayListSearch.size();
     }
 
-  /*  @OnClick({R.id.BT_Details, R.id.BT_Call})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.BT_Details:
-                break;
-            case R.id.BT_Call:
-                int position;
-                break;
-        }
-    }*/
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String charString = constraint.toString();
+                if (charString.isEmpty()){
+                    data2DonationRequestsArrayListSearch = dataDonations;
+                    notifyDataSetChanged();
+                }else {
+                    ArrayList filterdList = new ArrayList();
+                    for (Data2DonationRequests row : dataDonations){
+                        //change this to filter according
+                        if (row.getCity().getName().toLowerCase().contains(charString.toLowerCase()) ||
+                            row.getBloodType().getName().toLowerCase().contains(charString.toLowerCase())){
+                            filterdList.add(row);
+                        }
+                    }
+                    data2DonationRequestsArrayListSearch = filterdList;
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = data2DonationRequestsArrayListSearch;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                data2DonationRequestsArrayListSearch = (ArrayList)results.values;
+                notifyDataSetChanged();
+
+            }
+        };
+    }
+
+    /*  @OnClick({R.id.BT_Details, R.id.BT_Call})
+      public void onViewClicked(View view) {
+          switch (view.getId()) {
+              case R.id.BT_Details:
+                  break;
+              case R.id.BT_Call:
+                  int position;
+                  break;
+          }
+      }*/
     public interface showDetials {
         void itemShowDetail(Data2DonationRequests position);
     }

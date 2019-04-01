@@ -4,21 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/splash"
-
     tools:context=".u.ui.fregmants.splashCycle.SplashFragment">
 
     <ImageView style="@style/StyleForImageViewForSplashActivity" />
 
     <TextView
-        android:id="@+id/TV_Copy_Right"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="15dp"
+        android:fontFamily="@font/cairo_bold"
         android:gravity="center"
         android:text="@string/copy_right"
         android:textColor="@android:color/black"
         android:textSize="12sp"
-        android:fontFamily="@font/cairo_bold"
         android:textStyle="bold" />
 </RelativeLayout>

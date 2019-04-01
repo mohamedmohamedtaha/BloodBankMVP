@@ -1,10 +1,10 @@
 
-package com.example.manasatpc.bloadbank.u.data.model.user.profile;
+package com.example.manasatpc.bloadbank.u.data.model.user.editprofile;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Profile {
+public class EditProfile {
 
     @SerializedName("status")
     @Expose
@@ -14,7 +14,7 @@ public class Profile {
     private String msg;
     @SerializedName("data")
     @Expose
-    private ProfileData profileData;
+    private DataEditProfile data;
 
     public Integer getStatus() {
         return status;
@@ -32,12 +32,12 @@ public class Profile {
         this.msg = msg;
     }
 
-    public ProfileData getProfileData() {
-        return profileData;
+    public DataEditProfile getData() {
+        return data;
     }
 
-    public void setProfileData(ProfileData profileData) {
-        this.profileData = profileData;
+    public void setData(DataEditProfile data) {
+        this.data = data;
     }
 
 }

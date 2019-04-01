@@ -9,12 +9,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.manasatpc.bloadbank.R;
 import com.example.manasatpc.bloadbank.u.adapter.AdapterNotification;
-import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.data.model.notification.getnotificationssettings.GetNotificationSsettings;
+import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.helper.SaveData;
 
 import java.util.ArrayList;
@@ -38,6 +39,8 @@ public class SettingsNotificationFragment extends Fragment {
     @BindView(R.id.RecyclerView_Types_Cities)
     RecyclerView RecyclerViewTypesCities;
     Unbinder unbinder;
+    @BindView(R.id.SettingsNotificationFragment_RL_Empty_View)
+    RelativeLayout SettingsNotificationFragmentRLEmptyView;
 
     // TODO: Rename parameter arguments, choose names that match
 
@@ -79,16 +82,21 @@ public class SettingsNotificationFragment extends Fragment {
                         if (!getNotificationsSettings.getData().getGovernorates().isEmpty()) {
                             getNotificationsSettingsList.addAll(getNotificationsSettings.getData().getGovernorates());
                             adapterNotification.notifyDataSetChanged();
+                            SettingsNotificationFragmentRLEmptyView.setVisibility(View.GONE);
+                        }else {
+                            SettingsNotificationFragmentRLEmptyView.setVisibility(View.VISIBLE);
                         }
 
 
                     } else {
                         Toast.makeText(getActivity(), getNotificationsSettings.getMsg(), Toast.LENGTH_SHORT).show();
+                        SettingsNotificationFragmentRLEmptyView.setVisibility(View.VISIBLE);
 
 
                     }
                 } catch (Exception e) {
                     Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    SettingsNotificationFragmentRLEmptyView.setVisibility(View.VISIBLE);
 
                 }
             }
@@ -96,6 +104,7 @@ public class SettingsNotificationFragment extends Fragment {
             @Override
             public void onFailure(Call<GetNotificationSsettings> call, Throwable t) {
                 Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                SettingsNotificationFragmentRLEmptyView.setVisibility(View.GONE);
 
             }
         });

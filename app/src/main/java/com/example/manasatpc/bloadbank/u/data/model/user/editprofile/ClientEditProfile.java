@@ -1,10 +1,10 @@
 
-package com.example.manasatpc.bloadbank.u.data.model.user.profile;
+package com.example.manasatpc.bloadbank.u.data.model.user.editprofile;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class User {
+public class ClientEditProfile {
 
     @SerializedName("id")
     @Expose
@@ -33,15 +33,21 @@ public class User {
     @SerializedName("donation_last_date")
     @Expose
     private String donationLastDate;
-    @SerializedName("blood_type")
+    @SerializedName("blood_type_id")
     @Expose
-    private String bloodType;
+    private String bloodTypeId;
     @SerializedName("is_active")
     @Expose
     private String isActive;
     @SerializedName("pin_code")
     @Expose
-    private String pinCode;
+    private Object pinCode;
+    @SerializedName("city")
+    @Expose
+    private CityEditProfile city;
+    @SerializedName("blood_type")
+    @Expose
+    private BloodTypeEditProfile bloodType;
 
     public Integer getId() {
         return id;
@@ -115,12 +121,12 @@ public class User {
         this.donationLastDate = donationLastDate;
     }
 
-    public String getBloodType() {
-        return bloodType;
+    public String getBloodTypeId() {
+        return bloodTypeId;
     }
 
-    public void setBloodType(String bloodType) {
-        this.bloodType = bloodType;
+    public void setBloodTypeId(String bloodTypeId) {
+        this.bloodTypeId = bloodTypeId;
     }
 
     public String getIsActive() {
@@ -131,12 +137,28 @@ public class User {
         this.isActive = isActive;
     }
 
-    public String getPinCode() {
+    public Object getPinCode() {
         return pinCode;
     }
 
-    public void setPinCode(String pinCode) {
+    public void setPinCode(Object pinCode) {
         this.pinCode = pinCode;
+    }
+
+    public CityEditProfile getCity() {
+        return city;
+    }
+
+    public void setCity(CityEditProfile city) {
+        this.city = city;
+    }
+
+    public BloodTypeEditProfile getBloodType() {
+        return bloodType;
+    }
+
+    public void setBloodType(BloodTypeEditProfile bloodType) {
+        this.bloodType = bloodType;
     }
 
 }

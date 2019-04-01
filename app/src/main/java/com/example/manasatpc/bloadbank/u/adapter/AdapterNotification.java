@@ -47,7 +47,10 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
 
     @Override
     public int getItemCount() {
-        return getNotificationsSettingsList.size();
+        if (getNotificationsSettingsList != null){
+            return getNotificationsSettingsList.size();
+        }
+        return 0;
     }
 
     @OnClick(R.id.CB_Recycler_View)

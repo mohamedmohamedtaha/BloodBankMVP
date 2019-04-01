@@ -13,12 +13,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.manasatpc.bloadbank.R;
-import com.example.manasatpc.bloadbank.u.helper.SaveData;
-import com.example.manasatpc.bloadbank.u.ui.activities.HomeActivity;
-import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.data.model.user.login.Login;
+import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 import com.example.manasatpc.bloadbank.u.helper.RememberMy;
+import com.example.manasatpc.bloadbank.u.helper.SaveData;
+import com.example.manasatpc.bloadbank.u.ui.activities.HomeActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,25 +34,27 @@ import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.GET_DATA;
 public class LoginFragment extends Fragment {
 
     private static APIServices APIServices;
-    @BindView(R.id.Fragment_Phone_Login)
-    TextInputEditText FragmentPhoneLogin;
-    @BindView(R.id.Fragment_Password_Login)
-    TextInputEditText FragmentPasswordLogin;
-    @BindView(R.id.forget_password)
-    TextView forgetPassword;
-    @BindView(R.id.login)
-    Button login;
-    @BindView(R.id.cretae_new_user)
-    Button cretaeNewUser;
+
+    @BindView(R.id.LoginFragment_Forget_Password)
+    TextView LoginFragmentForgetPassword;
+    @BindView(R.id.LoginFragment_BT_Login)
+    Button LoginFragmentBTLogin;
+    @BindView(R.id.LoginFragment_BT_Register)
+    Button LoginFragmentBTRegister;
     Unbinder unbinder;
-    @BindView(R.id.login_progress)
-    ProgressBar loginProgress;
-    @BindView(R.id.CB_Remeber_My)
-    CheckBox CBRemeberMy;
+
+    @BindView(R.id.LoginFragment_CB_Remeber_My)
+    CheckBox LoginFragmentCBRemeberMy;
     RememberMy remeberMy;
     String phone;
     String password;
     String getAPI_key;
+    @BindView(R.id.LoginFragment_Phone)
+    TextInputEditText LoginFragmentPhone;
+    @BindView(R.id.LoginFragment_Password)
+    TextInputEditText LoginFragmentPassword;
+    @BindView(R.id.LoginFragment_Progress_Bar)
+    ProgressBar LoginFragmentProgressBar;
     private SaveData saveData;
 
     public LoginFragment() {
@@ -85,7 +87,7 @@ public class LoginFragment extends Fragment {
         unbinder.unbind();
     }
 
-    @OnClick({R.id.forget_password, R.id.login, R.id.cretae_new_user})
+    @OnClick({R.id.LoginFragment_Forget_Password, R.id.LoginFragment_BT_Login, R.id.LoginFragment_BT_Register})
     public void onViewClicked(View view) {
         // for check network
         boolean check_network = HelperMethod.isNetworkConnected(getActivity(), getView());
@@ -93,25 +95,25 @@ public class LoginFragment extends Fragment {
             return;
         }
         switch (view.getId()) {
-            case R.id.forget_password:
+            case R.id.LoginFragment_Forget_Password:
                 ForgetPasswordStep1Fragment forgetPasswordStep1Fragment = new ForgetPasswordStep1Fragment();
                 HelperMethod.replece(forgetPasswordStep1Fragment, getActivity().getSupportFragmentManager(),
                         R.id.Cycle_User_contener, null, null, saveData);
                 break;
-            case R.id.login:
-                phone = FragmentPhoneLogin.getText().toString().trim();
-                password = FragmentPasswordLogin.getText().toString().trim();
+            case R.id.LoginFragment_BT_Login:
+                phone = LoginFragmentPhone.getText().toString().trim();
+                password = LoginFragmentPassword.getText().toString().trim();
 
                 APIServices = getRetrofit().create(APIServices.class);
                 if (phone.isEmpty()) {
-                    FragmentPhoneLogin.setError(getString(R.string.filed_request));
+                    LoginFragmentPhone.setError(getString(R.string.filed_request));
                     return;
                 }
                 if (password.isEmpty()) {
-                    FragmentPasswordLogin.setError(getString(R.string.filed_request));
+                    LoginFragmentPassword.setError(getString(R.string.filed_request));
                     return;
                 } else {
-                    loginProgress.setVisibility(View.VISIBLE);
+                    LoginFragmentProgressBar.setVisibility(View.VISIBLE);
                     Call<Login> loginCall = APIServices.getLogin(phone, password);
 
                     loginCall.enqueue(new Callback<Login>() {
@@ -130,7 +132,7 @@ public class LoginFragment extends Fragment {
                                             login.getData().getClient().getDonationLastDate(), login.getData().getClient().getBloodTypeId());
 
 
-                                    if (CBRemeberMy.isChecked()) {
+                                    if (LoginFragmentCBRemeberMy.isChecked()) {
                                         remeberMy.saveDateUser(phone, password, getAPI_key);
                                     }
                                     // HelperMethod.startActivity(getActivity(), HomeActivity.class,getAPI_key);
@@ -138,11 +140,11 @@ public class LoginFragment extends Fragment {
 
 
                                     Toast.makeText(getActivity(), login.getMsg(), Toast.LENGTH_LONG).show();
-                                    loginProgress.setVisibility(View.GONE);
+                                    LoginFragmentProgressBar.setVisibility(View.GONE);
 
                                 } else {
                                     Toast.makeText(getActivity(), login.getMsg(), Toast.LENGTH_LONG).show();
-                                    loginProgress.setVisibility(View.GONE);
+                                    LoginFragmentProgressBar.setVisibility(View.GONE);
 
                                 }
 
@@ -153,14 +155,13 @@ public class LoginFragment extends Fragment {
 
                         @Override
                         public void onFailure(Call<Login> call, Throwable t) {
-                            loginProgress.setVisibility(View.GONE);
-
+                            LoginFragmentProgressBar.setVisibility(View.GONE);
                         }
                     });
                 }
 
                 break;
-            case R.id.cretae_new_user:
+            case R.id.LoginFragment_BT_Register:
                 RegesterFragment regesterFragment = new RegesterFragment();
                 HelperMethod.replece(regesterFragment, getActivity().getSupportFragmentManager(),
                         R.id.Cycle_User_contener, null, getString(R.string.create_new_user), saveData);

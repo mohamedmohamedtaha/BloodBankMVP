@@ -8,23 +8,32 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.manasatpc.bloadbank.R;
 import com.example.manasatpc.bloadbank.u.adapter.AdapterDonation;
-import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.data.model.donation.donationrequests.Data2DonationRequests;
 import com.example.manasatpc.bloadbank.u.data.model.donation.donationrequests.DonationRequests;
+import com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes.BloodTypes;
+import com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes.DataBloodTypes;
+import com.example.manasatpc.bloadbank.u.data.model.general.cities.Cities;
+import com.example.manasatpc.bloadbank.u.data.model.general.cities.DataCities;
+import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 import com.example.manasatpc.bloadbank.u.helper.OnEndless;
 import com.example.manasatpc.bloadbank.u.helper.SaveData;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -46,6 +55,12 @@ public class ListRequestsDonationFragment extends Fragment {
     RelativeLayout emptyViewCategory;
     @BindView(R.id.loading_indicator)
     ProgressBar loadingIndicator;
+    @BindView(R.id.ListRequestsDonationFragment_IM_Search)
+    ImageView ListRequestsDonationFragmentIMSearch;
+    @BindView(R.id.ListRequestsDonationFragment_Select_City)
+    Spinner ListRequestsDonationFragmentSelectCity;
+    @BindView(R.id.ListRequestsDonationFragment_Select_Blood_Type)
+    Spinner ListRequestsDonationFragmentSelectBloodType;
     Unbinder unbinder;
     private int max = 0;
     ArrayList<Data2DonationRequests> dataDonations = new ArrayList<>();
@@ -53,6 +68,14 @@ public class ListRequestsDonationFragment extends Fragment {
     private APIServices apiServices;
     Bundle bundle;
     private SaveData saveData;
+    int IDPosition;
+    Integer positionCity;
+    Integer positionBloodType;
+    int blood_type;
+    ArrayList<String> strings = new ArrayList<>();
+    final ArrayList<Integer> Ids = new ArrayList<>();
+    private ArrayList<Integer> IdsCity = new ArrayList<>();
+    final ArrayList<Integer> IdsBloodType = new ArrayList<>();
 
     public ListRequestsDonationFragment() {
         // Required empty public constructor
@@ -66,17 +89,13 @@ public class ListRequestsDonationFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_list_requests_donation, container, false);
         unbinder = ButterKnife.bind(this, view);
         bundle = getArguments();
-
         saveData = getArguments().getParcelable(GET_DATA);
         dataDonations.clear();
-
+        getBloodTypes();
         apiServices = getRetrofit().create(APIServices.class);
-
-
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         list.setLayoutManager(linearLayoutManager);
         OnEndless onEndless = new OnEndless(linearLayoutManager, 1) {
-
             @Override
             public void onLoadMore(int current_page) {
                 if (current_page <= max) {
@@ -105,8 +124,6 @@ public class ListRequestsDonationFragment extends Fragment {
         });
         list.setAdapter(adapterDonation);
         getDonation();
-
-
         return view;
     }
 
@@ -157,6 +174,79 @@ public class ListRequestsDonationFragment extends Fragment {
         emptyViewCategory.setVisibility(View.VISIBLE);
     }
 
+    private void getBloodTypes() {
+        APIServices apiServicesgetBloodTypes = getRetrofit().create(APIServices.class);
+        final Call<BloodTypes> bloodTypesCall = apiServicesgetBloodTypes.getBloodTypes();
+        bloodTypesCall.enqueue(new Callback<BloodTypes>() {
+            @Override
+            public void onResponse(Call<BloodTypes> call, Response<BloodTypes> response) {
+                String getResult;
+                ArrayList<String> strings = new ArrayList<>();
+                BloodTypes bloodTypes = response.body();
+                if (bloodTypes.getStatus() == 1) {
+                    try {
+                        strings.add(getString(R.string.blood_type));
+                        IdsBloodType.add(0);
+                        List<DataBloodTypes> bloodTypesList = bloodTypes.getData();
+                        for (int i = 0; i < bloodTypesList.size(); i++) {
+                            getResult = bloodTypesList.get(i).getName();
+                            strings.add(getResult);
+                            positionBloodType = bloodTypesList.get(i).getId();
+                            IdsBloodType.add(positionBloodType);
+
+                        }
+
+                        HelperMethod.showGovernorates(strings, getActivity(), ListRequestsDonationFragmentSelectBloodType);
+
+                    } catch (Exception e) {
+                        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BloodTypes> call, Throwable t) {
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
+
+            }
+        });
+    }
+    private void getCities(int getIdGovernorates) {
+        APIServices apiServicesgetCities = getRetrofit().create(APIServices.class);
+        final Call<Cities> citiesCall = apiServicesgetCities.getCities(getIdGovernorates);
+        citiesCall.enqueue(new Callback<Cities>() {
+            @Override
+            public void onResponse(Call<Cities> call, Response<Cities> response) {
+                String getResult;
+                ArrayList<String> strings = new ArrayList<>();
+                IdsCity = new ArrayList<>();
+                Cities cities = response.body();
+                if (cities.getStatus() == 1) {
+                    try {
+                        strings.add(getString(R.string.select_city));
+                        IdsCity.add(0);
+                        List<DataCities> dataCities = cities.getData();
+                        for (int i = 0; i < dataCities.size(); i++) {
+                            getResult = dataCities.get(i).getName();
+                            strings.add(getResult);
+                            positionCity = dataCities.get(i).getId();
+                            IdsCity.add(positionCity);
+                        }
+                        HelperMethod.showGovernorates(strings, getActivity(), ListRequestsDonationFragmentSelectCity);
+                    } catch (Exception e) {
+                        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Cities> call, Throwable t) {
+                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
     @Override
     public void onDestroyView() {
         super.onDestroyView();
@@ -164,4 +254,12 @@ public class ListRequestsDonationFragment extends Fragment {
     }
 
 
+    @OnClick(R.id.ListRequestsDonationFragment_IM_Search)
+    public void onViewClicked() {
+        String textBloodType = ListRequestsDonationFragmentSelectBloodType.getSelectedItem().toString();
+        String textBloodT = ListRequestsDonationFragmentSelectBloodType.getSelectedItem().toString();
+           // emptyViewCategory.setVisibility(View.VISIBLE);
+            adapterDonation.getFilter().filter(textBloodType);
+
+    }
 }

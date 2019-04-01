@@ -30,6 +30,7 @@ public class AdapterArticle extends RecyclerView.Adapter<AdapterArticle.ArticleV
     private ArrayList<Data2Posts> dataPosts = new ArrayList<>();
     //list for filtered Seach
     ArrayList<Data2Posts> postsArrayListSearch = new ArrayList<>();
+    Data2Posts data2Posts ;
 
     public AdapterArticle(Context context, ArrayList<Data2Posts> dataPosts,showDetial mListener,saveFavorite saveFavorite) {
         this.context = context;
@@ -58,7 +59,7 @@ public class AdapterArticle extends RecyclerView.Adapter<AdapterArticle.ArticleV
 
     @Override
     public void onBindViewHolder(@NonNull ArticleViewHolder holder, int position) {
-        Data2Posts data2Posts = postsArrayListSearch.get(position);
+         data2Posts = postsArrayListSearch.get(position);
 
         if (TextUtils.isEmpty(data2Posts.getTitle())){
             holder.TVShowTitleArticle.setText(R.string.no_title);
@@ -162,9 +163,7 @@ public class AdapterArticle extends RecyclerView.Adapter<AdapterArticle.ArticleV
                     int position = getAdapterPosition();
                     Data2Posts data2Posts1 = dataPosts.get(position);
                     if (mListener != null) saveFavorite.itemSaveFavorite(data2Posts1);
-
-
-                }
+                                 }
             });
 
 

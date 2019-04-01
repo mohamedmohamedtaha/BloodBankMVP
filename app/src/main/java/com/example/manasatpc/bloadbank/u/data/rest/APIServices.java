@@ -10,13 +10,16 @@ import com.example.manasatpc.bloadbank.u.data.model.general.contact.Contact;
 import com.example.manasatpc.bloadbank.u.data.model.general.governorates.Governorates;
 import com.example.manasatpc.bloadbank.u.data.model.general.settings.Settings;
 import com.example.manasatpc.bloadbank.u.data.model.notification.getnotificationssettings.GetNotificationSsettings;
+import com.example.manasatpc.bloadbank.u.data.model.notification.notificationslist.NotificationsList;
 import com.example.manasatpc.bloadbank.u.data.model.posts.Posts;
 import com.example.manasatpc.bloadbank.u.data.model.posts.my_favourites.MyFavourites;
 import com.example.manasatpc.bloadbank.u.data.model.posts.post.Post;
 import com.example.manasatpc.bloadbank.u.data.model.posts.posttogglefavourite.PostToggleFavourite;
+import com.example.manasatpc.bloadbank.u.data.model.user.editprofile.EditProfile;
+import com.example.manasatpc.bloadbank.u.data.model.user.getprofile.GetProfile;
 import com.example.manasatpc.bloadbank.u.data.model.user.login.Login;
 import com.example.manasatpc.bloadbank.u.data.model.user.newpassword.NewPassword;
-import com.example.manasatpc.bloadbank.u.data.model.user.profile.Profile;
+
 import com.example.manasatpc.bloadbank.u.data.model.user.register.Register;
 import com.example.manasatpc.bloadbank.u.data.model.user.resetpassword.ResetPassword;
 
@@ -40,7 +43,7 @@ public interface APIServices {
                                @Field("birth_date") String birth_date, @Field("city_id") int city_id,
                                @Field("phone") String number, @Field("donation_last_date") String donation_last_date,
                                @Field("password") String password, @Field("password_confirmation") String password_confirmation,
-                               @Field("blood_type") int blood_type);
+                               @Field("blood_type_id") int blood_type);
 
     @POST("reset-password")
     @FormUrlEncoded
@@ -53,11 +56,14 @@ public interface APIServices {
 
     @POST("profile")
     @FormUrlEncoded
-    Call<Profile> getProfile(@Field("name") String name,
-                             @Field("email") String email, @Field("birth_date") String birth_date, @Field("city_id") String city_id,
-                             @Field("phone") String phone, @Field("donation_last_date") String donation_last_date, @Field("password") String password,
-                             @Field("password_confirmation") String password_confirmation, @Field("blood_type") String blood_type, @Field("api_token") String api_token);
+    Call<EditProfile> editProfile(@Field("name") String name,
+                                  @Field("email") String email, @Field("birth_date") String birth_date, @Field("city_id") int city_id,
+                                  @Field("phone") String phone, @Field("donation_last_date") String donation_last_date, @Field("password") String password,
+                                  @Field("password_confirmation") String password_confirmation, @Field("blood_type_id") int blood_type_id, @Field("api_token") String api_token);
 
+    @POST("profile")
+    @FormUrlEncoded
+    Call<GetProfile> getProfile(@Field("api_token") String api_token);
 
     //   ---------------------  End User  ---------------------------------------
 
@@ -119,6 +125,10 @@ public interface APIServices {
 
     @GET("settings")
     Call<Settings> getSettings(@Query("api_token") String api_token);
+    //for notificatios
+    @GET("notifications")
+    Call<NotificationsList> getNotificationsList(@Query("api_token") String api_token);
+
 
 
 }

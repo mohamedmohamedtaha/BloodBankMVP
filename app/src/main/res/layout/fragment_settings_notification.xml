@@ -18,6 +18,29 @@
         android:layout_width="match_parent"
         android:layout_marginTop="@dimen/dimens_6xl"
         android:layout_height="wrap_content"/>
+    <RelativeLayout
+        android:id="@+id/SettingsNotificationFragment_RL_Empty_View"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true">
+
+        <ImageView
+            android:id="@+id/SettingsNotificationFragment_Empty_Image"
+            style="@style/EmptyViewImage" />
+
+        <TextView
+            android:id="@+id/SettingsNotificationFragment_TV_Empty_View"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/SettingsNotificationFragment_Empty_Image"
+            android:layout_marginTop="@dimen/dimens_xl"
+            android:fontFamily="@font/cairo_regular"
+            android:gravity="center"
+            android:text="@string/no_data"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/txt_size_xl" />
+    </RelativeLayout>
 
     <android.support.v7.widget.RecyclerView
         android:layout_marginTop="@dimen/dimens_6xl"
