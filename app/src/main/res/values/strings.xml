@@ -117,6 +117,11 @@
     <string name="some_text">هذا النص هو مثال لعرض نصوص اخرى تاتي من الموقع وهذا فقط اختبار لها</string>
     <string name="enter_search">ادخل كلمة البحث هنا</string>
     <string name="selct_blood_and_city">اختر نوع فصيلةالدم والمدينة</string>
-    <string name="alarm">تنبية بخصوص طلبك</string>
+    <string name="alarm">تنبية بخصوص طلبك رقم:</string>
+    <string name="blood_types">فصايل الدم</string>
+    <string name="govermentes">المحافظات</string>
+    <string name="save">حفظ</string>
+    <string name="no_notifications">لا توجد إشعارات</string>
+    <string name="alarms">التنبيهات</string>
 
 </resources>

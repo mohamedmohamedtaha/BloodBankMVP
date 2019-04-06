@@ -223,8 +223,7 @@ public class RegesterFragment extends Fragment {
                 BloodTypes bloodTypes = response.body();
                 if (bloodTypes.getStatus() == 1) {
                     try {
-                        RegesterFragmentBloodType.setPrompt(getString(R.string.blood_type));
-                     //   strings.add(getString(R.string.blood_type));
+                        strings.add(getString(R.string.blood_type));
                         IdsBloodType.add(0);
                         List<DataBloodTypes> bloodTypesList = bloodTypes.getData();
                         for (int i = 0; i < bloodTypesList.size(); i++) {
@@ -232,11 +231,8 @@ public class RegesterFragment extends Fragment {
                             strings.add(getResult);
                             positionBloodType = bloodTypesList.get(i).getId();
                             IdsBloodType.add(positionBloodType);
-
                         }
-
                         HelperMethod.showGovernorates(strings, getActivity(), RegesterFragmentBloodType);
-
                     } catch (Exception e) {
                         Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
 

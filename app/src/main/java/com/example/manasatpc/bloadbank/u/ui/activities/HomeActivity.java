@@ -3,37 +3,39 @@ package com.example.manasatpc.bloadbank.u.ui.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.manasatpc.bloadbank.R;
+import com.example.manasatpc.bloadbank.u.data.model.notification.notificationscount.NotificationsCount;
+import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.helper.DrawerLocker;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 import com.example.manasatpc.bloadbank.u.helper.RememberMy;
 import com.example.manasatpc.bloadbank.u.helper.SaveData;
+import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.notifications.NotificationListFragment;
+import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.notifications.SettingsNotificationFragment;
 import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.others.AboutAppFragment;
 import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.others.ConnectWithUsFragment;
-import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.others.CustomFragment;
-import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.others.EditInformationFragment;
-import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.others.MyFavoriteFragment;
-import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.others.SettingsNotificationFragment;
-import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.regusets.MapFragment;
-import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.regusets.RequestDonationFragment;
+import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.CustomFragment;
+import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.EditInformationFragment;
+import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.MyFavoriteFragment;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
+import static com.example.manasatpc.bloadbank.u.data.rest.RetrofitClient.getRetrofit;
 import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.GET_DATA;
 
 public class HomeActivity extends AppCompatActivity
@@ -48,12 +50,13 @@ public class HomeActivity extends AppCompatActivity
     Intent intent;
     Bundle bundle;
     RememberMy logout;
-    @BindView(R.id.Fab_Request_Donation)
-    FloatingActionButton FabRequestDonation;
+    @BindView(R.id.TV_Count_Notification)
+    TextView TVCountNotification;
     private Boolean exitApp = false;
     SaveData saveData;
     public static int titleID;
     ActionBarDrawerToggle toggle;
+    private APIServices apiServices;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +96,29 @@ public class HomeActivity extends AppCompatActivity
         toggle.syncState();
 
         navView.setNavigationItemSelectedListener(this);
+
+        //For show Notification count
+        apiServices = getRetrofit().create(APIServices.class);
+        apiServices.getNotificationsCount("W4mx3VMIWetLcvEcyF554CfxjZHwdtQldbdlCl2XAaBTDIpNjKO1f7CHuwKl").enqueue(new Callback<NotificationsCount>() {
+            @Override
+            public void onResponse(Call<NotificationsCount> call, Response<NotificationsCount> response) {
+                NotificationsCount notificationsCount = response.body();
+                try {
+                    if (notificationsCount.getStatus() == 1) {
+                        TVCountNotification.setText(notificationsCount.getData().getNotificationsCount().toString());
+                    } else {
+                        Toast.makeText(getApplicationContext(), notificationsCount.getMsg(), Toast.LENGTH_SHORT).show();
+                    }
+                } catch (Exception e) {
+                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<NotificationsCount> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
     }
@@ -147,7 +173,9 @@ public class HomeActivity extends AppCompatActivity
                 onBackPressed();
                 break;
             case R.id.action_notification:
-                Toast.makeText(this, "This Action is notification", Toast.LENGTH_SHORT).show();
+                NotificationListFragment notificationListFragment = new NotificationListFragment();
+                HelperMethod.replece(notificationListFragment, getSupportFragmentManager(),
+                        R.id.Cycle_Home_contener, toolbar, getString(R.string.alarms), saveData);
                 break;
             default:
 
@@ -197,13 +225,7 @@ public class HomeActivity extends AppCompatActivity
                 break;
             case R.id.sign_out:
                 logout.removeDateUser(this);
-              //  finish();
-                HelperMethod.startActivity(getApplicationContext(), LoginActivity.class,saveData);
-
-            /*
-                LoginFragment loginFragment = new LoginFragment();
-                HelperMethod.replece(loginFragment, getSupportFragmentManager(),
-                        R.id.Cycle_Home_contener, null, null, saveData);*/
+                HelperMethod.startActivity(getApplicationContext(), LoginActivity.class, saveData);
 
 
 /*                MapFragment mapFragment = new MapFragment();
@@ -234,13 +256,6 @@ public class HomeActivity extends AppCompatActivity
         int lockMode = enabled ? DrawerLayout.LOCK_MODE_UNLOCKED : DrawerLayout.LOCK_MODE_LOCKED_CLOSED;
         drawerLayout.setDrawerLockMode(lockMode);
         toggle.setDrawerIndicatorEnabled(enabled);
-    }
-
-    @OnClick(R.id.Fab_Request_Donation)
-    public void onViewClicked() {
-        RequestDonationFragment requestDonationFragment = new RequestDonationFragment();
-        HelperMethod.replece(requestDonationFragment, getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.request_donation), saveData);
-
     }
 
     @Override

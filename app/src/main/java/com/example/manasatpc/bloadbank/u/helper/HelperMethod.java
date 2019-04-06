@@ -14,22 +14,26 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.support.v7.widget.Toolbar;
 
 import com.bumptech.glide.manager.SupportRequestManagerFragment;
 import com.example.manasatpc.bloadbank.R;
-import com.example.manasatpc.bloadbank.u.ui.activities.HomeActivity;
 import com.example.manasatpc.bloadbank.u.ui.activities.LoginActivity;
 import com.example.manasatpc.bloadbank.u.ui.fregmants.userCycle.LoginFragment;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
+import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 public class HelperMethod {
     public static final String API_KEY = "API_KEY";
@@ -116,17 +120,18 @@ public class HelperMethod {
                 Snackbar.make(view, context.getString(R.string.time_out), Snackbar.LENGTH_LONG).show();
                 HelperMethod.startActivity(context, LoginActivity.class, saveData);
 
-                    LoginFragment loginFragment = new LoginFragment();
-                      replece(loginFragment, fragmentManager, R.id.Cycle_User_contener, null, null, saveData);
+                LoginFragment loginFragment = new LoginFragment();
+                replece(loginFragment, fragmentManager, R.id.Cycle_User_contener, null, null, saveData);
             }
         };
         countDownTimer.start();
 
     }
-    public static void stopCountdownTimer(){
-        if (countDownTimer !=null){
+
+    public static void stopCountdownTimer() {
+        if (countDownTimer != null) {
             countDownTimer.cancel();
-            countDownTimer= null;
+            countDownTimer = null;
         }
     }
 
@@ -199,35 +204,28 @@ public class HelperMethod {
             }
         }
     }
-    public static void openWebSite(Context context,String url){
+
+    public static void openWebSite(Context context, String url) {
         Uri UrlLink = Uri.parse(url);
-        Intent webSite = new Intent(Intent.ACTION_VIEW,UrlLink);
+        Intent webSite = new Intent(Intent.ACTION_VIEW, UrlLink);
         context.startActivity(webSite);
     }
+
+    public static String formatDateFromDateString(String inputDateFormat, String outputDateFormat, String inputDate) throws ParseException {
+        Date mParsedDate;
+        String mOutputDateString;
+        SimpleDateFormat mInputDateFormat = new SimpleDateFormat(inputDateFormat, java.util.Locale.getDefault());
+        SimpleDateFormat mOutputDateFormat = new SimpleDateFormat(outputDateFormat, java.util.Locale.getDefault());
+        mParsedDate = mInputDateFormat.parse(inputDate);
+        mOutputDateString = mOutputDateFormat.format(mParsedDate);
+        return mOutputDateString;
+    }
+
+    public static String formatDay(String inputFormat, String inputDate) throws ParseException {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(inputFormat);
+        Date dt1 = dateFormat.parse(inputDate);
+        DateFormat dateFormat1 = new SimpleDateFormat("EEEE", new Locale("ar"));
+        String finalDay = dateFormat1.format(dt1);
+        return finalDay;
+    }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

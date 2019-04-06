@@ -10,6 +10,7 @@ import com.example.manasatpc.bloadbank.u.data.model.general.contact.Contact;
 import com.example.manasatpc.bloadbank.u.data.model.general.governorates.Governorates;
 import com.example.manasatpc.bloadbank.u.data.model.general.settings.Settings;
 import com.example.manasatpc.bloadbank.u.data.model.notification.getnotificationssettings.GetNotificationSsettings;
+import com.example.manasatpc.bloadbank.u.data.model.notification.notificationscount.NotificationsCount;
 import com.example.manasatpc.bloadbank.u.data.model.notification.notificationslist.NotificationsList;
 import com.example.manasatpc.bloadbank.u.data.model.posts.Posts;
 import com.example.manasatpc.bloadbank.u.data.model.posts.my_favourites.MyFavourites;
@@ -19,7 +20,6 @@ import com.example.manasatpc.bloadbank.u.data.model.user.editprofile.EditProfile
 import com.example.manasatpc.bloadbank.u.data.model.user.getprofile.GetProfile;
 import com.example.manasatpc.bloadbank.u.data.model.user.login.Login;
 import com.example.manasatpc.bloadbank.u.data.model.user.newpassword.NewPassword;
-
 import com.example.manasatpc.bloadbank.u.data.model.user.register.Register;
 import com.example.manasatpc.bloadbank.u.data.model.user.resetpassword.ResetPassword;
 
@@ -64,31 +64,42 @@ public interface APIServices {
     @POST("profile")
     @FormUrlEncoded
     Call<GetProfile> getProfile(@Field("api_token") String api_token);
-
     //   ---------------------  End User  ---------------------------------------
 
     //   ---------------------  for posts ---------------------------------------
     @GET("posts")
     Call<Posts> getPosts(@Query("api_token") String api_token, @Query("page") int page);
-    //   ---------------------  for post ---------------------------------------
 
     @GET("post")
     Call<Post> getPost(@Query("api_token") String api_token, @Query("post_id") int post_id);
 
-    //   ---------------------  for Governorates ---------------------------------------
+    @GET("my-favourites")
+    Call<MyFavourites> getMyFavourites(@Query("api_token") String api_token);
 
+    @POST("post-toggle-favourite")
+    @FormUrlEncoded
+    Call<PostToggleFavourite> getPostToggleFavourite(@Field("api_token") String api_token, @Field("post_id") String post_id);
+    //   ---------------------  End Posts ---------------------------------------
+
+
+    //   ---------------------  for General ---------------------------------------
     @GET("governorates")
     Call<Governorates> getGovernorates();
 
     @GET("cities")
     Call<Cities> getCities(@Query("governorate_id") int governorate_id);
 
-
     @POST("contact")
     @FormUrlEncoded
     Call<Contact> getContact(@Field("api_token") String api_token, @Field("title") String title,
                              @Field("message") String message);
 
+    @GET("blood-types")
+    Call<BloodTypes> getBloodTypes();
+
+    @GET("settings")
+    Call<Settings> getSettings(@Query("api_token") String api_token);
+    //   ---------------------  for Donation ---------------------------------------
 
     @GET("donation-requests")
     Call<DonationRequests> getDonationRequests(@Query("api_token") String api_token);
@@ -104,31 +115,25 @@ public interface APIServices {
                                                          @Field("city_id") int city_id, @Field("phone") String phone, @Field("notes") String notes,
                                                          @Field("latitude") String latitude, @Field("longitude") String longitude);
 
-
     @GET("donation-requests")
     Call<DonationRequestsFilter> getDonationRequestFilter(@Query("api_token") String api_token, @Query("blood_type") String blood_type, @Query("city_id") int city_id, @Query("page") int page);
 
 
-    @GET("my-favourites")
-    Call<MyFavourites> getMyFavourites(@Query("api_token") String api_token);
-
-    @POST("post-toggle-favourite")
-    @FormUrlEncoded
-    Call<PostToggleFavourite> getPostToggleFavourite(@Field("api_token") String api_token, @Field("post_id") String post_id);
+    //   ---------------------  for Notification ---------------------------------------
 
     @FormUrlEncoded
     @POST("notifications-settings")
     Call<GetNotificationSsettings> getGetNotificationsSettings(@Field("api_token") String api_token);
 
-    @GET("blood-types")
-    Call<BloodTypes> getBloodTypes();
+    @FormUrlEncoded
+    @POST("notifications-settings")
+    Call<GetNotificationSsettings> getGetNotificationsSettings(@Field("api_token") String api_token,@Field("governorates[0]") String governoratesZero
+    ,@Field("governorates[1]") String governoratesOne,@Field("blood_types[0]") String blood_typesZero,@Field("blood_types[1]") String blood_typesOne);
 
-    @GET("settings")
-    Call<Settings> getSettings(@Query("api_token") String api_token);
-    //for notificatios
     @GET("notifications")
     Call<NotificationsList> getNotificationsList(@Query("api_token") String api_token);
 
-
+    @GET("notifications-count")
+    Call<NotificationsCount> getNotificationsCount(@Query("api_token") String api_token);
 
 }

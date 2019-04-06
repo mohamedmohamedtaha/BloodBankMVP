@@ -2,13 +2,13 @@ package com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.regusets;
 
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -42,6 +42,7 @@ import retrofit2.Response;
 import static com.example.manasatpc.bloadbank.u.data.rest.RetrofitClient.getRetrofit;
 import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.GET_DATA;
 import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.makePhoneCall;
+import static com.example.manasatpc.bloadbank.u.ui.activities.HomeActivity.toolbar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -62,6 +63,8 @@ public class ListRequestsDonationFragment extends Fragment {
     @BindView(R.id.ListRequestsDonationFragment_Select_Blood_Type)
     Spinner ListRequestsDonationFragmentSelectBloodType;
     Unbinder unbinder;
+    @BindView(R.id.Fab_Request_Donation)
+    FloatingActionButton FabRequestDonation;
     private int max = 0;
     ArrayList<Data2DonationRequests> dataDonations = new ArrayList<>();
     private AdapterDonation adapterDonation;
@@ -76,11 +79,9 @@ public class ListRequestsDonationFragment extends Fragment {
     final ArrayList<Integer> Ids = new ArrayList<>();
     private ArrayList<Integer> IdsCity = new ArrayList<>();
     final ArrayList<Integer> IdsBloodType = new ArrayList<>();
-
     public ListRequestsDonationFragment() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -109,7 +110,7 @@ public class ListRequestsDonationFragment extends Fragment {
             @Override
             public void itemShowDetail(Data2DonationRequests position) {
                 int donationRequest = position.getId();
-                //  Toast.makeText(getActivity(), "AA : " + donationRequest, Toast.LENGTH_SHORT).show();
+                  Toast.makeText(getActivity(), position.getLatitude() + "\n" + position.getLongitude(), Toast.LENGTH_SHORT).show();
                 DetailRequestDonationFragment detailRequestDonationFragment = new DetailRequestDonationFragment();
                 HelperMethod.replece(detailRequestDonationFragment, getActivity().getSupportFragmentManager(),
                         R.id.Cycle_Home_contener, null, null, saveData);
@@ -212,6 +213,7 @@ public class ListRequestsDonationFragment extends Fragment {
             }
         });
     }
+
     private void getCities(int getIdGovernorates) {
         APIServices apiServicesgetCities = getRetrofit().create(APIServices.class);
         final Call<Cities> citiesCall = apiServicesgetCities.getCities(getIdGovernorates);
@@ -254,12 +256,22 @@ public class ListRequestsDonationFragment extends Fragment {
     }
 
 
-    @OnClick(R.id.ListRequestsDonationFragment_IM_Search)
-    public void onViewClicked() {
-        String textBloodType = ListRequestsDonationFragmentSelectBloodType.getSelectedItem().toString();
-        String textBloodT = ListRequestsDonationFragmentSelectBloodType.getSelectedItem().toString();
-           // emptyViewCategory.setVisibility(View.VISIBLE);
-            adapterDonation.getFilter().filter(textBloodType);
+    @OnClick({R.id.ListRequestsDonationFragment_IM_Search, R.id.Fab_Request_Donation})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.ListRequestsDonationFragment_IM_Search:
+                String textBloodType = ListRequestsDonationFragmentSelectBloodType.getSelectedItem().toString();
+                String textBloodT = ListRequestsDonationFragmentSelectBloodType.getSelectedItem().toString();
+                // emptyViewCategory.setVisibility(View.VISIBLE);
+                adapterDonation.getFilter().filter(textBloodType);
+                break;
+            case R.id.Fab_Request_Donation:
+                RequestDonationFragment requestDonationFragment = new RequestDonationFragment();
+                HelperMethod.replece(requestDonationFragment, getActivity().getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.request_donation), saveData);
 
+                break;
+        }
     }
 }
+
+

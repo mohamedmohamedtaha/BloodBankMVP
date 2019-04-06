@@ -1,50 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".u.ui.fregmants.homeCycle.others.SettingsNotificationFragment">
+    android:background="@android:color/white"
+    tools:context=".u.ui.fregmants.homeCycle.notifications.SettingsNotificationFragment">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <TextView
         android:layout_width="match_parent"
-        android:text="@string/some_text"
-        android:textSize="@dimen/txt_size_xl"
-        android:gravity="center"
-        android:layout_height="wrap_content" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/RecyclerView_Types_Blood"
-        android:layout_width="match_parent"
-        android:layout_marginTop="@dimen/dimens_6xl"
-        android:layout_height="wrap_content"/>
-    <RelativeLayout
-        android:id="@+id/SettingsNotificationFragment_RL_Empty_View"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true">
+        android:layout_marginTop="@dimen/dimens_l"
+        android:gravity="center"
+        android:text="@string/some_text"
+        android:textSize="@dimen/txt_size_xl" />
 
-        <ImageView
-            android:id="@+id/SettingsNotificationFragment_Empty_Image"
-            style="@style/EmptyViewImage" />
-
-        <TextView
-            android:id="@+id/SettingsNotificationFragment_TV_Empty_View"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/SettingsNotificationFragment_Empty_Image"
-            android:layout_marginTop="@dimen/dimens_xl"
-            android:fontFamily="@font/cairo_regular"
-            android:gravity="center"
-            android:text="@string/no_data"
-            android:textAppearance="?android:textAppearanceMedium"
-            android:textColor="@android:color/black"
-            android:textSize="@dimen/txt_size_xl" />
-    </RelativeLayout>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_xl"
+        android:background="@drawable/background_notification"
+        android:fontFamily="@font/cairo_bold"
+        android:gravity="start"
+        android:paddingEnd="@dimen/dimens_l"
+        android:text="@string/blood_types"
+        android:textSize="@dimen/txt_size_m"
+        android:layout_marginEnd="@dimen/dimens_l"
+        android:layout_marginStart="@dimen/dimens_l"
+        />
 
     <android.support.v7.widget.RecyclerView
-        android:layout_marginTop="@dimen/dimens_6xl"
-        android:id="@+id/RecyclerView_Types_Cities"
+        android:id="@+id/SettingsNotificationFragment_RecyclerView_Types_Blood"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_m"
+        android:layout_marginStart="@dimen/dimens_l"
+        android:layout_marginEnd="@dimen/dimens_l"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_xl"
+        android:background="@drawable/background_notification"
+        android:fontFamily="@font/cairo_bold"
+        android:paddingEnd="@dimen/dimens_l"
+        android:text="@string/govermentes"
+        android:textSize="@dimen/txt_size_m"
+        android:layout_marginStart="@dimen/dimens_l"
+        android:layout_marginEnd="@dimen/dimens_l"
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/SettingsNotificationFragment_RecyclerView_Types_Cities"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimens_l"
+        android:layout_marginEnd="@dimen/dimens_l"
+        android:layout_marginTop="@dimen/dimens_m" />
+    <Button
+        android:id="@+id/RSettingsNotificationFragment_BT_Save"
+        style="@style/StyleButton"
+        android:layout_marginTop="@dimen/dimens_xl"
+        android:background="@color/colorButtonRegester"
+        android:text="@string/save" />
+
 </LinearLayout>
+    <ProgressBar
+        android:id="@+id/SettingsNotificationFragment_Progress_Bar"
+        style="@style/StyleProgressBar" />
+
+
+</RelativeLayout>

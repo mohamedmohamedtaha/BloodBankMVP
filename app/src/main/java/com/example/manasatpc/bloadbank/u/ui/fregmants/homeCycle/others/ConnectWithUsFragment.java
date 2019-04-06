@@ -163,6 +163,7 @@ public class ConnectWithUsFragment extends Fragment {
                 final String title_message = FragmentConnectUsTitle.getText().toString().trim();
                 final String text_message = FragmentConnectUsTextMessage.getText().toString().trim();
                 apiServices = getRetrofit().create(APIServices.class);
+
                 if (TextUtils.isEmpty(title_message) || TextUtils.isEmpty(text_message)) {
                     Toast.makeText(getActivity(), getString(R.string.filed_request), Toast.LENGTH_SHORT).show();
                 } else {
@@ -170,20 +171,22 @@ public class ConnectWithUsFragment extends Fragment {
                         @Override
                         public void onResponse(Call<Contact> call, Response<Contact> response) {
                             Contact contact = response.body();
-
-                            if (contact.getStatus() == 1) {
-                                Toast.makeText(getActivity(), contact.getMsg(), Toast.LENGTH_SHORT).show();
-                                FragmentConnectUsTitle.setText("");
-                                FragmentConnectUsTextMessage.setText("");
-                            } else {
-                                Toast.makeText(getActivity(), contact.getMsg(), Toast.LENGTH_SHORT).show();
+                            try {
+                                if (contact.getStatus() == 1) {
+                                    Toast.makeText(getActivity(), contact.getMsg(), Toast.LENGTH_SHORT).show();
+                                    FragmentConnectUsTitle.setText("");
+                                    FragmentConnectUsTextMessage.setText("");
+                                } else {
+                                    Toast.makeText(getActivity(), contact.getMsg(), Toast.LENGTH_SHORT).show();
+                                }
+                            } catch (Exception e) {
+                                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         @Override
                         public void onFailure(Call<Contact> call, Throwable t) {
                             Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
-
                         }
                     });
                 }

@@ -1,4 +1,4 @@
-package com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.others;
+package com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle;
 
 
 import android.os.Bundle;
@@ -77,7 +77,6 @@ public class EditInformationFragment extends Fragment {
     @BindView(R.id.EditInformationFragment_Progress_Bar)
     ProgressBar EditInformationFragmentProgressBar;
     Unbinder unbinder;
-
     private APIServices apiServices;
     private SaveData saveData;
     boolean check_network;
@@ -91,11 +90,8 @@ public class EditInformationFragment extends Fragment {
     int IDPosition;
     Integer positionCity;
     Integer positionBloodType;
-    int blood_type;
     ArrayList<String> stringsBloodType = new ArrayList<>();
-    ArrayList<String> stringsCity = new ArrayList<>();
     ArrayList<String> stringsGaverment = new ArrayList<>();
-
     final ArrayList<Integer> IdsGeverment = new ArrayList<>();
     private ArrayList<Integer> IdsCity = new ArrayList<>();
     final ArrayList<Integer> IdsBloodType = new ArrayList<>();
@@ -126,6 +122,7 @@ public class EditInformationFragment extends Fragment {
         }
         getGaverment();
         getBloodTypes();
+
         apiServices = getRetrofit().create(APIServices.class);
         EditInformationFragmentProgressBar.setVisibility(View.VISIBLE);
         apiServices.getProfile(saveData.getApi_token()).enqueue(new Callback<GetProfile>() {
@@ -141,10 +138,10 @@ public class EditInformationFragment extends Fragment {
                         EditInformationFragmentLastDateDonation.setText(clientGetProfile.getDonationLastDate());
                         EditInformationFragmentName.setText(clientGetProfile.getName());
                         EditInformationFragmentPhone.setText(clientGetProfile.getPhone());
-                        EditInformationFragmentSPBloodType.setSelection(getTextBloodTypes(clientGetProfile.getBloodType().getName()));
-                        Toast.makeText(getActivity(), "ID:" +clientGetProfile.getCity().getGovernorate().getId(), Toast.LENGTH_SHORT).show();
-                       // EditInformationFragmentSPCity.setSelection(getCitiesByPosition(clientGetProfile.getCity().getGovernorate().getId()));
-                       // stringsGaverment.add(clientGetProfile.getCity().getGovernorate().getName());
+                        EditInformationFragmentSPBloodType.setSelection(clientGetProfile.getBloodType().getId());
+                        EditInformationFragmentSPGaverment.setSelection(clientGetProfile.getCity().getGovernorate().getId());
+                        //  getCities(clientGetProfile.getCity().getGovernorate().getId());
+                        //  EditInformationFragmentSPCity.setSelection(clientGetProfile.getCity().getId());
                     } else {
                         EditInformationFragmentProgressBar.setVisibility(View.GONE);
                         Toast.makeText(getActivity(), getProfile.getMsg(), Toast.LENGTH_SHORT).show();
@@ -191,6 +188,7 @@ public class EditInformationFragment extends Fragment {
                 if (response.body().getStatus() == 1) {
                     try {
                         Governorates governorates1 = response.body();
+                        stringsGaverment.add(getString(R.string.select_gaverment));
                         IdsGeverment.add(0);
                         List<GovernoratesData> governoratesData = governorates1.getData();
                         for (int i = 0; i < governoratesData.size(); i++) {
@@ -225,40 +223,6 @@ public class EditInformationFragment extends Fragment {
             }
         });
     }
-    private int getCitiesByPosition(int getIdGovernorates) {
-        APIServices apiServicesgetCities = getRetrofit().create(APIServices.class);
-        final Call<Cities> citiesCall = apiServicesgetCities.getCities(getIdGovernorates);
-        citiesCall.enqueue(new Callback<Cities>() {
-            @Override
-            public void onResponse(Call<Cities> call, Response<Cities> response) {
-                String getResult;
-                ArrayList<String> strings = new ArrayList<>();
-                IdsCity = new ArrayList<>();
-                Cities cities = response.body();
-                if (cities.getStatus() == 1) {
-                    try {
-                        IdsCity.add(0);
-                        List<DataCities> dataCities = cities.getData();
-                        for (int i = 0; i < dataCities.size(); i++) {
-                            getResult = dataCities.get(i).getName();
-                            strings.add(getResult);
-                            positionCity = dataCities.get(i).getId();
-                            IdsCity.add(positionCity);
-                        }
-                        HelperMethod.showGovernorates(strings, getActivity(), EditInformationFragmentSPCity);
-                    } catch (Exception e) {
-                        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Cities> call, Throwable t) {
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
-        return positionCity;
-    }
 
     private void getCities(int getIdGovernorates) {
         APIServices apiServicesgetCities = getRetrofit().create(APIServices.class);
@@ -267,20 +231,20 @@ public class EditInformationFragment extends Fragment {
             @Override
             public void onResponse(Call<Cities> call, Response<Cities> response) {
                 String getResult;
-                ArrayList<String> strings = new ArrayList<>();
-                IdsCity = new ArrayList<>();
+                ArrayList<String> stringsCity = new ArrayList<>();
                 Cities cities = response.body();
                 if (cities.getStatus() == 1) {
                     try {
+                        stringsCity.add(getString(R.string.select_city));
                         IdsCity.add(0);
                         List<DataCities> dataCities = cities.getData();
                         for (int i = 0; i < dataCities.size(); i++) {
                             getResult = dataCities.get(i).getName();
-                            strings.add(getResult);
+                            stringsCity.add(getResult);
                             positionCity = dataCities.get(i).getId();
                             IdsCity.add(positionCity);
                         }
-                        HelperMethod.showGovernorates(strings, getActivity(), EditInformationFragmentSPCity);
+                        HelperMethod.showGovernorates(stringsCity, getActivity(), EditInformationFragmentSPCity);
                     } catch (Exception e) {
                         Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
                     }
@@ -292,37 +256,6 @@ public class EditInformationFragment extends Fragment {
                 Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
-    }
-    public int getTextBloodTypes(String name){
-        int position ;
-        switch (name){
-            case "O+":
-                position = 1;
-                break;
-            case "O-":
-                position = 2;
-                break;
-            case "A+":
-                position = 3;
-                break;
-            case "A-":
-                position = 4;
-                break;
-            case "B+":
-                position = 5;
-                break;
-            case "B-":
-                position = 6;
-                break;
-            case "AB+":
-                position = 7;
-                break;
-                default:
-                    position = 8;
-
-        }
-        return position;
-
     }
 
     private void getBloodTypes() {
@@ -332,19 +265,19 @@ public class EditInformationFragment extends Fragment {
             @Override
             public void onResponse(Call<BloodTypes> call, Response<BloodTypes> response) {
                 String getResult;
-                ArrayList<String> strings = new ArrayList<>();
                 BloodTypes bloodTypes = response.body();
                 if (bloodTypes.getStatus() == 1) {
                     try {
+                        stringsBloodType.add(getString(R.string.blood_type));
                         IdsBloodType.add(0);
                         List<DataBloodTypes> bloodTypesList = bloodTypes.getData();
                         for (int i = 0; i < bloodTypesList.size(); i++) {
                             getResult = bloodTypesList.get(i).getName();
-                            strings.add(getResult);
+                            stringsBloodType.add(getResult);
                             positionBloodType = bloodTypesList.get(i).getId();
                             IdsBloodType.add(positionBloodType);
                         }
-                        HelperMethod.showGovernorates(strings, getActivity(), EditInformationFragmentSPBloodType);
+                        HelperMethod.showGovernorates(stringsBloodType, getActivity(), EditInformationFragmentSPBloodType);
                     } catch (Exception e) {
                         Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
                     }
@@ -375,12 +308,13 @@ public class EditInformationFragment extends Fragment {
             Toast.makeText(getActivity(), getString(R.string.all_filed_request), Toast.LENGTH_SHORT).show();
             return;
         }
-        if (IdsCity.size() <= 0 || IdsBloodType.size() <= 0) {
+
+        int blood_type = IdsBloodType.get(EditInformationFragmentSPBloodType.getSelectedItemPosition());
+        int cityId = IdsCity.get(EditInformationFragmentSPCity.getSelectedItemPosition());
+        if (blood_type <= 0 || cityId <= 0) {
             Toast.makeText(getActivity(), getString(R.string.selct_blood_and_city), Toast.LENGTH_SHORT).show();
             return;
         }
-        blood_type = IdsBloodType.get(EditInformationFragmentSPBloodType.getSelectedItemPosition());
-        int cityId = IdsCity.get(EditInformationFragmentSPCity.getSelectedItemPosition());
         Call<EditProfile> profileCall = apiServices.editProfile(new_user, email,
                 date_birth, cityId, phone,
                 last_date, password, retry_password, blood_type, saveData.getApi_token());
@@ -407,7 +341,7 @@ public class EditInformationFragment extends Fragment {
                 Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
-        }
+    }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {

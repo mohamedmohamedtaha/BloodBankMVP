@@ -1,10 +1,10 @@
 
-package com.example.manasatpc.bloadbank.u.data.model.general.contact;
+package com.example.manasatpc.bloadbank.u.data.model.notification.notificationscount;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Contact {
+public class NotificationsCount {
 
     @SerializedName("status")
     @Expose
@@ -14,7 +14,7 @@ public class Contact {
     private String msg;
     @SerializedName("data")
     @Expose
-    private DataContact data;
+    private DataNotificationsCount data;
 
     public Integer getStatus() {
         return status;
@@ -32,11 +32,11 @@ public class Contact {
         this.msg = msg;
     }
 
-    public DataContact getData() {
+    public DataNotificationsCount getData() {
         return data;
     }
 
-    public void setData(DataContact data) {
+    public void setData(DataNotificationsCount data) {
         this.data = data;
     }
 

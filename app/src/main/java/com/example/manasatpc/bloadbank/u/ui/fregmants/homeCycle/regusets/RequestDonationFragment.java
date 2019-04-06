@@ -15,7 +15,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.manasatpc.bloadbank.R;
-import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.data.model.donation.donationrequestcreate.DonationRequestCreate;
 import com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes.BloodTypes;
 import com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes.DataBloodTypes;
@@ -23,6 +22,7 @@ import com.example.manasatpc.bloadbank.u.data.model.general.cities.Cities;
 import com.example.manasatpc.bloadbank.u.data.model.general.cities.DataCities;
 import com.example.manasatpc.bloadbank.u.data.model.general.governorates.Governorates;
 import com.example.manasatpc.bloadbank.u.data.model.general.governorates.GovernoratesData;
+import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 import com.example.manasatpc.bloadbank.u.helper.SaveData;
 
@@ -44,31 +44,30 @@ import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.GET_DATA;
  * A simple {@link Fragment} subclass.
  */
 public class RequestDonationFragment extends Fragment {
-
-
-    Unbinder unbinder;
-    @BindView(R.id.ET_Name_Patient)
-    TextInputEditText ETNamePatient;
-    @BindView(R.id.ET_Age_Patient)
-    TextInputEditText ETAgePatient;
-    @BindView(R.id.Spinner_Blood_Types_Request_Donation)
-    Spinner SpinnerBloodTypesRequestDonation;
-    @BindView(R.id.Spinner_Number_Package)
-    Spinner SpinnerNumberPackage;
-    @BindView(R.id.ET_Name_Hospital_Patient)
-    TextInputEditText ETNameHospitalPatient;
-    @BindView(R.id.Fragment_Adrees_Hospital)
-    TextView FragmentAdreesHospital;
-    @BindView(R.id.Spinner_Gaverment_Request_Donation)
-    Spinner SpinnerGavermentRequestDonation;
-    @BindView(R.id.Spinner_City_Request_Donation)
-    Spinner SpinnerCityRequestDonation;
-    @BindView(R.id.ET_Phone_Patient)
-    TextInputEditText ETPhonePatient;
-    @BindView(R.id.ET_Notes_Patient)
-    TextInputEditText ETNotesPatient;
-    @BindView(R.id.BT_Send_Request)
     Button BTSendRequest;
+    @BindView(R.id.RequestDonationFragment_ET_Name_Patient)
+    TextInputEditText RequestDonationFragmentETNamePatient;
+    @BindView(R.id.RequestDonationFragment_ET_Age_Patient)
+    TextInputEditText RequestDonationFragmentETAgePatient;
+    @BindView(R.id.RequestDonationFragment_SP_Blood_Types)
+    Spinner RequestDonationFragmentSPBloodTypes;
+    @BindView(R.id.RequestDonationFragment_SP_Number_Package)
+    Spinner RequestDonationFragmentSPNumberPackage;
+    @BindView(R.id.RequestDonationFragment_ET_Name_Hospital_Patient)
+    TextInputEditText RequestDonationFragmentETNameHospitalPatient;
+    @BindView(R.id.RequestDonationFragment_TV_Adrees_Hospital)
+    TextView RequestDonationFragmentTVAdreesHospital;
+    @BindView(R.id.RequestDonationFragment_SP_Gaverment_Request_Donation)
+    Spinner RequestDonationFragmentSPGavermentRequestDonation;
+    @BindView(R.id.RequestDonationFragment_SP_City_Request_Donation)
+    Spinner RequestDonationFragmentSPCityRequestDonation;
+    @BindView(R.id.RequestDonationFragment_ET_Phone_Patient)
+    TextInputEditText RequestDonationFragmentETPhonePatient;
+    @BindView(R.id.RequestDonationFragment_ET_Notes_Patient)
+    TextInputEditText RequestDonationFragmentETNotesPatient;
+    @BindView(R.id.RequestDonationFragment_BT_Send_Request)
+    Button RequestDonationFragmentBTSendRequest;
+    Unbinder unbinder;
     private SaveData saveData;
     private long number_package;
     ArrayList<Integer> number_package_blood = new ArrayList<>();
@@ -82,12 +81,9 @@ public class RequestDonationFragment extends Fragment {
     final ArrayList<Integer> Ids = new ArrayList<>();
     final ArrayList<Integer> IdsCity = new ArrayList<>();
     final ArrayList<Integer> IdsBloodType = new ArrayList<>();
-
     public RequestDonationFragment() {
         // Required empty public constructor
     }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -105,9 +101,9 @@ public class RequestDonationFragment extends Fragment {
         ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(getActivity(),
                 android.R.layout.simple_spinner_item, number_package_blood);
 
-        SpinnerNumberPackage.setAdapter(adapter);
+        RequestDonationFragmentSPNumberPackage.setAdapter(adapter);
 
-        SpinnerNumberPackage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        RequestDonationFragmentSPNumberPackage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //      Toast.makeText(getActivity(), "Position :" + position + "id:" + id, Toast.LENGTH_SHORT).show();
@@ -118,7 +114,6 @@ public class RequestDonationFragment extends Fragment {
 
             }
         });
-
 
         // for get DataPost to governorate Spinner
         apiServicesgetGovernorate = getRetrofit().create(APIServices.class);
@@ -133,18 +128,16 @@ public class RequestDonationFragment extends Fragment {
 
                     try {
                         Governorates governorates1 = response.body();
-
                         strings.add(getString(R.string.select_gaverment));
                         Ids.add(0);
-
                         List<GovernoratesData> governoratesData = governorates1.getData();
                         for (int i = 0; i < governoratesData.size(); i++) {
                             getResult = governoratesData.get(i).getName();
                             strings.add(getResult);
                             Ids.add(governoratesData.get(i).getId());
                         }
-                        HelperMethod.showGovernorates(strings, getActivity(), SpinnerGavermentRequestDonation);
-                        SpinnerGavermentRequestDonation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        HelperMethod.showGovernorates(strings, getActivity(), RequestDonationFragmentSPGavermentRequestDonation);
+                        RequestDonationFragmentSPGavermentRequestDonation.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
                             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                                 if (i != 0) {
@@ -199,9 +192,9 @@ public class RequestDonationFragment extends Fragment {
                         positionCity = dataCities.get(i).getId();
                         IdsCity.add(positionCity);
 
-                   }
+                    }
 
-                    HelperMethod.showGovernorates(strings, getActivity(), SpinnerCityRequestDonation);
+                    HelperMethod.showGovernorates(strings, getActivity(), RequestDonationFragmentSPCityRequestDonation);
 
                 } catch (Exception e) {
                     Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
@@ -240,7 +233,7 @@ public class RequestDonationFragment extends Fragment {
 
                         }
 
-                        HelperMethod.showGovernorates(strings, getActivity(), SpinnerBloodTypesRequestDonation);
+                        HelperMethod.showGovernorates(strings, getActivity(), RequestDonationFragmentSPBloodTypes);
 
                     } catch (Exception e) {
                         Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
@@ -262,56 +255,46 @@ public class RequestDonationFragment extends Fragment {
         super.onDestroyView();
         unbinder.unbind();
     }
-
-    @OnClick(R.id.BT_Send_Request)
-    public void onViewClicked() {
-        String name_patient = ETNamePatient.getText().toString().trim();
-        String age_patient = ETAgePatient.getText().toString().trim();
-        int blood_type = SpinnerBloodTypesRequestDonation.getSelectedItemPosition();
-        String hospital_name = ETNameHospitalPatient.getText().toString().trim();
-        String phone = ETPhonePatient.getText().toString().trim();
-        String notes = ETNotesPatient.getText().toString().trim();
-        String number_package_string = String.valueOf(number_package);
-
-        String hospital_address = ETNamePatient.getText().toString().trim();
-        ;
-        int city_id = SpinnerCityRequestDonation.getSelectedItemPosition();
-        ;
-        String longtude = ETNamePatient.getText().toString().trim();
-        ;
-        String latitude = ETNamePatient.getText().toString().trim();
-        ;
-        apiServicesgetGovernorate.getDonationRequestCreate(saveData.getApi_token(), name_patient, age_patient
-                , blood_type, number_package_string, hospital_name, hospital_address, city_id, phone, notes, latitude, longtude).enqueue(new Callback<DonationRequestCreate>() {
-            @Override
-            public void onResponse(Call<DonationRequestCreate> call, Response<DonationRequestCreate> response) {
-                DonationRequestCreate donationRequestCreate = response.body();
-                if (donationRequestCreate.getStatus() == 1) {
-                    Toast.makeText(getActivity(), donationRequestCreate.getMsg(), Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getActivity(), donationRequestCreate.getMsg(), Toast.LENGTH_SHORT).show();
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<DonationRequestCreate> call, Throwable t) {
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-    }
-
-    @OnClick({R.id.Fragment_Adrees_Hospital, R.id.BT_Send_Request})
+    @OnClick({R.id.RequestDonationFragment_TV_Adrees_Hospital, R.id.RequestDonationFragment_BT_Send_Request})
     public void onViewClicked(View view) {
         switch (view.getId()) {
-            case R.id.Fragment_Adrees_Hospital:
+            case R.id.RequestDonationFragment_TV_Adrees_Hospital:
                 MapFragment mapFragment = new MapFragment();
                 HelperMethod.replece(mapFragment, getActivity().getSupportFragmentManager(),
                         R.id.Cycle_Home_contener, null, null, saveData);
                 break;
-            case R.id.BT_Send_Request:
+            case R.id.RequestDonationFragment_BT_Send_Request:
+                String name_patient = RequestDonationFragmentETNamePatient.getText().toString().trim();
+                String age_patient = RequestDonationFragmentETAgePatient.getText().toString().trim();
+                int blood_type = RequestDonationFragmentSPBloodTypes.getSelectedItemPosition();
+                String hospital_name = RequestDonationFragmentETNameHospitalPatient.getText().toString().trim();
+                String phone = RequestDonationFragmentETPhonePatient.getText().toString().trim();
+                String notes = RequestDonationFragmentETNotesPatient.getText().toString().trim();
+                String number_package_string = String.valueOf(number_package);
+                String hospital_address = RequestDonationFragmentETNamePatient.getText().toString().trim();
+                int city_id = RequestDonationFragmentSPCityRequestDonation.getSelectedItemPosition();
+                String longtude = RequestDonationFragmentETNamePatient.getText().toString().trim();
+                String latitude = RequestDonationFragmentETNamePatient.getText().toString().trim();
+                apiServicesgetGovernorate.getDonationRequestCreate(saveData.getApi_token(), name_patient, age_patient
+                        , blood_type, number_package_string, hospital_name, hospital_address, city_id, phone, notes, latitude, longtude).enqueue(new Callback<DonationRequestCreate>() {
+                    @Override
+                    public void onResponse(Call<DonationRequestCreate> call, Response<DonationRequestCreate> response) {
+                        DonationRequestCreate donationRequestCreate = response.body();
+                        if (donationRequestCreate.getStatus() == 1) {
+                            Toast.makeText(getActivity(), donationRequestCreate.getMsg(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getActivity(), donationRequestCreate.getMsg(), Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<DonationRequestCreate> call, Throwable t) {
+                        Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
                 break;
         }
     }

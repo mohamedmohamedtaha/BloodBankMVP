@@ -48,7 +48,7 @@ public class ForgetPasswordStep2Fragment extends Fragment {
     Bundle getPhoneBundle;
     String savePhone;
     private SaveData saveData;
-
+    boolean check_network ;
     public ForgetPasswordStep2Fragment() {
         // Required empty public constructor
     }
@@ -64,7 +64,7 @@ public class ForgetPasswordStep2Fragment extends Fragment {
         savePhone = getPhoneBundle.getString(PHONE);
         saveData = getArguments().getParcelable(GET_DATA);
         // for check network
-        boolean check_network = HelperMethod.isNetworkConnected(getActivity(), getView());
+         check_network = HelperMethod.isNetworkConnected(getActivity(), getView());
         if (check_network == true) {
             HelperMethod.startCountdownTimer(getActivity(), getActivity().findViewById(android.R.id.content)
                     , getActivity().getSupportFragmentManager(), ForgetPasswordStep2FragmentTVRemindTime, saveData);
@@ -81,7 +81,6 @@ public class ForgetPasswordStep2Fragment extends Fragment {
     @OnClick(R.id.ForgetPasswordStep2Fragment_BT_Change_Password)
     public void onViewClicked() {
         // for check network
-        boolean check_network = HelperMethod.isNetworkConnected(getActivity(), getView());
         if (check_network == false) {
             return;
         }
@@ -107,7 +106,6 @@ public class ForgetPasswordStep2Fragment extends Fragment {
                     Toast.makeText(getActivity(), newPassword1.getMsg(), Toast.LENGTH_SHORT).show();
                     LoginFragment loginFragment = new LoginFragment();
                     HelperMethod.replece(loginFragment, getActivity().getSupportFragmentManager(), R.id.Cycle_User_contener, null, null, saveData);
-
                 } else {
                     ForgetPasswordStep2FragmentProgressBar.setVisibility(View.GONE);
                     Toast.makeText(getActivity(), newPassword1.getMsg(), Toast.LENGTH_SHORT).show();

@@ -3,6 +3,7 @@ package com.example.manasatpc.bloadbank.u.ui.fregmants.userCycle;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -103,7 +104,6 @@ public class LoginFragment extends Fragment {
             case R.id.LoginFragment_BT_Login:
                 phone = LoginFragmentPhone.getText().toString().trim();
                 password = LoginFragmentPassword.getText().toString().trim();
-
                 APIServices = getRetrofit().create(APIServices.class);
                 if (phone.isEmpty()) {
                     LoginFragmentPhone.setError(getString(R.string.filed_request));
@@ -115,46 +115,37 @@ public class LoginFragment extends Fragment {
                 } else {
                     LoginFragmentProgressBar.setVisibility(View.VISIBLE);
                     Call<Login> loginCall = APIServices.getLogin(phone, password);
-
                     loginCall.enqueue(new Callback<Login>() {
                         @Override
                         public void onResponse(Call<Login> call, Response<Login> response) {
                             try {
-
                                 Login login = response.body();
-
-
                                 if (login.getStatus() == 1) {
                                     SaveData saveData = new SaveData(login.getData().getApiToken(),
                                             login.getData().getClient().getName(), login.getData().getClient().getPhone()
                                             , login.getData().getClient().getEmail()
                                             , login.getData().getClient().getBirthDate(), login.getData().getClient().getCityId(),
                                             login.getData().getClient().getDonationLastDate(), login.getData().getClient().getBloodTypeId());
-
-
+                                    Log.i("API Kay : ", login.getData().getApiToken());
                                     if (LoginFragmentCBRemeberMy.isChecked()) {
                                         remeberMy.saveDateUser(phone, password, getAPI_key);
                                     }
-                                    // HelperMethod.startActivity(getActivity(), HomeActivity.class,getAPI_key);
                                     HelperMethod.startActivity(getActivity(), HomeActivity.class, saveData);
-
-
                                     Toast.makeText(getActivity(), login.getMsg(), Toast.LENGTH_LONG).show();
                                     LoginFragmentProgressBar.setVisibility(View.GONE);
-
                                 } else {
                                     Toast.makeText(getActivity(), login.getMsg(), Toast.LENGTH_LONG).show();
                                     LoginFragmentProgressBar.setVisibility(View.GONE);
-
                                 }
-
                             } catch (Exception e) {
-
+                                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
+                                LoginFragmentProgressBar.setVisibility(View.GONE);
                             }
                         }
 
                         @Override
                         public void onFailure(Call<Login> call, Throwable t) {
+                            Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
                             LoginFragmentProgressBar.setVisibility(View.GONE);
                         }
                     });

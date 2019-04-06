@@ -16,8 +16,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.manasatpc.bloadbank.R;
-import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.data.model.donation.donationrequest.DonationRequest;
+import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.helper.DrawerLocker;
 import com.example.manasatpc.bloadbank.u.helper.SaveData;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -43,8 +43,6 @@ import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.makePhoneCal
  * A simple {@link Fragment} subclass.
  */
 public class DetailRequestDonationFragment extends Fragment implements OnMapReadyCallback {
-
-
     @BindView(R.id.TV_Show_Name_Details_Donation)
     TextView TVShowNameDetailsDonation;
     @BindView(R.id.TV_Show_Age_Details_Donation)
@@ -69,7 +67,9 @@ public class DetailRequestDonationFragment extends Fragment implements OnMapRead
     private APIServices apiServices;
     private GoogleMap gMap;
     private static final String MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey";
-    Double longitude, latiude;
+    Double longitude = null;
+    Double latiude = null;
+
     SaveData saveData;
     private String savePhone;
     private static final int REQUEST_CALL = 1;
@@ -86,13 +86,12 @@ public class DetailRequestDonationFragment extends Fragment implements OnMapRead
         unbinder = ButterKnife.bind(this, view);
         saveData = getArguments().getParcelable(GET_DATA);
         ((DrawerLocker) getActivity()).setDraweEnabled(false);
-
         Bundle mapViewBundle = null;
-
         if (savedInstanceState != null) {
             mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY);
         }
-
+        mapView.onCreate(mapViewBundle);
+        mapView.getMapAsync(this);
         apiServices = getRetrofit().create(APIServices.class);
         apiServices.getDonationRequest(saveData.getApi_token(), 1)
                 .enqueue(new Callback<DonationRequest>() {
@@ -122,13 +121,12 @@ public class DetailRequestDonationFragment extends Fragment implements OnMapRead
                     }
                 });
 
-        mapView.onCreate(mapViewBundle);
-        mapView.getMapAsync(this);
+
         return view;
     }
 
     @Override
-    public void onSaveInstanceState(@NonNull Bundle outState) {
+    public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         Bundle mapViewBundle = outState.getBundle(MAP_VIEW_BUNDLE_KEY);
         if (mapViewBundle == null) {
@@ -140,27 +138,26 @@ public class DetailRequestDonationFragment extends Fragment implements OnMapRead
 
     @Override
     public void onResume() {
-        super.onResume();
         mapView.onResume();
+        super.onResume();
     }
 
     @Override
     public void onStart() {
-        super.onStart();
         mapView.onStart();
+        super.onStart();
     }
 
     @Override
     public void onStop() {
-        super.onStop();
         mapView.onStop();
+        super.onStop();
     }
 
     @Override
     public void onPause() {
         mapView.onPause();
         super.onPause();
-
     }
 
     @Override
@@ -171,8 +168,8 @@ public class DetailRequestDonationFragment extends Fragment implements OnMapRead
 
     @Override
     public void onDestroyView() {
-        mapView.onDestroy();
         super.onDestroyView();
+        mapView.onDestroy();
         unbinder.unbind();
     }
 
@@ -208,6 +205,5 @@ public class DetailRequestDonationFragment extends Fragment implements OnMapRead
         markerOptions.position(latLng);
         gMap.addMarker(markerOptions);
         gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
-
     }
 }

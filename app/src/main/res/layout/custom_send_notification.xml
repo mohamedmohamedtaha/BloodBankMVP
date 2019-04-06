@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="@dimen/dimens_l"
     android:background="@drawable/background_notification">
 
     <ImageView
@@ -17,24 +19,50 @@
         android:id="@+id/TV"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dimens_m"
-        android:layout_marginEnd="@dimen/dimens_l"
+        android:layout_marginTop="@dimen/dimens_l"
+        android:layout_marginEnd="@dimen/dimens_sss"
         android:layout_toStartOf="@+id/IM_Show_Notification"
         android:gravity="center"
-        android:text="@string/alarm" />
+        android:text="@string/alarm"
+        android:textSize="@dimen/txt_size_s"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/TV_Show_Id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/dimens_l"
+        android:layout_marginEnd="@dimen/dimens_ss"
+        android:layout_toStartOf="@+id/TV"
+        android:gravity="center"
+        android:textSize="@dimen/txt_size_s"
+        android:textStyle="bold"
+        tools:text="0" />
 
     <TextView
         android:id="@+id/TV_Date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/dimens_xl"
-        android:layout_marginTop="@dimen/dimens_m" />
+        android:layout_marginStart="@dimen/dimens_m"
+        android:layout_marginTop="@dimen/dimens_l"
+        android:textSize="@dimen/txt_size_s"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/TV_Day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/dimens_m"
+        android:layout_marginTop="@dimen/dimens_l"
+        android:layout_toEndOf="@+id/TV_Date"
+        android:textSize="@dimen/txt_size_s"
+        android:textStyle="bold" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/dimens_m"
-        android:layout_marginEnd="@dimen/dimens_m"
+        android:layout_marginStart="@dimen/dimens_xxxxl"
+        android:layout_marginTop="@dimen/dimens_l"
         android:layout_toEndOf="@+id/TV_Date"
         android:src="@drawable/ic_clock" />
 </RelativeLayout>

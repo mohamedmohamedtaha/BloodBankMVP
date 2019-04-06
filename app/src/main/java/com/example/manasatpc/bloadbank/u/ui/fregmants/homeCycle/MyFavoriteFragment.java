@@ -1,4 +1,4 @@
-package com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.others;
+package com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle;
 
 
 import android.os.Bundle;

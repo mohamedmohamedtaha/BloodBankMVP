@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".u.ui.fregmants.homeCycle.others.MyFavoriteFragment">
+    tools:context=".u.ui.fregmants.homeCycle.MyFavoriteFragment">
     <ListView
         android:id="@+id/list"
         android:layout_width="match_parent"

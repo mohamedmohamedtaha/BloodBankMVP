@@ -3,23 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".u.ui.fregmants.homeCycle.HomeFragment">
-
-    <android.support.design.widget.TextInputLayout
-        android:id="@+id/TIL"
-        style="@style/StyleEditTextForSearch">
-
-        <android.support.design.widget.TextInputEditText
-            android:id="@+id/HomeFragment_Tiet_Search"
-            style="@style/StyleEditTextNull"
-            android:drawableStart="@mipmap/ic_search"
-            android:hint="@string/enter_search"
-            android:paddingStart="@dimen/dimens_l" />
-    </android.support.design.widget.TextInputLayout>
-
+    android:background="@drawable/splash"
+    tools:context=".u.ui.fregmants.homeCycle.notifications.NotificationListFragment">
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/HomeFragment_Recycle_View"
+        android:id="@+id/NotificationListFragment_Recycle_View"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/TIL"
@@ -32,46 +19,34 @@
     <!-- Empty view is only visible when the list has no items. -->
 
     <RelativeLayout
-        android:id="@+id/HomeFragment_RL_Empty_View"
+        android:id="@+id/NotificationListFragment_RL_Empty_View"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true">
 
         <ImageView
-            android:id="@+id/HomeFragment_Empty_Image"
+            android:id="@+id/NotificationListFragment_Empty_Image"
             style="@style/EmptyViewImage" />
 
         <TextView
-            android:id="@+id/HomeFragment_TV_Empty_View"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/HomeFragment_Empty_Image"
+            android:layout_below="@+id/NotificationListFragment_Empty_Image"
             android:layout_marginTop="@dimen/dimens_xl"
             android:fontFamily="@font/cairo_regular"
             android:gravity="center"
-            android:text="@string/no_data"
+            android:text="@string/no_notifications"
             android:textAppearance="?android:textAppearanceMedium"
             android:textColor="@android:color/black"
             android:textSize="@dimen/txt_size_xl" />
     </RelativeLayout>
     <!-- Loading indicator is only shown before the first load -->
     <ProgressBar
-        android:id="@+id/HomeFragment_Loading_Indicator"
+        android:id="@+id/NotificationListFragment_Loading_Indicator"
         style="@style/Widget.AppCompat.ProgressBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:visibility="gone" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/Fab_Request_Donation"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:elevation="@dimen/dimens_m"
-        app:backgroundTint="@color/colorButtonLogin"
-        app:srcCompat="@mipmap/ic_add" />
 </RelativeLayout>

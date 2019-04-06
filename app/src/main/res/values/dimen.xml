@@ -21,7 +21,6 @@
     <dimen name="txt_size_xxl">28sp</dimen>
     <dimen name="txt_size_xxxl">32sp</dimen>
 
-
     <dimen name="dimens_height_logo">200dp</dimen>
     <dimen name="dimens_half_hundrand">150dp</dimen>
     <dimen name="dimens_hundrand">100dp</dimen>

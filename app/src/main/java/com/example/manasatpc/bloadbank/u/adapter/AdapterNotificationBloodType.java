@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 
 import com.example.manasatpc.bloadbank.R;
+import com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes.DataBloodTypes;
 
 import java.util.ArrayList;
 
@@ -16,22 +17,18 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-
-public class AdapterNotification extends RecyclerView.Adapter<AdapterNotification.NotificationViewHolder> {
+public class AdapterNotificationBloodType extends RecyclerView.Adapter<AdapterNotificationBloodType.NotificationViewHolder> {
     private Context context;
+    private ArrayList<DataBloodTypes> getNotificationsSettingsList = new ArrayList<>();
 
-    private ArrayList<String> getNotificationsSettingsList = new ArrayList<>();
-
-    public AdapterNotification(Context context, ArrayList<String> getNotificationsSettingsList) {
+    public AdapterNotificationBloodType(Context context, ArrayList<DataBloodTypes> getNotificationsSettingsList) {
         this.context = context;
         this.getNotificationsSettingsList = getNotificationsSettingsList;
     }
 
-
     @NonNull
     @Override
     public NotificationViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
         View view = LayoutInflater.from(context).inflate(R.layout.custom_notification, parent, false);
         final NotificationViewHolder notificationViewHolder = new NotificationViewHolder(view);
         return notificationViewHolder;
@@ -39,15 +36,12 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
 
     @Override
     public void onBindViewHolder(@NonNull NotificationViewHolder holder, int position) {
-        holder.CBRecyclerView.setText(getNotificationsSettingsList.get(position));
-
-
-
+        holder.CBRecyclerView.setText(getNotificationsSettingsList.get(position).getName());
     }
 
     @Override
     public int getItemCount() {
-        if (getNotificationsSettingsList != null){
+        if (getNotificationsSettingsList != null) {
             return getNotificationsSettingsList.size();
         }
         return 0;
@@ -57,17 +51,15 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
     public void onViewClicked() {
     }
 
-
     class NotificationViewHolder extends RecyclerView.ViewHolder {
         private View view;
         @BindView(R.id.CB_Recycler_View)
         CheckBox CBRecyclerView;
 
-
         public NotificationViewHolder(final View itemView) {
             super(itemView);
             view = itemView;
-            ButterKnife.bind(this,view);
+            ButterKnife.bind(this, view);
         }
     }
 

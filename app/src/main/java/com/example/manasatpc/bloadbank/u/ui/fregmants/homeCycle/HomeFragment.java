@@ -2,6 +2,7 @@ package com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle;
 
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,11 +27,13 @@ import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 import com.example.manasatpc.bloadbank.u.helper.OnEndless;
 import com.example.manasatpc.bloadbank.u.helper.SaveData;
+import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.regusets.RequestDonationFragment;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,6 +41,7 @@ import retrofit2.Response;
 
 import static com.example.manasatpc.bloadbank.u.data.rest.RetrofitClient.getRetrofit;
 import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.GET_DATA;
+import static com.example.manasatpc.bloadbank.u.ui.activities.HomeActivity.toolbar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,6 +60,8 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.HomeFragment_Loading_Indicator)
     ProgressBar HomeFragmentLoadingIndicator;
     Unbinder unbinder;
+    @BindView(R.id.Fab_Request_Donation)
+    FloatingActionButton FabRequestDonation;
     private int max = 0;
     private APIServices apiServices;
     public static final String POST_ID = "post_id";
@@ -191,10 +197,15 @@ public class HomeFragment extends Fragment {
         HomeFragmentLoadingIndicator.setVisibility(View.GONE);
         HomeFragmentRLEmptyView.setVisibility(View.VISIBLE);
     }
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @OnClick(R.id.Fab_Request_Donation)
+    public void onViewClicked() {
+        RequestDonationFragment requestDonationFragment = new RequestDonationFragment();
+        HelperMethod.replece(requestDonationFragment, getActivity().getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.request_donation), saveData);
     }
 }
