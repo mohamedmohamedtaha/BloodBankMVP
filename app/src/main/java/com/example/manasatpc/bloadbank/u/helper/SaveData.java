@@ -13,6 +13,16 @@ public class SaveData implements Parcelable {
     private String donationLastDate;
     private String bloodType;
 
+    public int getPositionId() {
+        return positionId;
+    }
+
+    public void setPositionId(int positionId) {
+        this.positionId = positionId;
+    }
+
+    private int positionId;
+
     public String getBirthDate() {
         return birthDate;
     }
@@ -54,6 +64,7 @@ public class SaveData implements Parcelable {
         cityId= in.readString();
         donationLastDate= in.readString();
         bloodType= in.readString();
+        positionId= in.readInt();
 
       }
 
@@ -68,6 +79,9 @@ public class SaveData implements Parcelable {
             return new SaveData[size];
         }
     };
+    public SaveData (int positionId){
+        this.positionId = positionId;
+    }
 
     public SaveData(String apiToken, String name, String phone, String email,String birthDate,
                     String cityId, String donationLastDate,String bloodType) {
@@ -128,6 +142,7 @@ public class SaveData implements Parcelable {
         parcel.writeString(cityId);
         parcel.writeString(donationLastDate);
         parcel.writeString(bloodType);
+        parcel.writeInt(positionId);
 
 
 

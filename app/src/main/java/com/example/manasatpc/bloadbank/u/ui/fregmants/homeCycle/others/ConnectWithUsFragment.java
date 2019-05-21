@@ -72,7 +72,6 @@ public class ConnectWithUsFragment extends Fragment {
     private APIServices apiServices;
     Bundle bundle;
     private RememberMy rememberMy;
-    private String getAPI_key;
     private SaveData saveData;
     private String urlYouTube, urlWhatsApp, urlTwitter, urlInstgram, urlGooglePlus, urlFacebook;
 
@@ -93,7 +92,6 @@ public class ConnectWithUsFragment extends Fragment {
         String email = saveData.getEmail();
         String name = saveData.getName();
         String phone = saveData.getPhone();
-        getAPI_key = bundle.getString(API_KEY);
         FragmentConnectUsPhone.append(phone);
         FragmentConnectUsEmail.append(email);
         FragmentConnectUsName.append(name);
@@ -163,11 +161,10 @@ public class ConnectWithUsFragment extends Fragment {
                 final String title_message = FragmentConnectUsTitle.getText().toString().trim();
                 final String text_message = FragmentConnectUsTextMessage.getText().toString().trim();
                 apiServices = getRetrofit().create(APIServices.class);
-
                 if (TextUtils.isEmpty(title_message) || TextUtils.isEmpty(text_message)) {
                     Toast.makeText(getActivity(), getString(R.string.filed_request), Toast.LENGTH_SHORT).show();
                 } else {
-                    apiServices.getContact(getAPI_key, title_message, text_message).enqueue(new Callback<Contact>() {
+                    apiServices.getContact(saveData.getApi_token(), title_message, text_message).enqueue(new Callback<Contact>() {
                         @Override
                         public void onResponse(Call<Contact> call, Response<Contact> response) {
                             Contact contact = response.body();

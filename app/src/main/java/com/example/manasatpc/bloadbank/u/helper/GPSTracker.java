@@ -34,8 +34,6 @@ import java.util.Locale;
  */
 
 public class GPSTracker extends Activity implements LocationListener {
-
-
     // The minimum distance to change updates in meters
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
     // The minimum time between updates in milliseconds

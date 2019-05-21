@@ -3,7 +3,6 @@ package com.example.manasatpc.bloadbank.u.data.rest;
 import com.example.manasatpc.bloadbank.u.data.model.donation.donationrequest.DonationRequest;
 import com.example.manasatpc.bloadbank.u.data.model.donation.donationrequestcreate.DonationRequestCreate;
 import com.example.manasatpc.bloadbank.u.data.model.donation.donationrequests.DonationRequests;
-import com.example.manasatpc.bloadbank.u.data.model.donation.donationrequestsfilter.DonationRequestsFilter;
 import com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes.BloodTypes;
 import com.example.manasatpc.bloadbank.u.data.model.general.cities.Cities;
 import com.example.manasatpc.bloadbank.u.data.model.general.contact.Contact;
@@ -12,9 +11,12 @@ import com.example.manasatpc.bloadbank.u.data.model.general.settings.Settings;
 import com.example.manasatpc.bloadbank.u.data.model.notification.getnotificationssettings.GetNotificationSsettings;
 import com.example.manasatpc.bloadbank.u.data.model.notification.notificationscount.NotificationsCount;
 import com.example.manasatpc.bloadbank.u.data.model.notification.notificationslist.NotificationsList;
-import com.example.manasatpc.bloadbank.u.data.model.posts.Posts;
+import com.example.manasatpc.bloadbank.u.data.model.notification.firebaseApiToken.registertoken.RegisterToken;
+import com.example.manasatpc.bloadbank.u.data.model.notification.firebaseApiToken.removetoken.RemoveToken;
+import com.example.manasatpc.bloadbank.u.data.model.posts.categories.Categories;
 import com.example.manasatpc.bloadbank.u.data.model.posts.my_favourites.MyFavourites;
-import com.example.manasatpc.bloadbank.u.data.model.posts.post.Post;
+import com.example.manasatpc.bloadbank.u.data.model.posts.postdetails.PostDetails;
+import com.example.manasatpc.bloadbank.u.data.model.posts.posts.Posts;
 import com.example.manasatpc.bloadbank.u.data.model.posts.posttogglefavourite.PostToggleFavourite;
 import com.example.manasatpc.bloadbank.u.data.model.user.editprofile.EditProfile;
 import com.example.manasatpc.bloadbank.u.data.model.user.getprofile.GetProfile;
@@ -71,7 +73,10 @@ public interface APIServices {
     Call<Posts> getPosts(@Query("api_token") String api_token, @Query("page") int page);
 
     @GET("post")
-    Call<Post> getPost(@Query("api_token") String api_token, @Query("post_id") int post_id);
+    Call<PostDetails> getPostDetails(@Query("api_token") String api_token, @Query("post_id") int post_id,@Query("page") int page);
+
+    @GET("posts")
+    Call<Posts> getPostFilter(@Query("api_token") String api_token, @Query("page") int page,@Query("keyword") String keyword, @Query("category_id") int category_id);
 
     @GET("my-favourites")
     Call<MyFavourites> getMyFavourites(@Query("api_token") String api_token);
@@ -79,10 +84,13 @@ public interface APIServices {
     @POST("post-toggle-favourite")
     @FormUrlEncoded
     Call<PostToggleFavourite> getPostToggleFavourite(@Field("api_token") String api_token, @Field("post_id") String post_id);
+
+    @GET("categories")
+    Call<Categories> getCategories();
+
+
     //   ---------------------  End Posts ---------------------------------------
-
-
-    //   ---------------------  for General ---------------------------------------
+    //   ---------------------  For General ---------------------------------------
     @GET("governorates")
     Call<Governorates> getGovernorates();
 
@@ -99,8 +107,9 @@ public interface APIServices {
 
     @GET("settings")
     Call<Settings> getSettings(@Query("api_token") String api_token);
-    //   ---------------------  for Donation ---------------------------------------
 
+    //   ---------------------  End General ---------------------------------------
+    //   ---------------------  For Donation ---------------------------------------
     @GET("donation-requests")
     Call<DonationRequests> getDonationRequests(@Query("api_token") String api_token);
 
@@ -110,16 +119,33 @@ public interface APIServices {
     @POST("donation-request/create")
     @FormUrlEncoded
     Call<DonationRequestCreate> getDonationRequestCreate(@Field("api_token") String api_token,
-                                                         @Field("patient_name") String patient_name, @Field("patient_age") String patient_age, @Field("blood_type") int blood_type,
-                                                         @Field("bags_num") String bags_num, @Field("hospital_name") String hospital_name, @Field("hospital_address") String hospital_address,
-                                                         @Field("city_id") int city_id, @Field("phone") String phone, @Field("notes") String notes,
-                                                         @Field("latitude") String latitude, @Field("longitude") String longitude);
+                                                         @Field("patient_name") String patient_name,
+                                                         @Field("patient_age") String patient_age,
+                                                         @Field("blood_type_id") int blood_type_id,
+                                                         @Field("bags_num") String bags_num,
+                                                         @Field("hospital_name") String hospital_name,
+                                                         @Field("hospital_address") String hospital_address,
+                                                         @Field("city_id") int city_id,
+                                                         @Field("phone") String phone,
+                                                         @Field("notes") String notes,
+                                                         @Field("latitude") String latitude,
+                                                         @Field("longitude") String longitude);
 
     @GET("donation-requests")
-    Call<DonationRequestsFilter> getDonationRequestFilter(@Query("api_token") String api_token, @Query("blood_type") String blood_type, @Query("city_id") int city_id, @Query("page") int page);
-
+    Call<DonationRequests> getDonationRequestFilter(@Query("api_token") String api_token, @Query("blood_type_id") int blood_type_id, @Query("governorate_id") int governorate_id, @Query("page") int page);
+    //   ---------------------  End Donation ---------------------------------------
 
     //   ---------------------  for Notification ---------------------------------------
+    @FormUrlEncoded
+    @POST("register-token")
+    Call<RegisterToken> getRegisterToken(@Field("token") String token,
+                                         @Field("api_token") String api_token,
+                                         @Field("platform") String platform);
+
+    @FormUrlEncoded
+    @POST("remove-token")
+    Call<RemoveToken> getRemoveToken(@Field("token") String token,
+                                       @Field("api_token") String api_token);
 
     @FormUrlEncoded
     @POST("notifications-settings")
@@ -127,13 +153,14 @@ public interface APIServices {
 
     @FormUrlEncoded
     @POST("notifications-settings")
-    Call<GetNotificationSsettings> getGetNotificationsSettings(@Field("api_token") String api_token,@Field("governorates[0]") String governoratesZero
-    ,@Field("governorates[1]") String governoratesOne,@Field("blood_types[0]") String blood_typesZero,@Field("blood_types[1]") String blood_typesOne);
+    Call<GetNotificationSsettings> notificationsSettings(@Field("api_token") String api_token, @Field("governorates[0]") String governoratesZero
+            , @Field("governorates[1]") String governoratesOne, @Field("blood_types[0]") String blood_typesZero, @Field("blood_types[1]") String blood_typesOne);
 
     @GET("notifications")
     Call<NotificationsList> getNotificationsList(@Query("api_token") String api_token);
 
     @GET("notifications-count")
     Call<NotificationsCount> getNotificationsCount(@Query("api_token") String api_token);
+    //   ---------------------  End Notification ---------------------------------------
 
 }

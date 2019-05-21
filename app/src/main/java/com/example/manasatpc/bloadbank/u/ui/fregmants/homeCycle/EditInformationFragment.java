@@ -30,7 +30,7 @@ import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.helper.DateModel;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 import com.example.manasatpc.bloadbank.u.helper.SaveData;
-import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.HomeFragment;
+import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.article.HomeFragment;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -87,14 +87,16 @@ public class EditInformationFragment extends Fragment {
     private int startMonth;
     private int startDay;
     String getResult;
-    int IDPosition;
+    Integer positionGaverment;
     Integer positionCity;
     Integer positionBloodType;
     ArrayList<String> stringsBloodType = new ArrayList<>();
-    ArrayList<String> stringsGaverment = new ArrayList<>();
-    final ArrayList<Integer> IdsGeverment = new ArrayList<>();
-    private ArrayList<Integer> IdsCity = new ArrayList<>();
+    ArrayList<Integer> IdsCity = new ArrayList<>();
     final ArrayList<Integer> IdsBloodType = new ArrayList<>();
+    final ArrayList<Integer> IdsGeverment = new ArrayList<>();
+    ArrayList<String> stringsGaverment = new ArrayList<>();
+
+    private ClientGetProfile clientGetProfile;
 
     public EditInformationFragment() {
         // Required empty public constructor
@@ -113,15 +115,11 @@ public class EditInformationFragment extends Fragment {
         startDay = getDatenow.get(Calendar.DAY_OF_MONTH);
         dateModel1 = new DateModel(String.valueOf(startYear), String.valueOf(startMonth)
                 , String.valueOf(startDay), null);
-
         dateModel2 = new DateModel(String.valueOf(startYear), String.valueOf(startMonth)
                 , String.valueOf(startDay), null);
-
         if (check_network == false) {
             EditInformationFragmentProgressBar.setVisibility(View.GONE);
         }
-        getGaverment();
-        getBloodTypes();
 
         apiServices = getRetrofit().create(APIServices.class);
         EditInformationFragmentProgressBar.setVisibility(View.VISIBLE);
@@ -129,7 +127,7 @@ public class EditInformationFragment extends Fragment {
             @Override
             public void onResponse(Call<GetProfile> call, Response<GetProfile> response) {
                 GetProfile getProfile = response.body();
-                ClientGetProfile clientGetProfile = getProfile.getData().getClient();
+                clientGetProfile = getProfile.getData().getClient();
                 try {
                     if (getProfile.getStatus() == 1) {
                         EditInformationFragmentProgressBar.setVisibility(View.GONE);
@@ -138,10 +136,8 @@ public class EditInformationFragment extends Fragment {
                         EditInformationFragmentLastDateDonation.setText(clientGetProfile.getDonationLastDate());
                         EditInformationFragmentName.setText(clientGetProfile.getName());
                         EditInformationFragmentPhone.setText(clientGetProfile.getPhone());
-                        EditInformationFragmentSPBloodType.setSelection(clientGetProfile.getBloodType().getId());
-                        EditInformationFragmentSPGaverment.setSelection(clientGetProfile.getCity().getGovernorate().getId());
-                        //  getCities(clientGetProfile.getCity().getGovernorate().getId());
-                        //  EditInformationFragmentSPCity.setSelection(clientGetProfile.getCity().getId());
+                        getGaverment();
+                        getBloodTypes();
                     } else {
                         EditInformationFragmentProgressBar.setVisibility(View.GONE);
                         Toast.makeText(getActivity(), getProfile.getMsg(), Toast.LENGTH_SHORT).show();
@@ -187,6 +183,7 @@ public class EditInformationFragment extends Fragment {
             public void onResponse(Call<Governorates> call, Response<Governorates> response) {
                 if (response.body().getStatus() == 1) {
                     try {
+                        int pio = 0;
                         Governorates governorates1 = response.body();
                         stringsGaverment.add(getString(R.string.select_gaverment));
                         IdsGeverment.add(0);
@@ -194,10 +191,14 @@ public class EditInformationFragment extends Fragment {
                         for (int i = 0; i < governoratesData.size(); i++) {
                             getResult = governoratesData.get(i).getName();
                             stringsGaverment.add(getResult);
-                            IDPosition = governoratesData.get(i).getId();
-                            IdsGeverment.add(IDPosition);
+                            positionGaverment = governoratesData.get(i).getId();
+                            IdsGeverment.add(positionGaverment);
+                            if (clientGetProfile.getCity().getGovernorate().getId().equals(governoratesData.get(i).getId())) {
+                                pio = i + 1;
+                            }
                         }
                         HelperMethod.showGovernorates(stringsGaverment, getActivity(), EditInformationFragmentSPGaverment);
+                        EditInformationFragmentSPGaverment.setSelection(pio);
                         EditInformationFragmentSPGaverment.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -230,11 +231,13 @@ public class EditInformationFragment extends Fragment {
         citiesCall.enqueue(new Callback<Cities>() {
             @Override
             public void onResponse(Call<Cities> call, Response<Cities> response) {
-                String getResult;
-                ArrayList<String> stringsCity = new ArrayList<>();
                 Cities cities = response.body();
                 if (cities.getStatus() == 1) {
                     try {
+                        String getResult;
+                        ArrayList<String> stringsCity = new ArrayList<>();
+                        int pio = 0;
+                        IdsCity = new ArrayList<>();
                         stringsCity.add(getString(R.string.select_city));
                         IdsCity.add(0);
                         List<DataCities> dataCities = cities.getData();
@@ -243,8 +246,12 @@ public class EditInformationFragment extends Fragment {
                             stringsCity.add(getResult);
                             positionCity = dataCities.get(i).getId();
                             IdsCity.add(positionCity);
+                            if (clientGetProfile.getCity().getId().equals(dataCities.get(i).getId())) {
+                                pio = i + 1;
+                            }
                         }
                         HelperMethod.showGovernorates(stringsCity, getActivity(), EditInformationFragmentSPCity);
+                        EditInformationFragmentSPCity.setSelection(pio);
                     } catch (Exception e) {
                         Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
                     }
@@ -271,13 +278,20 @@ public class EditInformationFragment extends Fragment {
                         stringsBloodType.add(getString(R.string.blood_type));
                         IdsBloodType.add(0);
                         List<DataBloodTypes> bloodTypesList = bloodTypes.getData();
+                        int pio = 0;
                         for (int i = 0; i < bloodTypesList.size(); i++) {
                             getResult = bloodTypesList.get(i).getName();
                             stringsBloodType.add(getResult);
                             positionBloodType = bloodTypesList.get(i).getId();
                             IdsBloodType.add(positionBloodType);
+                            if (clientGetProfile.getBloodType().getId().equals(bloodTypesList.get(i).getId())) {
+                                pio = i + 1;
+                            }
                         }
                         HelperMethod.showGovernorates(stringsBloodType, getActivity(), EditInformationFragmentSPBloodType);
+
+                        EditInformationFragmentSPBloodType.setSelection(pio);
+
                     } catch (Exception e) {
                         Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
                     }
@@ -308,7 +322,6 @@ public class EditInformationFragment extends Fragment {
             Toast.makeText(getActivity(), getString(R.string.all_filed_request), Toast.LENGTH_SHORT).show();
             return;
         }
-
         int blood_type = IdsBloodType.get(EditInformationFragmentSPBloodType.getSelectedItemPosition());
         int cityId = IdsCity.get(EditInformationFragmentSPCity.getSelectedItemPosition());
         if (blood_type <= 0 || cityId <= 0) {

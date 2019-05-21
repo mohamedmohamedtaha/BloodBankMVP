@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".u.ui.fregmants.homeCycle.regusets.ListRequestsDonationFragment">
+    tools:context=".u.ui.fregmants.homeCycle.donation.ListRequestsDonationFragment">
 
     <LinearLayout
         android:id="@+id/linear"
@@ -32,7 +32,7 @@
             android:background="@drawable/background_spinner_cycle">
 
             <Spinner
-                android:id="@+id/ListRequestsDonationFragment_Select_City"
+                android:id="@+id/ListRequestsDonationFragment_Select_Geverment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -59,7 +59,7 @@
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/list"
+        android:id="@+id/ListRequestsDonationFragment_RecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/linear"
@@ -70,7 +70,7 @@
     </android.support.v7.widget.RecyclerView>
 
     <RelativeLayout
-        android:id="@+id/empty_view_category"
+        android:id="@+id/ListRequestsDonationFragment_RL_Empty_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true">
@@ -80,7 +80,7 @@
             style="@style/EmptyViewImage" />
 
         <TextView
-            android:id="@+id/tv_empty_view"
+            android:id="@+id/ListRequestsDonationFragment_TV_empty_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/empty_image"
@@ -94,14 +94,10 @@
     </RelativeLayout>
     <!-- Loading indicator is only shown before the first load -->
     <ProgressBar
-        android:id="@+id/loading_indicator"
-        style="@style/Widget.AppCompat.ProgressBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="gone" />
+        android:id="@+id/ListRequestsDonationFragment_BrogressBar"
+        style="@style/StyleProgressBar" />
     <android.support.design.widget.FloatingActionButton
-        android:id="@+id/Fab_Request_Donation"
+        android:id="@+id/ListRequestsDonationFragment_FAB_Request_Donation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"

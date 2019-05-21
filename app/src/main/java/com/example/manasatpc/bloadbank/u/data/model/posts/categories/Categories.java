@@ -1,10 +1,11 @@
 
-package com.example.manasatpc.bloadbank.u.data.model.posts;
+package com.example.manasatpc.bloadbank.u.data.model.posts.categories;
 
+import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Posts {
+public class Categories {
 
     @SerializedName("status")
     @Expose
@@ -14,7 +15,7 @@ public class Posts {
     private String msg;
     @SerializedName("data")
     @Expose
-    private DataPosts data;
+    private List<DataCategories> data = null;
 
     public Integer getStatus() {
         return status;
@@ -32,11 +33,11 @@ public class Posts {
         this.msg = msg;
     }
 
-    public DataPosts getData() {
+    public List<DataCategories> getData() {
         return data;
     }
 
-    public void setData(DataPosts data) {
+    public void setData(List<DataCategories> data) {
         this.data = data;
     }
 

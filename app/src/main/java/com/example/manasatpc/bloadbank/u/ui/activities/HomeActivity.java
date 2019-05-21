@@ -28,6 +28,7 @@ import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.others.ConnectWi
 import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.CustomFragment;
 import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.EditInformationFragment;
 import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.MyFavoriteFragment;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -71,12 +72,12 @@ public class HomeActivity extends AppCompatActivity
 
         // for show Menu notification
         setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
+    /*    if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         }
-
+*/
         if (savedInstanceState != null) {
             titleID = savedInstanceState.getInt(SAVE_TITLE);
             toolbar.setTitle(titleID);
@@ -226,9 +227,10 @@ public class HomeActivity extends AppCompatActivity
             case R.id.sign_out:
                 logout.removeDateUser(this);
                 HelperMethod.startActivity(getApplicationContext(), LoginActivity.class, saveData);
+                String tokentxt = FirebaseInstanceId.getInstance().getToken();
+                HelperMethod.getRemoveToken(getApplicationContext(),tokentxt,saveData.getApi_token());
 
-
-/*                MapFragment mapFragment = new MapFragment();
+                /*                MapFragment mapFragment = new MapFragment();
                 HelperMethod.replece(mapFragment, getSupportFragmentManager(),
                         R.id.Cycle_Home_contener, null, null, saveData);*/
                 break;

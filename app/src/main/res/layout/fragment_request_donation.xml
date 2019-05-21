@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/splash"
-    tools:context=".u.ui.fregmants.homeCycle.regusets.RequestDonationFragment">
+    tools:context=".u.ui.fregmants.homeCycle.donation.RequestDonationFragment">
 
     <LinearLayout
         android:layout_width="match_parent"

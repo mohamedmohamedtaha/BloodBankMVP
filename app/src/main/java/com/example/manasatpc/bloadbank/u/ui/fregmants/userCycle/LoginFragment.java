@@ -20,6 +20,7 @@ import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 import com.example.manasatpc.bloadbank.u.helper.RememberMy;
 import com.example.manasatpc.bloadbank.u.helper.SaveData;
 import com.example.manasatpc.bloadbank.u.ui.activities.HomeActivity;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -49,7 +50,6 @@ public class LoginFragment extends Fragment {
     RememberMy remeberMy;
     String phone;
     String password;
-    String getAPI_key;
     @BindView(R.id.LoginFragment_Phone)
     TextInputEditText LoginFragmentPhone;
     @BindView(R.id.LoginFragment_Password)
@@ -76,7 +76,7 @@ public class LoginFragment extends Fragment {
         //for check if the user in login or not
         remeberMy = new RememberMy(getActivity());
         if (remeberMy.isRemember()) {
-            HelperMethod.startActivity(getActivity(), HomeActivity.class, getAPI_key);
+            HelperMethod.startActivity(getActivity(), HomeActivity.class, saveData.getApi_token());
         }
         return view;
     }
@@ -127,8 +127,12 @@ public class LoginFragment extends Fragment {
                                             , login.getData().getClient().getBirthDate(), login.getData().getClient().getCityId(),
                                             login.getData().getClient().getDonationLastDate(), login.getData().getClient().getBloodTypeId());
                                     Log.i("API Kay : ", login.getData().getApiToken());
+                                    //for notification
+                                    String tokentxt = FirebaseInstanceId.getInstance().getToken();
+                                    HelperMethod.getRegisterToken(getActivity(),tokentxt,saveData.getApi_token(),"android");
+
                                     if (LoginFragmentCBRemeberMy.isChecked()) {
-                                        remeberMy.saveDateUser(phone, password, getAPI_key);
+                                        remeberMy.saveDateUser(phone, password, saveData.getApi_token());
                                     }
                                     HelperMethod.startActivity(getActivity(), HomeActivity.class, saveData);
                                     Toast.makeText(getActivity(), login.getMsg(), Toast.LENGTH_LONG).show();

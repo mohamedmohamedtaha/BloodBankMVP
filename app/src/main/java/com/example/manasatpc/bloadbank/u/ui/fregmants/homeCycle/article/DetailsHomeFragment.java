@@ -1,4 +1,4 @@
-package com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle;
+package com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.article;
 
 
 import android.os.Bundle;
@@ -14,7 +14,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.manasatpc.bloadbank.R;
-import com.example.manasatpc.bloadbank.u.data.model.posts.post.Post;
+import com.example.manasatpc.bloadbank.u.data.model.posts.postdetails.PostDetails;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.helper.DrawerLocker;
 import com.example.manasatpc.bloadbank.u.helper.SaveData;
@@ -29,7 +29,7 @@ import retrofit2.Response;
 import static com.example.manasatpc.bloadbank.u.data.rest.RetrofitClient.getRetrofit;
 import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.GET_DATA;
 import static com.example.manasatpc.bloadbank.u.ui.activities.HomeActivity.toolbar;
-import static com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.HomeFragment.POST_ID;
+import static com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.article.HomeFragment.POST_ID;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -70,18 +70,18 @@ public class DetailsHomeFragment extends Fragment {
         int postId = bundle.getInt(POST_ID);
         apiServices = getRetrofit().create(APIServices.class);
         DetailsHomeFragmentLoginProgress.setVisibility(View.VISIBLE);
-        apiServices.getPost(saveData.getApi_token(), postId).enqueue(new Callback<Post>() {
+        apiServices.getPostDetails(saveData.getApi_token(), postId,1).enqueue(new Callback<PostDetails>() {
             @Override
-            public void onResponse(Call<Post> call, Response<Post> response) {
-                Post post = response.body();
+            public void onResponse(Call<PostDetails> call, Response<PostDetails> response) {
+                PostDetails post = response.body();
                 if (post.getStatus() == 1) {
                     DetailsHomeFragmentLoginProgress.setVisibility(View.GONE);
-                    DetailsHomeFragmentTVShowTitleArticleDetails.setText(post.getDataPost().getTitle());
-                    toolbar.setTitle(post.getDataPost().getTitle());
-                    DetailsHomeFragmentTVShowDetails.setText(post.getDataPost().getContent());
-                    Glide.with(getActivity()).load(post.getDataPost().getThumbnailFullPath())
+                    DetailsHomeFragmentTVShowTitleArticleDetails.setText(post.getData().getTitle());
+                    toolbar.setTitle(post.getData().getTitle());
+                    DetailsHomeFragmentTVShowDetails.setText(post.getData().getContent());
+                    Glide.with(getActivity()).load(post.getData().getThumbnailFullPath())
                             .error(R.drawable.no_image).centerCrop().into(DetailsHomeFragmentIMShowImageDetails);
-                    if (post.getDataPost().getIsFavourite()) {
+                    if (post.getData().getIsFavourite()) {
                         Glide.with(getActivity()).load(R.drawable.favorite_bold)
                                 .error(R.drawable.no_image).centerCrop().into(DetailsHomeFragmentIMShowFavoriteDetails);
                     } else {
@@ -98,7 +98,7 @@ public class DetailsHomeFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<Post> call, Throwable t) {
+            public void onFailure(Call<PostDetails> call, Throwable t) {
                 DetailsHomeFragmentLoginProgress.setVisibility(View.GONE);
                 Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
 

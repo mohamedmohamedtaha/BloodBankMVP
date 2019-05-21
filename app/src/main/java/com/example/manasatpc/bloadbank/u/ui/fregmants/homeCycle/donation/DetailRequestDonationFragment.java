@@ -1,4 +1,4 @@
-package com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.regusets;
+package com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.donation;
 
 
 import android.Manifest;
@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,15 +62,16 @@ public class DetailRequestDonationFragment extends Fragment implements OnMapRead
     TextView TVShowDetailsDetailsDonation;
     @BindView(R.id.BT_Call)
     Button BTCall;
-    Unbinder unbinder;
     @BindView(R.id.mapView)
     MapView mapView;
+    @BindView(R.id.DetailRequestDonationFragment_Progress_Bar)
+    ProgressBar DetailRequestDonationFragmentProgressBar;
+    Unbinder unbinder;
     private APIServices apiServices;
     private GoogleMap gMap;
     private static final String MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey";
     Double longitude = null;
     Double latiude = null;
-
     SaveData saveData;
     private String savePhone;
     private static final int REQUEST_CALL = 1;
@@ -80,48 +82,57 @@ public class DetailRequestDonationFragment extends Fragment implements OnMapRead
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             final Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_detail_request_donation, container, false);
         unbinder = ButterKnife.bind(this, view);
         saveData = getArguments().getParcelable(GET_DATA);
         ((DrawerLocker) getActivity()).setDraweEnabled(false);
-        Bundle mapViewBundle = null;
-        if (savedInstanceState != null) {
-            mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY);
-        }
-        mapView.onCreate(mapViewBundle);
-        mapView.getMapAsync(this);
         apiServices = getRetrofit().create(APIServices.class);
-        apiServices.getDonationRequest(saveData.getApi_token(), 1)
+        DetailRequestDonationFragmentProgressBar.setVisibility(View.VISIBLE);
+        apiServices.getDonationRequest(saveData.getApi_token(), saveData.getPositionId())
                 .enqueue(new Callback<DonationRequest>() {
                     @Override
                     public void onResponse(Call<DonationRequest> call, Response<DonationRequest> response) {
                         DonationRequest donationRequest = response.body();
-                        if (donationRequest.getStatus() == 1) {
-                            TVShowNameDetailsDonation.append(donationRequest.getData().getPatientName());
-                            TVShowAgeDetailsDonation.append(donationRequest.getData().getPatientAge());
-                            TVShowTypeBloodDetailsDonation.append(donationRequest.getData().getBloodType().getName());
-                            TVShowNumberPackageRequestDetailsDonation.append(donationRequest.getData().getBagsNum());
-                            TVShowHospitalDetailsDonation.append(donationRequest.getData().getHospitalName());
-                            TVShowAddressHospitalDetailsDonation.append(donationRequest.getData().getHospitalAddress());
-                            savePhone = donationRequest.getData().getPhone();
-                            TVShowPhoneDetailsDonation.append(savePhone);
-                            TVShowDetailsDetailsDonation.append(donationRequest.getData().getNotes());
-                            latiude = Double.parseDouble(donationRequest.getData().getLatitude());
-                            longitude = Double.parseDouble(donationRequest.getData().getLongitude());
-                        } else {
-                            Toast.makeText(getActivity(), donationRequest.getMsg(), Toast.LENGTH_SHORT).show();
+                        try {
+                            if (donationRequest.getStatus() == 1) {
+                                DetailRequestDonationFragmentProgressBar.setVisibility(View.GONE);
+                                TVShowNameDetailsDonation.append(donationRequest.getData().getPatientName());
+                                TVShowAgeDetailsDonation.append(donationRequest.getData().getPatientAge());
+                                TVShowTypeBloodDetailsDonation.append(donationRequest.getData().getBloodType().getName());
+                                TVShowNumberPackageRequestDetailsDonation.append(donationRequest.getData().getBagsNum());
+                                TVShowHospitalDetailsDonation.append(donationRequest.getData().getHospitalName());
+                                TVShowAddressHospitalDetailsDonation.append(donationRequest.getData().getHospitalAddress());
+                                savePhone = donationRequest.getData().getPhone();
+                                TVShowPhoneDetailsDonation.append(savePhone);
+                                TVShowDetailsDetailsDonation.append(donationRequest.getData().getNotes());
+                                latiude = Double.parseDouble(donationRequest.getData().getLatitude());
+                                longitude = Double.parseDouble(donationRequest.getData().getLongitude());
+                                Bundle mapViewBundle = null;
+                                if (savedInstanceState != null) {
+                                    mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY);
+                                }
+                                mapView.onCreate(mapViewBundle);
+                                mapView.getMapAsync(DetailRequestDonationFragment.this);
+                                mapView.onStart();
+                            } else {
+                                Toast.makeText(getActivity(), donationRequest.getMsg(), Toast.LENGTH_SHORT).show();
+                                DetailRequestDonationFragmentProgressBar.setVisibility(View.GONE);
+                            }
+                        }catch (Exception e){
+                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                            DetailRequestDonationFragmentProgressBar.setVisibility(View.GONE);
                         }
+
                     }
 
                     @Override
                     public void onFailure(Call<DonationRequest> call, Throwable t) {
                         Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                        DetailRequestDonationFragmentProgressBar.setVisibility(View.GONE);
                     }
                 });
-
-
         return view;
     }
 
@@ -138,25 +149,21 @@ public class DetailRequestDonationFragment extends Fragment implements OnMapRead
 
     @Override
     public void onResume() {
-        mapView.onResume();
         super.onResume();
     }
 
     @Override
     public void onStart() {
-        mapView.onStart();
         super.onStart();
     }
 
     @Override
     public void onStop() {
-        mapView.onStop();
         super.onStop();
     }
 
     @Override
     public void onPause() {
-        mapView.onPause();
         super.onPause();
     }
 
@@ -175,7 +182,6 @@ public class DetailRequestDonationFragment extends Fragment implements OnMapRead
 
     @OnClick(R.id.BT_Call)
     public void onViewClicked() {
-
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE) !=
                 PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL);
@@ -200,10 +206,15 @@ public class DetailRequestDonationFragment extends Fragment implements OnMapRead
     public void onMapReady(GoogleMap googleMap) {
         gMap = googleMap;
         gMap.setMinZoomPreference(12);
-        LatLng latLng = new LatLng(longitude, latiude);
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(latLng);
-        gMap.addMarker(markerOptions);
-        gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        if (longitude != null || latiude != null) {
+            LatLng latLng = new LatLng(longitude, latiude);
+            MarkerOptions markerOptions = new MarkerOptions();
+            markerOptions.position(latLng);
+            gMap.addMarker(markerOptions);
+            gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+        } else {
+            Toast.makeText(getActivity(), getString(R.string.error), Toast.LENGTH_SHORT).show();
+        }
+
     }
 }

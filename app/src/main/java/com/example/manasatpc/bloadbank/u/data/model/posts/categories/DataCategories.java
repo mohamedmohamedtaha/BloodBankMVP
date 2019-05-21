@@ -1,10 +1,10 @@
 
-package com.example.manasatpc.bloadbank.u.data.model.posts;
+package com.example.manasatpc.bloadbank.u.data.model.posts.categories;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class CategoryPosts {
+public class DataCategories {
 
     @SerializedName("id")
     @Expose

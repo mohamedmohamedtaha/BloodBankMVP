@@ -38,8 +38,6 @@ import static com.example.manasatpc.bloadbank.u.ui.activities.HomeActivity.toolb
  * A simple {@link Fragment} subclass.
  */
 public class MyFavoriteFragment extends Fragment {
-
-
     @BindView(R.id.list)
     ListView list;
     @BindView(R.id.tv_empty_view)

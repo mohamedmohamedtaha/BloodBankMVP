@@ -1,4 +1,4 @@
-package com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.regusets;
+package com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.donation;
 
 
 import android.os.Bundle;
@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -25,6 +24,7 @@ import com.example.manasatpc.bloadbank.u.data.model.general.governorates.Governo
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 import com.example.manasatpc.bloadbank.u.helper.SaveData;
+import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.regusets.MapFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +39,7 @@ import retrofit2.Response;
 
 import static com.example.manasatpc.bloadbank.u.data.rest.RetrofitClient.getRetrofit;
 import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.GET_DATA;
+import static com.example.manasatpc.bloadbank.u.ui.activities.HomeActivity.toolbar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -69,21 +70,20 @@ public class RequestDonationFragment extends Fragment {
     Button RequestDonationFragmentBTSendRequest;
     Unbinder unbinder;
     private SaveData saveData;
-    private long number_package;
-    ArrayList<Integer> number_package_blood = new ArrayList<>();
     private APIServices apiServicesgetGovernorate;
-    String getResult;
-    int IDPosition;
     Integer positionCity;
     Integer positionBloodType;
-    int blood_type;
-    ArrayList<String> strings = new ArrayList<>();
-    final ArrayList<Integer> Ids = new ArrayList<>();
+
     final ArrayList<Integer> IdsCity = new ArrayList<>();
     final ArrayList<Integer> IdsBloodType = new ArrayList<>();
+    int IdsNumberBackage;
+    ArrayList<String> stringsNumberBackage = new ArrayList<>();
+
+
     public RequestDonationFragment() {
         // Required empty public constructor
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -93,20 +93,25 @@ public class RequestDonationFragment extends Fragment {
         saveData = getArguments().getParcelable(GET_DATA);
         getBloodTypes();
 
-        //strings.add(getString(R.string.select_number_package));
-        for (int i = 1; i < 10; i++) {
-            number_package_blood.add(i);
-        }
+        stringsNumberBackage.add(getString(R.string.select_number_package));
+        stringsNumberBackage.add("1");
+        stringsNumberBackage.add("2");
+        stringsNumberBackage.add("3");
+        stringsNumberBackage.add("4");
+        stringsNumberBackage.add("5");
+        stringsNumberBackage.add("6");
+        stringsNumberBackage.add("7");
+        stringsNumberBackage.add("8");
+        stringsNumberBackage.add("9");
+        stringsNumberBackage.add("10");
+
         //For fill SpinnerNumberPackage
-        ArrayAdapter<Integer> adapter = new ArrayAdapter<Integer>(getActivity(),
-                android.R.layout.simple_spinner_item, number_package_blood);
-
-        RequestDonationFragmentSPNumberPackage.setAdapter(adapter);
-
+        HelperMethod.showGovernorates(stringsNumberBackage, getActivity(), RequestDonationFragmentSPNumberPackage);
         RequestDonationFragmentSPNumberPackage.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //      Toast.makeText(getActivity(), "Position :" + position + "id:" + id, Toast.LENGTH_SHORT).show();
+                IdsNumberBackage = position;
+                //    Toast.makeText(getActivity(), "Position :" + IdsNumberBackage , Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -150,8 +155,6 @@ public class RequestDonationFragment extends Fragment {
 
                             }
                         });
-
-
                     } catch (Exception e) {
                         Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
 
@@ -223,21 +226,16 @@ public class RequestDonationFragment extends Fragment {
                     try {
                         strings.add(getString(R.string.blood_type));
                         IdsBloodType.add(0);
-
                         List<DataBloodTypes> bloodTypesList = bloodTypes.getData();
                         for (int i = 0; i < bloodTypesList.size(); i++) {
                             getResult = bloodTypesList.get(i).getName();
                             strings.add(getResult);
                             positionBloodType = bloodTypesList.get(i).getId();
                             IdsBloodType.add(positionBloodType);
-
                         }
-
                         HelperMethod.showGovernorates(strings, getActivity(), RequestDonationFragmentSPBloodTypes);
-
                     } catch (Exception e) {
                         Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
-
                     }
                 }
             }
@@ -245,7 +243,6 @@ public class RequestDonationFragment extends Fragment {
             @Override
             public void onFailure(Call<BloodTypes> call, Throwable t) {
                 Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
-
             }
         });
     }
@@ -255,46 +252,61 @@ public class RequestDonationFragment extends Fragment {
         super.onDestroyView();
         unbinder.unbind();
     }
+
     @OnClick({R.id.RequestDonationFragment_TV_Adrees_Hospital, R.id.RequestDonationFragment_BT_Send_Request})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.RequestDonationFragment_TV_Adrees_Hospital:
                 MapFragment mapFragment = new MapFragment();
                 HelperMethod.replece(mapFragment, getActivity().getSupportFragmentManager(),
-                        R.id.Cycle_Home_contener, null, null, saveData);
+                        R.id.Cycle_Home_contener, toolbar, getString(R.string.address_hospital), saveData);
                 break;
             case R.id.RequestDonationFragment_BT_Send_Request:
                 String name_patient = RequestDonationFragmentETNamePatient.getText().toString().trim();
                 String age_patient = RequestDonationFragmentETAgePatient.getText().toString().trim();
-                int blood_type = RequestDonationFragmentSPBloodTypes.getSelectedItemPosition();
                 String hospital_name = RequestDonationFragmentETNameHospitalPatient.getText().toString().trim();
                 String phone = RequestDonationFragmentETPhonePatient.getText().toString().trim();
                 String notes = RequestDonationFragmentETNotesPatient.getText().toString().trim();
-                String number_package_string = String.valueOf(number_package);
                 String hospital_address = RequestDonationFragmentETNamePatient.getText().toString().trim();
-                int city_id = RequestDonationFragmentSPCityRequestDonation.getSelectedItemPosition();
-                String longtude = RequestDonationFragmentETNamePatient.getText().toString().trim();
-                String latitude = RequestDonationFragmentETNamePatient.getText().toString().trim();
+                String longtude = null;
+                String latitude = null;
+                if (IdsNumberBackage <= 0) {
+                    Toast.makeText(getActivity(), getString(R.string.select_number_package), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                String number_package_string = String.valueOf(IdsNumberBackage);
+
+                if (IdsCity.isEmpty() || IdsBloodType.isEmpty()) {
+                    Toast.makeText(getActivity(), getString(R.string.selct_blood_and_city), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (longtude.isEmpty() || latitude.isEmpty()) {
+                    Toast.makeText(getActivity(), getString(R.string.select_map), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                int city_id = IdsCity.get(RequestDonationFragmentSPCityRequestDonation.getSelectedItemPosition());
+                int blood_type = IdsBloodType.get(RequestDonationFragmentSPBloodTypes.getSelectedItemPosition());
                 apiServicesgetGovernorate.getDonationRequestCreate(saveData.getApi_token(), name_patient, age_patient
                         , blood_type, number_package_string, hospital_name, hospital_address, city_id, phone, notes, latitude, longtude).enqueue(new Callback<DonationRequestCreate>() {
                     @Override
                     public void onResponse(Call<DonationRequestCreate> call, Response<DonationRequestCreate> response) {
                         DonationRequestCreate donationRequestCreate = response.body();
-                        if (donationRequestCreate.getStatus() == 1) {
-                            Toast.makeText(getActivity(), donationRequestCreate.getMsg(), Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getActivity(), donationRequestCreate.getMsg(), Toast.LENGTH_SHORT).show();
-
+                        try {
+                            if (donationRequestCreate.getStatus() == 1) {
+                                Toast.makeText(getActivity(), donationRequestCreate.getMsg(), Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getActivity(), donationRequestCreate.getMsg(), Toast.LENGTH_SHORT).show();
+                            }
+                        } catch (Exception e) {
+                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<DonationRequestCreate> call, Throwable t) {
                         Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
-
                     }
                 });
-
                 break;
         }
     }

@@ -1,10 +1,10 @@
 
-package com.example.manasatpc.bloadbank.u.data.model.posts.post;
+package com.example.manasatpc.bloadbank.u.data.model.posts.postdetails;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Post {
+public class PostDetails {
 
     @SerializedName("status")
     @Expose
@@ -14,7 +14,7 @@ public class Post {
     private String msg;
     @SerializedName("data")
     @Expose
-    private DataPost dataPost;
+    private DataPostDetails data;
 
     public Integer getStatus() {
         return status;
@@ -32,12 +32,12 @@ public class Post {
         this.msg = msg;
     }
 
-    public DataPost getDataPost() {
-        return dataPost;
+    public DataPostDetails getData() {
+        return data;
     }
 
-    public void setDataPost(DataPost dataPost) {
-        this.dataPost = dataPost;
+    public void setData(DataPostDetails data) {
+        this.data = data;
     }
 
 }

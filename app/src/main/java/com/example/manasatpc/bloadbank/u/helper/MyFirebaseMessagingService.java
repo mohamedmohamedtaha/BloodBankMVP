@@ -17,7 +17,6 @@ import com.google.firebase.messaging.RemoteMessage;
 import java.util.Random;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
-
     private NotificationManager notificationManager;
     private static final String ADMIN_CHANNEL_ID = "admin_channel";
 
@@ -25,12 +24,8 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     public void onMessageReceived(RemoteMessage remoteMessage) {
         //You should use an actual ID instead
         int notificationId = new Random().nextInt(60000);
-
-
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             setupChannels();
         }

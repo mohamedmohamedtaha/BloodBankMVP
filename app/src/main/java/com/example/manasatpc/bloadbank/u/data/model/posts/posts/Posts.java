@@ -1,10 +1,10 @@
 
-package com.example.manasatpc.bloadbank.u.data.model.donation.donationrequestsfilter;
+package com.example.manasatpc.bloadbank.u.data.model.posts.posts;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class DonationRequestsFilter {
+public class Posts {
 
     @SerializedName("status")
     @Expose
@@ -14,7 +14,7 @@ public class DonationRequestsFilter {
     private String msg;
     @SerializedName("data")
     @Expose
-    private DataDonationRequestsFilter data;
+    private DataPosts data;
 
     public Integer getStatus() {
         return status;
@@ -32,11 +32,11 @@ public class DonationRequestsFilter {
         this.msg = msg;
     }
 
-    public DataDonationRequestsFilter getData() {
+    public DataPosts getData() {
         return data;
     }
 
-    public void setData(DataDonationRequestsFilter data) {
+    public void setData(DataPosts data) {
         this.data = data;
     }
 

@@ -1,10 +1,10 @@
 
-package com.example.manasatpc.bloadbank.u.data.model.posts;
+package com.example.manasatpc.bloadbank.u.data.model.posts.postdetails;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Data2Posts {
+public class DataPostDetails {
 
     @SerializedName("id")
     @Expose
@@ -38,7 +38,7 @@ public class Data2Posts {
     private Boolean isFavourite;
     @SerializedName("category")
     @Expose
-    private CategoryPosts category;
+    private CategoryPostDetails category;
 
     public Integer getId() {
         return id;
@@ -120,11 +120,11 @@ public class Data2Posts {
         this.isFavourite = isFavourite;
     }
 
-    public CategoryPosts getCategory() {
+    public CategoryPostDetails getCategory() {
         return category;
     }
 
-    public void setCategory(CategoryPosts category) {
+    public void setCategory(CategoryPostDetails category) {
         this.category = category;
     }
 

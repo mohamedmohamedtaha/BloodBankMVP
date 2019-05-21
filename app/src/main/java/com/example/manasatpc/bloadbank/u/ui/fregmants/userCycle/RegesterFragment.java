@@ -41,6 +41,7 @@ import retrofit2.Response;
 
 import static com.example.manasatpc.bloadbank.u.data.rest.RetrofitClient.getRetrofit;
 import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.GET_DATA;
+import static com.example.manasatpc.bloadbank.u.ui.activities.HomeActivity.toolbar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -72,7 +73,6 @@ public class RegesterFragment extends Fragment {
     TextView test;
     @BindView(R.id.RegesterFragment_Progress_Bar)
     ProgressBar RegesterFragmentProgressBar;
-
     Unbinder unbinder;
     Bundle bundle;
     private DateModel dateModel1;
@@ -113,9 +113,25 @@ public class RegesterFragment extends Fragment {
         startDay = getDatenow.get(Calendar.DAY_OF_MONTH);
         dateModel1 = new DateModel(String.valueOf(startYear), String.valueOf(startMonth)
                 , String.valueOf(startDay), null);
-
         dateModel2 = new DateModel(String.valueOf(startYear), String.valueOf(startMonth)
                 , String.valueOf(startDay), null);
+        getGaverment();
+        RegesterFragmentDateOfBirth.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HelperMethod.showCalender(getActivity(), getString(R.string.date), RegesterFragmentDateOfBirth, dateModel1);
+            }
+        });
+        RegesterFragmentLastDateDonation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                HelperMethod.showCalender(getActivity(), getString(R.string.last_date), RegesterFragmentLastDateDonation, dateModel2);
+            }
+        });
+        return view;
+    }
+
+    private void getGaverment() {
         // for get DataPost to governorate Spinner
         apiServices = getRetrofit().create(APIServices.class);
         final Call<Governorates> governorates = apiServices.getGovernorates();
@@ -160,21 +176,6 @@ public class RegesterFragment extends Fragment {
 
             }
         });
-        RegesterFragmentDateOfBirth.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                HelperMethod.showCalender(getActivity(), getString(R.string.date), RegesterFragmentDateOfBirth, dateModel1);
-            }
-        });
-
-        RegesterFragmentLastDateDonation.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                HelperMethod.showCalender(getActivity(), getString(R.string.last_date), RegesterFragmentLastDateDonation, dateModel2);
-            }
-        });
-
-        return view;
     }
 
     private void getCities(int getIdGovernorates) {
@@ -185,7 +186,6 @@ public class RegesterFragment extends Fragment {
             public void onResponse(Call<Cities> call, Response<Cities> response) {
                 String getResult;
                 ArrayList<String> strings = new ArrayList<>();
-                IdsCity = new ArrayList<>();
                 Cities cities = response.body();
                 if (cities.getStatus() == 1) {
                     try {
@@ -199,6 +199,18 @@ public class RegesterFragment extends Fragment {
                             IdsCity.add(positionCity);
                         }
                         HelperMethod.showGovernorates(strings, getActivity(), RegesterFragmentSPCity);
+                        RegesterFragmentSPCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                Toast.makeText(getActivity(), "Position :" + IdsCity.get(RegesterFragmentSPCity.getSelectedItemPosition())
+                                        , Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+
+                            }
+                        });
                     } catch (Exception e) {
                         Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
                     }
@@ -277,11 +289,9 @@ public class RegesterFragment extends Fragment {
             Toast.makeText(getActivity(), getString(R.string.selct_blood_and_city), Toast.LENGTH_SHORT).show();
             return;
         }
-
         blood_type = IdsBloodType.get(RegesterFragmentBloodType.getSelectedItemPosition());
-
         int cityId = IdsCity.get(RegesterFragmentSPCity.getSelectedItemPosition());
-
+        RegesterFragmentProgressBar.setVisibility(View.VISIBLE);
         APIServices apiServices = getRetrofit().create(APIServices.class);
         Call<Register> registerCall = apiServices.getRegister(new_user, email,
                 date_birth, cityId, phone,
@@ -289,7 +299,6 @@ public class RegesterFragment extends Fragment {
         registerCall.enqueue(new Callback<Register>() {
             @Override
             public void onResponse(Call<Register> call, Response<Register> response) {
-                RegesterFragmentProgressBar.setVisibility(View.VISIBLE);
                 try {
                     Register register = response.body();
                     if (register.getStatus() == 0) {
@@ -300,9 +309,7 @@ public class RegesterFragment extends Fragment {
                         RegesterFragmentProgressBar.setVisibility(View.GONE);
                         LoginFragment loginFragment = new LoginFragment();
                         HelperMethod.replece(loginFragment, getActivity().getSupportFragmentManager(),
-                                R.id.Cycle_User_contener, null, null, saveData);
-
-
+                                R.id.Cycle_User_contener, toolbar, getString(R.string.login), saveData);
                     }
                 } catch (Exception e) {
                     Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
@@ -317,5 +324,4 @@ public class RegesterFragment extends Fragment {
             }
         });
     }
-
 }

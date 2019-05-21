@@ -1,10 +1,10 @@
 
-package com.example.manasatpc.bloadbank.u.data.model.donation.donationrequestsfilter;
+package com.example.manasatpc.bloadbank.u.data.model.posts.postdetails;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class BloodTypeDonationRequestsFilter {
+public class CategoryPostDetails {
 
     @SerializedName("id")
     @Expose

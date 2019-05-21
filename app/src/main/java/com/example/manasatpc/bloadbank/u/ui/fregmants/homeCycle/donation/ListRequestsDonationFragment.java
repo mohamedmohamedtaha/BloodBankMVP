@@ -1,4 +1,4 @@
-package com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.regusets;
+package com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.donation;
 
 
 import android.os.Bundle;
@@ -21,8 +21,8 @@ import com.example.manasatpc.bloadbank.u.data.model.donation.donationrequests.Da
 import com.example.manasatpc.bloadbank.u.data.model.donation.donationrequests.DonationRequests;
 import com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes.BloodTypes;
 import com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes.DataBloodTypes;
-import com.example.manasatpc.bloadbank.u.data.model.general.cities.Cities;
-import com.example.manasatpc.bloadbank.u.data.model.general.cities.DataCities;
+import com.example.manasatpc.bloadbank.u.data.model.general.governorates.Governorates;
+import com.example.manasatpc.bloadbank.u.data.model.general.governorates.GovernoratesData;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 import com.example.manasatpc.bloadbank.u.helper.OnEndless;
@@ -48,37 +48,33 @@ import static com.example.manasatpc.bloadbank.u.ui.activities.HomeActivity.toolb
  * A simple {@link Fragment} subclass.
  */
 public class ListRequestsDonationFragment extends Fragment {
-
-
-    @BindView(R.id.list)
-    RecyclerView list;
-    @BindView(R.id.empty_view_category)
-    RelativeLayout emptyViewCategory;
-    @BindView(R.id.loading_indicator)
-    ProgressBar loadingIndicator;
     @BindView(R.id.ListRequestsDonationFragment_IM_Search)
     ImageView ListRequestsDonationFragmentIMSearch;
-    @BindView(R.id.ListRequestsDonationFragment_Select_City)
-    Spinner ListRequestsDonationFragmentSelectCity;
+    @BindView(R.id.ListRequestsDonationFragment_Select_Geverment)
+    Spinner ListRequestsDonationFragmentSelectGeverment;
     @BindView(R.id.ListRequestsDonationFragment_Select_Blood_Type)
     Spinner ListRequestsDonationFragmentSelectBloodType;
+    @BindView(R.id.ListRequestsDonationFragment_RecyclerView)
+    RecyclerView ListRequestsDonationFragmentRecyclerView;
+    @BindView(R.id.ListRequestsDonationFragment_RL_Empty_view)
+    RelativeLayout ListRequestsDonationFragmentRLEmptyView;
+    @BindView(R.id.ListRequestsDonationFragment_BrogressBar)
+    ProgressBar ListRequestsDonationFragmentBrogressBar;
+    @BindView(R.id.ListRequestsDonationFragment_FAB_Request_Donation)
+    FloatingActionButton ListRequestsDonationFragmentFABRequestDonation;
     Unbinder unbinder;
-    @BindView(R.id.Fab_Request_Donation)
-    FloatingActionButton FabRequestDonation;
+
     private int max = 0;
     ArrayList<Data2DonationRequests> dataDonations = new ArrayList<>();
     private AdapterDonation adapterDonation;
     private APIServices apiServices;
     Bundle bundle;
     private SaveData saveData;
-    int IDPosition;
-    Integer positionCity;
+    Integer positionGeverment;
     Integer positionBloodType;
-    int blood_type;
-    ArrayList<String> strings = new ArrayList<>();
-    final ArrayList<Integer> Ids = new ArrayList<>();
-    private ArrayList<Integer> IdsCity = new ArrayList<>();
+    private ArrayList<Integer> IdsGeverment = new ArrayList<>();
     final ArrayList<Integer> IdsBloodType = new ArrayList<>();
+
     public ListRequestsDonationFragment() {
         // Required empty public constructor
     }
@@ -92,29 +88,27 @@ public class ListRequestsDonationFragment extends Fragment {
         bundle = getArguments();
         saveData = getArguments().getParcelable(GET_DATA);
         dataDonations.clear();
-        getBloodTypes();
         apiServices = getRetrofit().create(APIServices.class);
+        getBloodTypes();
+        getGovernorates();
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        list.setLayoutManager(linearLayoutManager);
+        ListRequestsDonationFragmentRecyclerView.setLayoutManager(linearLayoutManager);
         OnEndless onEndless = new OnEndless(linearLayoutManager, 1) {
             @Override
             public void onLoadMore(int current_page) {
                 if (current_page <= max) {
-
                 }
-
             }
         };
-        list.addOnScrollListener(onEndless);
+        ListRequestsDonationFragmentRecyclerView.addOnScrollListener(onEndless);
         adapterDonation = new AdapterDonation(getActivity(), dataDonations, new AdapterDonation.showDetials() {
             @Override
             public void itemShowDetail(Data2DonationRequests position) {
                 int donationRequest = position.getId();
-                  Toast.makeText(getActivity(), position.getLatitude() + "\n" + position.getLongitude(), Toast.LENGTH_SHORT).show();
+                saveData.setPositionId(donationRequest);
                 DetailRequestDonationFragment detailRequestDonationFragment = new DetailRequestDonationFragment();
                 HelperMethod.replece(detailRequestDonationFragment, getActivity().getSupportFragmentManager(),
-                        R.id.Cycle_Home_contener, null, null, saveData);
-
+                        R.id.Cycle_Home_contener, toolbar, position.getPatientName(), saveData);
             }
         }, new AdapterDonation.makeCall() {
             @Override
@@ -123,35 +117,34 @@ public class ListRequestsDonationFragment extends Fragment {
                 makePhoneCall(getActivity(), positioncurrent);
             }
         });
-        list.setAdapter(adapterDonation);
+        ListRequestsDonationFragmentRecyclerView.setAdapter(adapterDonation);
         getDonation();
         return view;
     }
 
     private void getDonation() {
-//"8KTqGqCh3ofQvl0DySaPNBw0TZODwgxlfZ0nHmWxigWlrKK3cpVLJQEb0bju"
-
         apiServices.getDonationRequests(saveData.getApi_token())
                 .enqueue(new Callback<DonationRequests>() {
                     @Override
                     public void onResponse(Call<DonationRequests> call, Response<DonationRequests> response) {
                         try {
-                            loadingIndicator.setVisibility(View.VISIBLE);
+                            dataDonations.clear();
+                            ListRequestsDonationFragmentBrogressBar.setVisibility(View.VISIBLE);
                             DonationRequests donation = response.body();
                             if (donation.getStatus() == 1) {
-                                list.setVisibility(View.VISIBLE);
-                                loadingIndicator.setVisibility(View.GONE);
-                                emptyViewCategory.setVisibility(View.GONE);
                                 dataDonations.addAll(donation.getData().getData());
-                                adapterDonation.notifyDataSetChanged();
+                                if (!dataDonations.isEmpty()) {
+                                    ListRequestsDonationFragmentRecyclerView.setVisibility(View.VISIBLE);
+                                    ListRequestsDonationFragmentBrogressBar.setVisibility(View.GONE);
+                                    ListRequestsDonationFragmentRLEmptyView.setVisibility(View.GONE);
+                                    adapterDonation.notifyDataSetChanged();
+                                } else {
+                                    getProperties();
+                                }
                             } else {
-
                                 Toast.makeText(getActivity(), donation.getMsg(), Toast.LENGTH_SHORT).show();
                                 getProperties();
-
                             }
-
-
                         } catch (Exception e) {
                             Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
                             getProperties();
@@ -162,22 +155,18 @@ public class ListRequestsDonationFragment extends Fragment {
                     public void onFailure(Call<DonationRequests> call, Throwable t) {
                         Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
                         getProperties();
-
                     }
                 });
-
-
     }
 
     public void getProperties() {
-        list.setVisibility(View.GONE);
-        loadingIndicator.setVisibility(View.GONE);
-        emptyViewCategory.setVisibility(View.VISIBLE);
+        ListRequestsDonationFragmentRecyclerView.setVisibility(View.GONE);
+        ListRequestsDonationFragmentBrogressBar.setVisibility(View.GONE);
+        ListRequestsDonationFragmentRLEmptyView.setVisibility(View.VISIBLE);
     }
 
     private void getBloodTypes() {
-        APIServices apiServicesgetBloodTypes = getRetrofit().create(APIServices.class);
-        final Call<BloodTypes> bloodTypesCall = apiServicesgetBloodTypes.getBloodTypes();
+        final Call<BloodTypes> bloodTypesCall = apiServices.getBloodTypes();
         bloodTypesCall.enqueue(new Callback<BloodTypes>() {
             @Override
             public void onResponse(Call<BloodTypes> call, Response<BloodTypes> response) {
@@ -214,28 +203,26 @@ public class ListRequestsDonationFragment extends Fragment {
         });
     }
 
-    private void getCities(int getIdGovernorates) {
-        APIServices apiServicesgetCities = getRetrofit().create(APIServices.class);
-        final Call<Cities> citiesCall = apiServicesgetCities.getCities(getIdGovernorates);
-        citiesCall.enqueue(new Callback<Cities>() {
+    private void getGovernorates() {
+        final Call<Governorates> governorates = apiServices.getGovernorates();
+        governorates.enqueue(new Callback<Governorates>() {
             @Override
-            public void onResponse(Call<Cities> call, Response<Cities> response) {
-                String getResult;
-                ArrayList<String> strings = new ArrayList<>();
-                IdsCity = new ArrayList<>();
-                Cities cities = response.body();
-                if (cities.getStatus() == 1) {
+            public void onResponse(Call<Governorates> call, Response<Governorates> response) {
+                if (response.body().getStatus() == 1) {
                     try {
-                        strings.add(getString(R.string.select_city));
-                        IdsCity.add(0);
-                        List<DataCities> dataCities = cities.getData();
-                        for (int i = 0; i < dataCities.size(); i++) {
-                            getResult = dataCities.get(i).getName();
-                            strings.add(getResult);
-                            positionCity = dataCities.get(i).getId();
-                            IdsCity.add(positionCity);
+                        String getResult;
+                        Governorates governorates1 = response.body();
+                        ArrayList<String> stringsGeverment = new ArrayList<>();
+                        stringsGeverment.add(getString(R.string.select_gaverment));
+                        IdsGeverment.add(0);
+                        List<GovernoratesData> governoratesData = governorates1.getData();
+                        for (int i = 0; i < governoratesData.size(); i++) {
+                            getResult = governoratesData.get(i).getName();
+                            stringsGeverment.add(getResult);
+                            positionGeverment = governoratesData.get(i).getId();
+                            IdsGeverment.add(positionGeverment);
                         }
-                        HelperMethod.showGovernorates(strings, getActivity(), ListRequestsDonationFragmentSelectCity);
+                        HelperMethod.showGovernorates(stringsGeverment, getActivity(), ListRequestsDonationFragmentSelectGeverment);
                     } catch (Exception e) {
                         Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
                     }
@@ -243,10 +230,12 @@ public class ListRequestsDonationFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<Cities> call, Throwable t) {
+            public void onFailure(Call<Governorates> call, Throwable t) {
                 Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
+
             }
         });
+
     }
 
     @Override
@@ -255,23 +244,56 @@ public class ListRequestsDonationFragment extends Fragment {
         unbinder.unbind();
     }
 
-
-    @OnClick({R.id.ListRequestsDonationFragment_IM_Search, R.id.Fab_Request_Donation})
+    @OnClick({R.id.ListRequestsDonationFragment_IM_Search, R.id.ListRequestsDonationFragment_FAB_Request_Donation})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ListRequestsDonationFragment_IM_Search:
-                String textBloodType = ListRequestsDonationFragmentSelectBloodType.getSelectedItem().toString();
-                String textBloodT = ListRequestsDonationFragmentSelectBloodType.getSelectedItem().toString();
-                // emptyViewCategory.setVisibility(View.VISIBLE);
-                adapterDonation.getFilter().filter(textBloodType);
+                if (IdsBloodType.isEmpty() || IdsGeverment.isEmpty()) {
+                    Toast.makeText(getActivity(), getString(R.string.selct_blood_and_Geverment), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                int blood_id = IdsBloodType.get(ListRequestsDonationFragmentSelectBloodType.getSelectedItemPosition());
+                int geverment_id = IdsGeverment.get(ListRequestsDonationFragmentSelectGeverment.getSelectedItemPosition());
+                dataDonations.clear();
+                ListRequestsDonationFragmentBrogressBar.setVisibility(View.VISIBLE);
+                apiServices.getDonationRequestFilter(saveData.getApi_token(), blood_id, geverment_id, 1)
+                        .enqueue(new Callback<DonationRequests>() {
+                            @Override
+                            public void onResponse(Call<DonationRequests> call, Response<DonationRequests> response) {
+                                DonationRequests donationRequestsFilter = response.body();
+                                try {
+                                    if (donationRequestsFilter.getStatus() == 1) {
+                                        dataDonations.addAll(donationRequestsFilter.getData().getData());
+                                        if (!dataDonations.isEmpty()) {
+                                            ListRequestsDonationFragmentRecyclerView.setVisibility(View.VISIBLE);
+                                            ListRequestsDonationFragmentBrogressBar.setVisibility(View.GONE);
+                                            ListRequestsDonationFragmentRLEmptyView.setVisibility(View.GONE);
+                                            adapterDonation.notifyDataSetChanged();
+                                        } else {
+                                            getProperties();
+                                        }
+
+                                    } else {
+                                        Toast.makeText(getActivity(), donationRequestsFilter.getMsg(), Toast.LENGTH_SHORT).show();
+                                        getProperties();
+                                    }
+                                } catch (Exception e) {
+                                    Toast.makeText(getActivity(), donationRequestsFilter.getMsg(), Toast.LENGTH_SHORT).show();
+                                    getProperties();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<DonationRequests> call, Throwable t) {
+                                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                                getProperties();
+                            }
+                        });
                 break;
-            case R.id.Fab_Request_Donation:
+            case R.id.ListRequestsDonationFragment_FAB_Request_Donation:
                 RequestDonationFragment requestDonationFragment = new RequestDonationFragment();
                 HelperMethod.replece(requestDonationFragment, getActivity().getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.request_donation), saveData);
-
                 break;
         }
     }
 }
-
-

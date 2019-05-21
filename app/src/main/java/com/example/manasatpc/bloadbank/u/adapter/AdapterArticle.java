@@ -14,15 +14,14 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.manasatpc.bloadbank.R;
-import com.example.manasatpc.bloadbank.u.data.model.posts.Data2Posts;
+import com.example.manasatpc.bloadbank.u.data.model.posts.posts.Data2Posts;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AdapterArticle extends RecyclerView.Adapter<AdapterArticle.ArticleViewHolder> implements Filterable {
+public class AdapterArticle extends RecyclerView.Adapter<AdapterArticle.ArticleViewHolder> /*implements Filterable*/ {
 
     private Context context;
     private showDetial mListener ;
@@ -51,7 +50,6 @@ public class AdapterArticle extends RecyclerView.Adapter<AdapterArticle.ArticleV
                 int position = articleViewHolder.getAdapterPosition();
                 Data2Posts data2Posts = postsArrayListSearch.get(position);
                 if (mListener !=null)mListener.itemShowDetail(data2Posts);
-
             }
         });
         return articleViewHolder;
@@ -68,19 +66,10 @@ public class AdapterArticle extends RecyclerView.Adapter<AdapterArticle.ArticleV
 
         }
         if (data2Posts.getIsFavourite()){
-//            Glide.with(context)
-//                    .load(R.drawable.favorite_bold)
-//                    .into(holder.IMFavorite);
+
             holder.IMFavorite.setImageResource(R.drawable.favorite_bold);
         }else{
-//            Glide.with(context)
-//                    .load(R.drawable.favorite)
-//                    .error(R.drawable.no_image)
-//                    .centerCrop()
-//                    .into(holder.IMFavorite);
-
             holder.IMFavorite.setImageResource(R.drawable.favorite);
-
         }
 
         if (TextUtils.isEmpty(data2Posts.getThumbnailFullPath())){
@@ -93,7 +82,6 @@ public class AdapterArticle extends RecyclerView.Adapter<AdapterArticle.ArticleV
                     .error(R.drawable.no_image)
                     .centerCrop()
                     .into(holder.IMShowPicture);
-
         }
 
     //    setDataPost(holder, position);
@@ -110,7 +98,7 @@ public class AdapterArticle extends RecyclerView.Adapter<AdapterArticle.ArticleV
         return 0;
     }
 
-    @Override
+/*    @Override
     public Filter getFilter() {
         return new Filter() {
             @Override
@@ -141,7 +129,7 @@ public class AdapterArticle extends RecyclerView.Adapter<AdapterArticle.ArticleV
             }
         };
     }
-
+*/
 
     class ArticleViewHolder extends RecyclerView.ViewHolder {
         private View view;

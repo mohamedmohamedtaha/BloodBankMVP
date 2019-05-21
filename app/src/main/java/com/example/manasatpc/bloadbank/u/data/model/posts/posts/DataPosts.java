@@ -1,18 +1,18 @@
 
-package com.example.manasatpc.bloadbank.u.data.model.donation.donationrequestsfilter;
+package com.example.manasatpc.bloadbank.u.data.model.posts.posts;
 
 import java.util.List;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class DataDonationRequestsFilter {
+public class DataPosts {
 
     @SerializedName("current_page")
     @Expose
     private Integer currentPage;
     @SerializedName("data")
     @Expose
-    private List<Data2DonationRequestsFilter> data = null;
+    private List<Data2Posts> data = null;
     @SerializedName("first_page_url")
     @Expose
     private String firstPageUrl;
@@ -52,11 +52,11 @@ public class DataDonationRequestsFilter {
         this.currentPage = currentPage;
     }
 
-    public List<Data2DonationRequestsFilter> getData() {
+    public List<Data2Posts> getData() {
         return data;
     }
 
-    public void setData(List<Data2DonationRequestsFilter> data) {
+    public void setData(List<Data2Posts> data) {
         this.data = data;
     }
 

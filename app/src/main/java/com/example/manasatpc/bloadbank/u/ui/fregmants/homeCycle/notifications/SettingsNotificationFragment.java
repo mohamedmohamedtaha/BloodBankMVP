@@ -14,17 +14,19 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.example.manasatpc.bloadbank.R;
-import com.example.manasatpc.bloadbank.u.adapter.AdapterNotificationBloodType;
+import com.example.manasatpc.bloadbank.u.adapter.AdapterNotification;
 import com.example.manasatpc.bloadbank.u.adapter.AdapterNotificationGovernorates;
 import com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes.BloodTypes;
 import com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes.DataBloodTypes;
 import com.example.manasatpc.bloadbank.u.data.model.general.governorates.Governorates;
 import com.example.manasatpc.bloadbank.u.data.model.general.governorates.GovernoratesData;
+import com.example.manasatpc.bloadbank.u.data.model.notification.getnotificationssettings.DataGetNotificationSsettings;
 import com.example.manasatpc.bloadbank.u.data.model.notification.getnotificationssettings.GetNotificationSsettings;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.helper.SaveData;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,14 +54,18 @@ public class SettingsNotificationFragment extends Fragment {
     ProgressBar SettingsNotificationFragmentProgressBar;
     // TODO: Rename parameter arguments, choose names that match
 
-    private AdapterNotificationBloodType adapterNotification;
-    private AdapterNotificationGovernorates adapterNotificationBloodType;
+    private AdapterNotification adapterNotification;
+    private AdapterNotificationGovernorates adapterNotificationGovernorates;
     private ArrayList<DataBloodTypes> getDataBloodTypes = new ArrayList<>();
     private ArrayList<String> getNotificationSsettingsArrayList = new ArrayList<>();
     private ArrayList<GovernoratesData> getGovrnorates = new ArrayList<>();
+    private ArrayList<String> getGovrnoratesArrayList = new ArrayList<>();
 
     private APIServices apiServices;
     private SaveData saveData;
+    private List<String> selectedBloodTypesIds = new ArrayList<>();
+
+    private List<Integer> selectedGavermentIds = new ArrayList<>();
 
     public SettingsNotificationFragment() {
         // Required empty public constructor
@@ -76,71 +82,69 @@ public class SettingsNotificationFragment extends Fragment {
         apiServices = getRetrofit().create(APIServices.class);
         SettingsNotificationFragmentProgressBar.setVisibility(View.VISIBLE);
         SettingsNotificationFragmentRecyclerViewTypesBlood.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        adapterNotification = new AdapterNotificationBloodType(getActivity(), getDataBloodTypes);
+        adapterNotification = new AdapterNotification(getActivity(), getDataBloodTypes, selectedBloodTypesIds);
         SettingsNotificationFragmentRecyclerViewTypesBlood.setAdapter(adapterNotification);
-        SettingsNotificationFragmentRecyclerViewTypesCities.setLayoutManager(new GridLayoutManager(getActivity(), 3));
-        adapterNotificationBloodType = new AdapterNotificationGovernorates(getActivity(), getGovrnorates);
-        SettingsNotificationFragmentRecyclerViewTypesCities.setAdapter(adapterNotificationBloodType);
+      //  SettingsNotificationFragmentRecyclerViewTypesCities.setLayoutManager(new GridLayoutManager(getActivity(), 3));
+      //  adapterNotificationGovernorates = new AdapterNotificationGovernorates(getActivity(), getGovrnorates, selectedGavermentIds);
+       // SettingsNotificationFragmentRecyclerViewTypesCities.setAdapter(adapterNotificationGovernorates);
         getPosts();
         return view;
     }
 
     private void getPosts() {
-        apiServices.getBloodTypes().enqueue(new Callback<BloodTypes>() {
-            @Override
-            public void onResponse(Call<BloodTypes> call, Response<BloodTypes> response) {
-                try {
-                    BloodTypes getNotificationsSettings = response.body();
-                    if (getNotificationsSettings.getStatus() == 1) {
-                        getDataBloodTypes.addAll(getNotificationsSettings.getData());
-                        adapterNotification.notifyDataSetChanged();
-                        SettingsNotificationFragmentProgressBar.setVisibility(View.GONE);
-                    }
-                } catch (Exception e) {
-                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                    SettingsNotificationFragmentProgressBar.setVisibility(View.GONE);
-                }
-            }
 
-            @Override
-            public void onFailure(Call<BloodTypes> call, Throwable t) {
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
-                SettingsNotificationFragmentProgressBar.setVisibility(View.GONE);
-            }
-        });
-        apiServices.getGovernorates().enqueue(new Callback<Governorates>() {
-            @Override
-            public void onResponse(Call<Governorates> call, Response<Governorates> response) {
-                try {
-                    Governorates governorates = response.body();
-                    if (governorates.getStatus() == 1) {
-                        getGovrnorates.addAll(governorates.getData());
-                        adapterNotificationBloodType.notifyDataSetChanged();
-                    } else {
-                        Toast.makeText(getActivity(), governorates.getMsg(), Toast.LENGTH_SHORT).show();
-                    }
-                } catch (Exception e) {
-                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Governorates> call, Throwable t) {
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
+//W4mx3VMIWetLcvEcyF554CfxjZHwdtQldbdlCl2XAaBTDIpNjKO1f7CHuwKl
         apiServices.getGetNotificationsSettings("W4mx3VMIWetLcvEcyF554CfxjZHwdtQldbdlCl2XAaBTDIpNjKO1f7CHuwKl").enqueue(new Callback<GetNotificationSsettings>() {
             @Override
             public void onResponse(Call<GetNotificationSsettings> call, Response<GetNotificationSsettings> response) {
-                GetNotificationSsettings getNotificationSsettings = response.body();
+                final GetNotificationSsettings getNotificationSsettings = response.body();
                 try {
                     if (getNotificationSsettings.getStatus() == 1) {
-                        getNotificationSsettingsArrayList.addAll(getNotificationSsettings.getData().getBloodTypes());
-                        adapterNotification.notifyDataSetChanged();
+                        final DataGetNotificationSsettings getNotificationSsettings1 = response.body().getData();
+                        apiServices.getBloodTypes().enqueue(new Callback<BloodTypes>() {
+                            @Override
+                            public void onResponse(Call<BloodTypes> call, Response<BloodTypes> response) {
+                                try {
+                                    BloodTypes bloodTypes = response.body();
+                                    if (bloodTypes.getStatus() == 1) {
+                                        getDataBloodTypes.addAll(bloodTypes.getData());
+                                        selectedBloodTypesIds = getNotificationSsettings1.getBloodTypes();
+                                        adapterNotification.notifyDataSetChanged();
+                                        SettingsNotificationFragmentProgressBar.setVisibility(View.GONE);
+                                    }
+                                } catch (Exception e) {
+                                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    SettingsNotificationFragmentProgressBar.setVisibility(View.GONE);
+                                }
+                            }
 
-                        Toast.makeText(getActivity(), getNotificationSsettings.getData().getGovernorates().toString(), Toast.LENGTH_SHORT).show();
+                            @Override
+                            public void onFailure(Call<BloodTypes> call, Throwable t) {
+                                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                                SettingsNotificationFragmentProgressBar.setVisibility(View.GONE);
+                            }
+                        });
+                        apiServices.getGovernorates().enqueue(new Callback<Governorates>() {
+                            @Override
+                            public void onResponse(Call<Governorates> call, Response<Governorates> response) {
+                                try {
+                                    Governorates governorates = response.body();
+                                    if (governorates.getStatus() == 1) {
+                                        getGovrnorates.addAll(governorates.getData());
+                                        adapterNotificationGovernorates.notifyDataSetChanged();
+                                    } else {
+                                        Toast.makeText(getActivity(), governorates.getMsg(), Toast.LENGTH_SHORT).show();
+                                    }
+                                } catch (Exception e) {
+                                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
 
+                            @Override
+                            public void onFailure(Call<Governorates> call, Throwable t) {
+                                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
+                        });
 
                     } else {
                         Toast.makeText(getActivity(), getNotificationSsettings.getMsg(), Toast.LENGTH_SHORT).show();

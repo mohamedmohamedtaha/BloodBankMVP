@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context=".u.ui.fregmants.homeCycle.DetailsHomeFragment">
+    tools:context=".u.ui.fregmants.homeCycle.article.DetailsHomeFragment">
     <ImageView
         android:id="@+id/DetailsHomeFragment_IM_Show_Image_Details"
         android:layout_width="match_parent"

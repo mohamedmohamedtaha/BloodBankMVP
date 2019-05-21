@@ -20,9 +20,13 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.manager.SupportRequestManagerFragment;
 import com.example.manasatpc.bloadbank.R;
+import com.example.manasatpc.bloadbank.u.data.model.notification.firebaseApiToken.registertoken.RegisterToken;
+import com.example.manasatpc.bloadbank.u.data.model.notification.firebaseApiToken.removetoken.RemoveToken;
+import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.ui.activities.LoginActivity;
 import com.example.manasatpc.bloadbank.u.ui.fregmants.userCycle.LoginFragment;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
@@ -35,6 +39,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.example.manasatpc.bloadbank.u.data.rest.RetrofitClient.getRetrofit;
+
 public class HelperMethod {
     public static final String API_KEY = "API_KEY";
     public static final String NAME = "name";
@@ -43,7 +53,7 @@ public class HelperMethod {
     public static final String GET_DATA = "get_data";
 
     private static CountDownTimer countDownTimer;
-    public static boolean exit;
+    static APIServices apiServices;
 
     //This method for handle Fragments
     public static void replece(Fragment fragment, FragmentManager fragmentManager, int id, TextView toolbar, String title, Bundle bundle) {
@@ -94,8 +104,6 @@ public class HelperMethod {
     public static void startActivity(Context context, Class<?> toActivity, String getAPI) {
         Intent startActivity = new Intent(context, toActivity);
         startActivity.putExtra(API_KEY, getAPI);
-        startActivity.putExtra(API_KEY, getAPI);
-
         context.startActivity(startActivity);
     }
 
@@ -228,4 +236,58 @@ public class HelperMethod {
         String finalDay = dateFormat1.format(dt1);
         return finalDay;
     }
+    public static void getRemoveToken(final Context context, String token, String api_token){
+        apiServices = getRetrofit().create(APIServices.class);
+        apiServices.getRemoveToken(token,api_token).enqueue(new Callback<RemoveToken>() {
+            @Override
+            public void onResponse(Call<RemoveToken> call, Response<RemoveToken> response) {
+                RemoveToken removeToken = response.body();
+                try {
+                    if (removeToken.getStatus() == 1){
+                        Toast.makeText(context.getApplicationContext(), removeToken.getMsg(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(context.getApplicationContext(), removeToken.getMsg(), Toast.LENGTH_SHORT).show();
+                    }
+
+                }catch (Exception e){
+                    Toast.makeText(context.getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<RemoveToken> call, Throwable t) {
+                Toast.makeText(context.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
+    public static void getRegisterToken(final Context context, String token, String api_token, String platform){
+        apiServices = getRetrofit().create(APIServices.class);
+        apiServices.getRegisterToken(token,api_token,platform).enqueue(new Callback<RegisterToken>() {
+            @Override
+            public void onResponse(Call<RegisterToken> call, Response<RegisterToken> response) {
+                RegisterToken registerToken = response.body();
+                try {
+                    if (registerToken.getStatus() == 1){
+                        Toast.makeText(context.getApplicationContext(), registerToken.getMsg(), Toast.LENGTH_SHORT).show();
+                    }else {
+                        Toast.makeText(context.getApplicationContext(), registerToken.getMsg(), Toast.LENGTH_SHORT).show();
+                    }
+
+                }catch (Exception e){
+                    Toast.makeText(context.getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<RegisterToken> call, Throwable t) {
+                Toast.makeText(context.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
+    }
+
 }

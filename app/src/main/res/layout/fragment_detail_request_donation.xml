@@ -1,84 +1,101 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".u.ui.fregmants.homeCycle.regusets.DetailRequestDonationFragment">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@android:color/white">
+    tools:context=".u.ui.fregmants.homeCycle.donation.DetailRequestDonationFragment">
 
-    <TextView
-        android:id="@+id/TV_Show_Name_Details_Donation"
-        style="@style/StyleTextViewForDetaislDonation"
-        android:text="@string/name" />
-    <View
-       style="@style/StyleForView"/>
-    <TextView
-        android:id="@+id/TV_Show_Age_Details_Donation"
-        style="@style/StyleTextViewForDetaislDonation"
-        android:text="@string/age" />
-    <View
-        style="@style/StyleForView"/>
-    <TextView
-        android:id="@+id/TV_Show_Type_Blood_Details_Donation"
-        style="@style/StyleTextViewForDetaislDonation"
-        android:text="@string/blood_type" />
-    <View
-        style="@style/StyleForView"/>
-    <TextView
-        android:id="@+id/TV_Show_Number_Package_Request_Details_Donation"
-        style="@style/StyleTextViewForDetaislDonation"
-        android:text="@string/number_package_request" />
-    <View
-        style="@style/StyleForView"/>
-    <TextView
-        android:id="@+id/TV_Show_Hospital_Details_Donation"
-        style="@style/StyleTextViewForDetaislDonation"
-        android:text="@string/hospital" />
-    <View
-        style="@style/StyleForView"/>
-    <TextView
-        android:id="@+id/TV_Show_Address_Hospital_Details_Donation"
-        style="@style/StyleTextViewForDetaislDonation"
-        android:text="@string/address_hospital" />
-    <View
-        style="@style/StyleForView"/>
-    <TextView
-        android:id="@+id/TV_Show_Phone_Details_Donation"
-        style="@style/StyleTextViewForDetaislDonation"
-        android:text="@string/phone" />
-    <View
-        style="@style/StyleForView"/>
-    <TextView
-        android:id="@+id/TV_Show_Details_Details_Donation"
-        style="@style/StyleTextViewForDetaislDonation"
-        android:gravity="top"
-        android:lines="7"
-        android:text="@string/details" />
-
-
-    <View
-        style="@style/StyleForView"/>
-
-    <com.google.android.gms.maps.MapView
-        android:id="@+id/mapView"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dimens_height_logo"
-        android:layout_marginEnd="@dimen/dimens_xl"
-        android:layout_marginStart="@dimen/dimens_xl"
-        android:layout_marginBottom="@dimen/dimens_xl"/>
-    <Button
-        android:id="@+id/BT_Call"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="@dimen/dimens_xl"
-        android:layout_marginStart="@dimen/dimens_xl"
-        android:layout_marginBottom="@dimen/dimens_xl"
-        android:text="@string/call"
-        android:background="@color/colorButtonLogin"/>
-</LinearLayout>
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/DetailRequestDonationFragment_Progress_Bar"
+            style="@style/StyleProgressBar" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/TV_Show_Name_Details_Donation"
+                style="@style/StyleTextViewForDetaislDonation"
+                android:text="@string/name" />
+
+            <View style="@style/StyleForView" />
+
+            <TextView
+                android:id="@+id/TV_Show_Age_Details_Donation"
+                style="@style/StyleTextViewForDetaislDonation"
+                android:text="@string/age" />
+
+            <View style="@style/StyleForView" />
+
+            <TextView
+                android:id="@+id/TV_Show_Type_Blood_Details_Donation"
+                style="@style/StyleTextViewForDetaislDonation"
+                android:text="@string/blood_type" />
+
+            <View style="@style/StyleForView" />
+
+            <TextView
+                android:id="@+id/TV_Show_Number_Package_Request_Details_Donation"
+                style="@style/StyleTextViewForDetaislDonation"
+                android:text="@string/number_package_request" />
+
+            <View style="@style/StyleForView" />
+
+            <TextView
+                android:id="@+id/TV_Show_Hospital_Details_Donation"
+                style="@style/StyleTextViewForDetaislDonation"
+                android:text="@string/hospital" />
+
+            <View style="@style/StyleForView" />
+
+            <TextView
+                android:id="@+id/TV_Show_Address_Hospital_Details_Donation"
+                style="@style/StyleTextViewForDetaislDonation"
+                android:text="@string/address_hospital" />
+
+            <View style="@style/StyleForView" />
+
+            <TextView
+                android:id="@+id/TV_Show_Phone_Details_Donation"
+                style="@style/StyleTextViewForDetaislDonation"
+                android:text="@string/phone" />
+
+            <View style="@style/StyleForView" />
+
+            <TextView
+                android:id="@+id/TV_Show_Details_Details_Donation"
+                style="@style/StyleTextViewForDetaislDonation"
+                android:gravity="top"
+                android:lines="7"
+                android:text="@string/details" />
+
+
+            <View style="@style/StyleForView" />
+
+            <com.google.android.gms.maps.MapView
+                android:id="@+id/mapView"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/dimens_height_logo"
+                android:layout_marginStart="@dimen/dimens_xl"
+                android:layout_marginEnd="@dimen/dimens_xl"
+                android:layout_marginBottom="@dimen/dimens_xl" />
+
+            <Button
+                android:id="@+id/BT_Call"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/dimens_xl"
+                android:layout_marginEnd="@dimen/dimens_xl"
+                android:layout_marginBottom="@dimen/dimens_xl"
+                android:background="@color/colorButtonLogin"
+                android:text="@string/call" />
+        </LinearLayout>
+    </RelativeLayout>
+
 </ScrollView>

@@ -21,8 +21,6 @@ import static com.example.manasatpc.bloadbank.u.data.rest.RetrofitClient.getRetr
  * A simple {@link Fragment} subclass.
  */
 public class NotificationDetailsFragment extends Fragment {
-
-
     @BindView(R.id.NotificationDetailsFragment_TV_Show_Id)
     TextView NotificationDetailsFragmentTVShowId;
     @BindView(R.id.NotificationDetailsFragment_TV_Show_Date)
