@@ -11,10 +11,7 @@ import android.view.ViewGroup;
 import com.example.manasatpc.bloadbank.R;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 import com.example.manasatpc.bloadbank.u.helper.RememberMy;
-import com.example.manasatpc.bloadbank.u.helper.SaveData;
 import com.example.manasatpc.bloadbank.u.ui.activities.HomeActivity;
-
-import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.GET_DATA;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -22,9 +19,7 @@ import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.GET_DATA;
 public class SplashFragment extends Fragment {
     private static final long SPLASH_DISPAY_LENGTH = 2000;
     RememberMy rememberMy;
-    String getAPI_key;
     Bundle bundle;
-    private SaveData saveData;
 
     public SplashFragment() {
         // Required empty public constructor
@@ -36,18 +31,16 @@ public class SplashFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_splash, container, false);
         bundle = getArguments();
-        saveData = getArguments().getParcelable(GET_DATA);
         rememberMy = new RememberMy(getActivity());
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 if (rememberMy.isRemember()) {
-                    getAPI_key = rememberMy.getDataUser(getActivity());
-                    HelperMethod.startActivity(getActivity(), HomeActivity.class, getAPI_key);
+                    HelperMethod.startActivity(getActivity(), HomeActivity.class);
                 } else {
                     SliderFragment sliderFragment = new SliderFragment();
                     HelperMethod.replece(sliderFragment, getActivity().getSupportFragmentManager(),
-                            R.id.Cycle_Splash_contener, null, null, saveData);
+                            R.id.Cycle_Splash_contener, null, null);
                 }
             }
         }, SPLASH_DISPAY_LENGTH);

@@ -54,7 +54,6 @@ public class HomeActivity extends AppCompatActivity
     @BindView(R.id.TV_Count_Notification)
     TextView TVCountNotification;
     private Boolean exitApp = false;
-    SaveData saveData;
     public static int titleID;
     ActionBarDrawerToggle toggle;
     private APIServices apiServices;
@@ -68,7 +67,6 @@ public class HomeActivity extends AppCompatActivity
         intent = getIntent();
         bundle = intent.getExtras();
         logout = new RememberMy(this);
-        saveData = getIntent().getParcelableExtra(GET_DATA);
 
         // for show Menu notification
         setSupportActionBar(toolbar);
@@ -86,7 +84,7 @@ public class HomeActivity extends AppCompatActivity
             CustomFragment customFragmentForHome = new CustomFragment();
             titleID = R.string.home;
             HelperMethod.replece(customFragmentForHome, getSupportFragmentManager(),
-                    R.id.Cycle_Home_contener, toolbar, String.valueOf(titleID), saveData);
+                    R.id.Cycle_Home_contener, toolbar, String.valueOf(titleID));
 
         }
 
@@ -127,11 +125,8 @@ public class HomeActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-
         int fragments = getSupportFragmentManager().getBackStackEntryCount();
         setDraweEnabled(true);
-
-
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
 
@@ -176,7 +171,7 @@ public class HomeActivity extends AppCompatActivity
             case R.id.action_notification:
                 NotificationListFragment notificationListFragment = new NotificationListFragment();
                 HelperMethod.replece(notificationListFragment, getSupportFragmentManager(),
-                        R.id.Cycle_Home_contener, toolbar, getString(R.string.alarms), saveData);
+                        R.id.Cycle_Home_contener, toolbar, getString(R.string.alarms));
                 break;
             default:
 
@@ -195,17 +190,17 @@ public class HomeActivity extends AppCompatActivity
             case R.id.my_information:
                 EditInformationFragment editInformationFragment = new EditInformationFragment();
                 HelperMethod.replece(editInformationFragment, getSupportFragmentManager(),
-                        R.id.Cycle_Home_contener, toolbar, getString(R.string.my_information), saveData);
+                        R.id.Cycle_Home_contener, toolbar, getString(R.string.my_information));
                 break;
             case R.id.setting_notification:
                 SettingsNotificationFragment settingsNotificationFragment = new SettingsNotificationFragment();
                 HelperMethod.replece(settingsNotificationFragment, getSupportFragmentManager(),
-                        R.id.Cycle_Home_contener, toolbar, getString(R.string.setting_notification), saveData);
+                        R.id.Cycle_Home_contener, toolbar, getString(R.string.setting_notification));
                 break;
             case R.id.my_favorite:
                 MyFavoriteFragment myFavoriteFragment = new MyFavoriteFragment();
                 HelperMethod.replece(myFavoriteFragment, getSupportFragmentManager(),
-                        R.id.Cycle_Home_contener, toolbar, getString(R.string.my_information), saveData);
+                        R.id.Cycle_Home_contener, toolbar, getString(R.string.my_information));
                 break;
             case R.id.used_information:
 
@@ -214,22 +209,21 @@ public class HomeActivity extends AppCompatActivity
             case R.id.connect_with_us:
                 ConnectWithUsFragment connectWithUsFragment = new ConnectWithUsFragment();
                 HelperMethod.replece(connectWithUsFragment, getSupportFragmentManager(),
-                        R.id.Cycle_Home_contener, toolbar, getString(R.string.connect_with_us), saveData);
+                        R.id.Cycle_Home_contener, toolbar, getString(R.string.connect_with_us));
                 break;
             case R.id.about_app:
                 AboutAppFragment aboutAppFragment = new AboutAppFragment();
                 HelperMethod.replece(aboutAppFragment, getSupportFragmentManager(),
-                        R.id.Cycle_Home_contener, toolbar, getString(R.string.about_app), saveData);
+                        R.id.Cycle_Home_contener, toolbar, getString(R.string.about_app));
                 break;
             case R.id.evaluate_app:
 
                 break;
             case R.id.sign_out:
-                logout.removeDateUser(this);
-                HelperMethod.startActivity(getApplicationContext(), LoginActivity.class, saveData);
                 String tokentxt = FirebaseInstanceId.getInstance().getToken();
-                HelperMethod.getRemoveToken(getApplicationContext(),tokentxt,saveData.getApi_token());
-
+                HelperMethod.getRemoveToken(getApplicationContext(),tokentxt,logout.getAPIKey());
+                logout.removeDateUser(this);
+                HelperMethod.startActivity(getApplicationContext(), LoginActivity.class);
                 /*                MapFragment mapFragment = new MapFragment();
                 HelperMethod.replece(mapFragment, getSupportFragmentManager(),
                         R.id.Cycle_Home_contener, null, null, saveData);*/
@@ -238,7 +232,7 @@ public class HomeActivity extends AppCompatActivity
                 CustomFragment customFragmentDefault = new CustomFragment();
                 HelperMethod.replece(customFragmentDefault
                         , getSupportFragmentManager(),
-                        R.id.Cycle_Home_contener, toolbar, getString(R.string.home), saveData);
+                        R.id.Cycle_Home_contener, toolbar, getString(R.string.home));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

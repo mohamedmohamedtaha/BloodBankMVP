@@ -83,7 +83,7 @@
     <string name="text_message">نص الرسالة</string>
     <string name="select_number_package">عدد أكياس الدم المطلوبة  </string>
 
-    <string name="google_android_map_api_key">AIzaSyDEamFT2yGz7MFvp2w49WYN_-fM6mf6m70</string>
+    <string name="google_android_map_api_key"> AIzaSyDNOiMkuJGxxSwLfConFex3aMwPiUQRk_0 </string>
     <string name="exit_app">Press Back again to Exit.</string>
     <string name="some_text">هذا النص هو مثال لعرض نصوص اخرى تاتي من الموقع وهذا فقط اختبار لها</string>
     <string name="enter_search">ادخل كلمة البحث هنا</string>
@@ -100,5 +100,8 @@
     <string name="categories">الفئات</string>
     <string name="selct_category">اختر الفئة</string>
     <string name="select_map">اختر الموقع</string>
+    <string name="no_google_services">لا تستطيع فتح الخريطة</string>
+    <string name="no_place">لم تقم بإختيار اي عنوان</string>
+
 
 </resources>

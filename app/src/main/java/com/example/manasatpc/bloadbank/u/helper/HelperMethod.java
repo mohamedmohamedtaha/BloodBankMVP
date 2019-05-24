@@ -66,9 +66,51 @@ public class HelperMethod {
             toolbar.setText(title);
         }
 
+    }
+      //This method for handle Fragments
+    public static void replece(Fragment fragment, FragmentManager fragmentManager, int id, Toolbar toolbar, String title, Bundle bundle) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        fragment.setArguments(bundle);
+        transaction.replace(id, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+        if (toolbar != null) {
+            toolbar.setTitle(title);
+        }
 
     }
 
+        public static void removeOneFragment(Fragment fragment, FragmentManager fragmentManager,Toolbar toolbar, String title, SaveData saveData) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        Bundle bundle = new Bundle();
+        bundle.putParcelable(GET_DATA, saveData);
+        fragment.setArguments(bundle);
+        transaction.remove(fragment);
+        transaction.commit();
+        fragmentManager.popBackStack();
+        // for change from commit() because don't happen Error
+        //   java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
+        if (toolbar != null) {
+            toolbar.setTitle(title);
+        }
+
+
+    }
+    public static void replece(Fragment fragment, FragmentManager fragmentManager, int id, Toolbar toolbar, String title) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(id, fragment);
+        transaction.addToBackStack(null);
+        // for change from commit() because don't happen Error
+        //   java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
+        transaction.commitAllowingStateLoss();
+
+        if (toolbar != null) {
+            toolbar.setTitle(title);
+        }
+
+
+    }
+/*
     public static void replece(Fragment fragment, FragmentManager fragmentManager, int id, Toolbar toolbar, String title, SaveData saveData) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         Bundle bundle = new Bundle();
@@ -86,7 +128,7 @@ public class HelperMethod {
 
 
     }
-
+*/
     // This method for check Do the internet is available or not ?
     public static boolean isNetworkConnected(Context context, View view) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -101,9 +143,8 @@ public class HelperMethod {
     }
 
     // This method for handle Activity
-    public static void startActivity(Context context, Class<?> toActivity, String getAPI) {
+    public static void startActivity(Context context, Class<?> toActivity) {
         Intent startActivity = new Intent(context, toActivity);
-        startActivity.putExtra(API_KEY, getAPI);
         context.startActivity(startActivity);
     }
 
@@ -129,7 +170,7 @@ public class HelperMethod {
                 HelperMethod.startActivity(context, LoginActivity.class, saveData);
 
                 LoginFragment loginFragment = new LoginFragment();
-                replece(loginFragment, fragmentManager, R.id.Cycle_User_contener, null, null, saveData);
+                replece(loginFragment, fragmentManager, R.id.Cycle_User_contener, null, null);
             }
         };
         countDownTimer.start();
@@ -164,14 +205,6 @@ public class HelperMethod {
     }
 
     //This method for show data in Spinner
-
-    public static void showGovernorates(ArrayList<String> date, Context context, MaterialBetterSpinner spinner) {
-
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_dropdown_item_1line, date);
-
-        spinner.setAdapter(arrayAdapter);
-
-    }
 
     public static void showGovernorates(ArrayList<String> date, Context context, Spinner spinner) {
 

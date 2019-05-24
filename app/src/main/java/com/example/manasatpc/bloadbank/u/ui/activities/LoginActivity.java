@@ -14,15 +14,12 @@ import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.GET_DATA;
 
 public class LoginActivity extends AppCompatActivity {
     private Boolean exitApp = false;
-    private SaveData saveData;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        saveData = getIntent().getParcelableExtra(GET_DATA);
         LoginFragment loginFragment = new LoginFragment();
-        HelperMethod.replece(loginFragment, getSupportFragmentManager(), R.id.Cycle_User_contener, null, null, saveData);
+        HelperMethod.replece(loginFragment, getSupportFragmentManager(), R.id.Cycle_User_contener, null, null);
     }
 
     @Override

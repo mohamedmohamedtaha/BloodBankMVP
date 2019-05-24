@@ -12,6 +12,29 @@ public class SaveData implements Parcelable {
     private String cityId;
     private String donationLastDate;
     private String bloodType;
+    private String latitude;
+    private String longitude;
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public SaveData(String latitude, String longitude) {
+        this.latitude = latitude;
+        this.longitude = longitude;
+    }
 
     public int getPositionId() {
         return positionId;
@@ -55,18 +78,19 @@ public class SaveData implements Parcelable {
         this.bloodType = bloodType;
     }
 
-      protected SaveData(Parcel in) {
+    protected SaveData(Parcel in) {
         api_token = in.readString();
         name = in.readString();
         phone = in.readString();
         email = in.readString();
-        birthDate= in.readString();
-        cityId= in.readString();
-        donationLastDate= in.readString();
-        bloodType= in.readString();
-        positionId= in.readInt();
-
-      }
+        birthDate = in.readString();
+        cityId = in.readString();
+        donationLastDate = in.readString();
+        bloodType = in.readString();
+        positionId = in.readInt();
+        latitude = in.readString();
+        longitude = in.readString();
+    }
 
     public static final Creator<SaveData> CREATOR = new Creator<SaveData>() {
         @Override
@@ -79,16 +103,17 @@ public class SaveData implements Parcelable {
             return new SaveData[size];
         }
     };
-    public SaveData (int positionId){
+
+    public SaveData(int positionId) {
         this.positionId = positionId;
     }
 
-    public SaveData(String apiToken, String name, String phone, String email,String birthDate,
-                    String cityId, String donationLastDate,String bloodType) {
-        this.api_token =apiToken;
+    public SaveData(String apiToken, String name, String phone, String email, String birthDate,
+                    String cityId, String donationLastDate, String bloodType) {
+        this.api_token = apiToken;
         this.name = name;
-        this.phone=phone;
-        this.email=email;
+        this.phone = phone;
+        this.email = email;
         this.birthDate = birthDate;
         this.cityId = cityId;
         this.donationLastDate = donationLastDate;
@@ -143,7 +168,8 @@ public class SaveData implements Parcelable {
         parcel.writeString(donationLastDate);
         parcel.writeString(bloodType);
         parcel.writeInt(positionId);
-
+        parcel.writeString(latitude);
+        parcel.writeString(longitude);
 
 
     }

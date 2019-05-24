@@ -26,7 +26,7 @@ import com.example.manasatpc.bloadbank.u.data.model.general.governorates.Governo
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 import com.example.manasatpc.bloadbank.u.helper.OnEndless;
-import com.example.manasatpc.bloadbank.u.helper.SaveData;
+import com.example.manasatpc.bloadbank.u.helper.RememberMy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +40,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.manasatpc.bloadbank.u.data.rest.RetrofitClient.getRetrofit;
-import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.GET_DATA;
 import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.makePhoneCall;
 import static com.example.manasatpc.bloadbank.u.ui.activities.HomeActivity.toolbar;
 
@@ -63,15 +62,16 @@ public class ListRequestsDonationFragment extends Fragment {
     @BindView(R.id.ListRequestsDonationFragment_FAB_Request_Donation)
     FloatingActionButton ListRequestsDonationFragmentFABRequestDonation;
     Unbinder unbinder;
+    public static final String REQUEST_ID = "request_id";
 
     private int max = 0;
     ArrayList<Data2DonationRequests> dataDonations = new ArrayList<>();
     private AdapterDonation adapterDonation;
     private APIServices apiServices;
     Bundle bundle;
-    private SaveData saveData;
     Integer positionGeverment;
     Integer positionBloodType;
+    RememberMy rememberMy;
     private ArrayList<Integer> IdsGeverment = new ArrayList<>();
     final ArrayList<Integer> IdsBloodType = new ArrayList<>();
 
@@ -85,9 +85,12 @@ public class ListRequestsDonationFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_list_requests_donation, container, false);
         unbinder = ButterKnife.bind(this, view);
-        bundle = getArguments();
-        saveData = getArguments().getParcelable(GET_DATA);
+        rememberMy = new RememberMy(getActivity());
+        bundle = new Bundle();
         dataDonations.clear();
+        boolean check_network = HelperMethod.isNetworkConnected(getActivity(), getView());
+        if (check_network == false) {
+        }
         apiServices = getRetrofit().create(APIServices.class);
         getBloodTypes();
         getGovernorates();
@@ -105,10 +108,10 @@ public class ListRequestsDonationFragment extends Fragment {
             @Override
             public void itemShowDetail(Data2DonationRequests position) {
                 int donationRequest = position.getId();
-                saveData.setPositionId(donationRequest);
+                bundle.putInt(REQUEST_ID, donationRequest);
                 DetailRequestDonationFragment detailRequestDonationFragment = new DetailRequestDonationFragment();
                 HelperMethod.replece(detailRequestDonationFragment, getActivity().getSupportFragmentManager(),
-                        R.id.Cycle_Home_contener, toolbar, position.getPatientName(), saveData);
+                        R.id.Cycle_Home_contener, toolbar, position.getPatientName(), bundle);
             }
         }, new AdapterDonation.makeCall() {
             @Override
@@ -123,7 +126,7 @@ public class ListRequestsDonationFragment extends Fragment {
     }
 
     private void getDonation() {
-        apiServices.getDonationRequests(saveData.getApi_token())
+        apiServices.getDonationRequests(rememberMy.getAPIKey())
                 .enqueue(new Callback<DonationRequests>() {
                     @Override
                     public void onResponse(Call<DonationRequests> call, Response<DonationRequests> response) {
@@ -160,7 +163,7 @@ public class ListRequestsDonationFragment extends Fragment {
     }
 
     public void getProperties() {
-        ListRequestsDonationFragmentRecyclerView.setVisibility(View.GONE);
+        //     ListRequestsDonationFragmentRecyclerView.setVisibility(View.GONE);
         ListRequestsDonationFragmentBrogressBar.setVisibility(View.GONE);
         ListRequestsDonationFragmentRLEmptyView.setVisibility(View.VISIBLE);
     }
@@ -256,7 +259,7 @@ public class ListRequestsDonationFragment extends Fragment {
                 int geverment_id = IdsGeverment.get(ListRequestsDonationFragmentSelectGeverment.getSelectedItemPosition());
                 dataDonations.clear();
                 ListRequestsDonationFragmentBrogressBar.setVisibility(View.VISIBLE);
-                apiServices.getDonationRequestFilter(saveData.getApi_token(), blood_id, geverment_id, 1)
+                apiServices.getDonationRequestFilter(rememberMy.getAPIKey(), blood_id, geverment_id, 1)
                         .enqueue(new Callback<DonationRequests>() {
                             @Override
                             public void onResponse(Call<DonationRequests> call, Response<DonationRequests> response) {
@@ -272,7 +275,6 @@ public class ListRequestsDonationFragment extends Fragment {
                                         } else {
                                             getProperties();
                                         }
-
                                     } else {
                                         Toast.makeText(getActivity(), donationRequestsFilter.getMsg(), Toast.LENGTH_SHORT).show();
                                         getProperties();
@@ -292,7 +294,7 @@ public class ListRequestsDonationFragment extends Fragment {
                 break;
             case R.id.ListRequestsDonationFragment_FAB_Request_Donation:
                 RequestDonationFragment requestDonationFragment = new RequestDonationFragment();
-                HelperMethod.replece(requestDonationFragment, getActivity().getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.request_donation), saveData);
+                HelperMethod.replece(requestDonationFragment, getActivity().getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.request_donation));
                 break;
         }
     }

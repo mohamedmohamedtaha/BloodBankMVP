@@ -29,6 +29,7 @@ import com.example.manasatpc.bloadbank.u.data.model.user.getprofile.GetProfile;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.helper.DateModel;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
+import com.example.manasatpc.bloadbank.u.helper.RememberMy;
 import com.example.manasatpc.bloadbank.u.helper.SaveData;
 import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.article.HomeFragment;
 
@@ -78,7 +79,6 @@ public class EditInformationFragment extends Fragment {
     ProgressBar EditInformationFragmentProgressBar;
     Unbinder unbinder;
     private APIServices apiServices;
-    private SaveData saveData;
     boolean check_network;
     private DateModel dateModel1;
     private DateModel dateModel2;
@@ -87,6 +87,7 @@ public class EditInformationFragment extends Fragment {
     private int startMonth;
     private int startDay;
     String getResult;
+    RememberMy rememberMy;
     Integer positionGaverment;
     Integer positionCity;
     Integer positionBloodType;
@@ -108,7 +109,7 @@ public class EditInformationFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_edit_information, container, false);
         unbinder = ButterKnife.bind(this, view);
-        saveData = getArguments().getParcelable(GET_DATA);
+        rememberMy = new RememberMy(getActivity());
         check_network = HelperMethod.isNetworkConnected(getActivity(), getView());
         startYear = getDatenow.get(Calendar.YEAR);
         startMonth = getDatenow.get(Calendar.MONTH);
@@ -123,7 +124,7 @@ public class EditInformationFragment extends Fragment {
 
         apiServices = getRetrofit().create(APIServices.class);
         EditInformationFragmentProgressBar.setVisibility(View.VISIBLE);
-        apiServices.getProfile(saveData.getApi_token()).enqueue(new Callback<GetProfile>() {
+        apiServices.getProfile(rememberMy.getAPIKey()).enqueue(new Callback<GetProfile>() {
             @Override
             public void onResponse(Call<GetProfile> call, Response<GetProfile> response) {
                 GetProfile getProfile = response.body();
@@ -330,7 +331,7 @@ public class EditInformationFragment extends Fragment {
         }
         Call<EditProfile> profileCall = apiServices.editProfile(new_user, email,
                 date_birth, cityId, phone,
-                last_date, password, retry_password, blood_type, saveData.getApi_token());
+                last_date, password, retry_password, blood_type,rememberMy.getAPIKey());
         profileCall.enqueue(new Callback<EditProfile>() {
             @Override
             public void onResponse(Call<EditProfile> call, Response<EditProfile> response) {
@@ -342,7 +343,7 @@ public class EditInformationFragment extends Fragment {
                         Toast.makeText(getActivity(), profile.getMsg(), Toast.LENGTH_LONG).show();
                         HomeFragment homeFragment = new HomeFragment();
                         HelperMethod.replece(homeFragment, getActivity().getSupportFragmentManager(),
-                                R.id.Cycle_Home_contener, toolbar, getString(R.string.home), saveData);
+                                R.id.Cycle_Home_contener, toolbar, getString(R.string.home));
                     }
                 } catch (Exception e) {
                     Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();

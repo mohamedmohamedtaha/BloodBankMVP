@@ -4,6 +4,7 @@ package com.example.manasatpc.bloadbank.u.ui.fregmants.userCycle;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,8 +31,6 @@ import static com.example.manasatpc.bloadbank.u.data.rest.RetrofitClient.getRetr
  * A simple {@link Fragment} subclass.
  */
 public class ForgetPasswordStep1Fragment extends Fragment {
-
-    public static final String PHONE = "phone";
     @BindView(R.id.ForgetPasswordStep1Fragment_Phone)
     TextInputEditText ForgetPasswordStep1FragmentPhone;
     @BindView(R.id.ForgetPasswordStep1Fragment_BT_Send)
@@ -40,6 +39,7 @@ public class ForgetPasswordStep1Fragment extends Fragment {
     ProgressBar ForgetPasswordStep1FragmentProgressBar;
     Unbinder unbinder;
     Bundle bundle;
+    public static final String PHONE = "phone";
 
     public ForgetPasswordStep1Fragment() {
         // Required empty public constructor
@@ -82,7 +82,7 @@ public class ForgetPasswordStep1Fragment extends Fragment {
                     if (resetPassword1.getStatus() == 1) {
                         ForgetPasswordStep2Fragment forgetPasswordStep2Fragment = new ForgetPasswordStep2Fragment();
                         HelperMethod.replece(forgetPasswordStep2Fragment, getActivity().getSupportFragmentManager(),
-                                R.id.Cycle_User_contener, null, null, bundle);
+                                R.id.Cycle_User_contener, (Toolbar) null, null, bundle);
 
                         Toast.makeText(getActivity(), resetPassword1.getMsg(), Toast.LENGTH_LONG).show();
                         ForgetPasswordStep1FragmentProgressBar.setVisibility(View.GONE);

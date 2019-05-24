@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -22,8 +23,9 @@ import com.example.manasatpc.bloadbank.u.data.model.general.cities.DataCities;
 import com.example.manasatpc.bloadbank.u.data.model.general.governorates.Governorates;
 import com.example.manasatpc.bloadbank.u.data.model.general.governorates.GovernoratesData;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
+import com.example.manasatpc.bloadbank.u.helper.GPSTracker;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
-import com.example.manasatpc.bloadbank.u.helper.SaveData;
+import com.example.manasatpc.bloadbank.u.helper.RememberMy;
 import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.regusets.MapFragment;
 
 import java.util.ArrayList;
@@ -38,14 +40,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.manasatpc.bloadbank.u.data.rest.RetrofitClient.getRetrofit;
-import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.GET_DATA;
 import static com.example.manasatpc.bloadbank.u.ui.activities.HomeActivity.toolbar;
+import static com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.regusets.MapFragment.LATITUDE_MAP;
+import static com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.regusets.MapFragment.LONGITUDE_MAP;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class RequestDonationFragment extends Fragment {
-    Button BTSendRequest;
     @BindView(R.id.RequestDonationFragment_ET_Name_Patient)
     TextInputEditText RequestDonationFragmentETNamePatient;
     @BindView(R.id.RequestDonationFragment_ET_Age_Patient)
@@ -68,11 +70,17 @@ public class RequestDonationFragment extends Fragment {
     TextInputEditText RequestDonationFragmentETNotesPatient;
     @BindView(R.id.RequestDonationFragment_BT_Send_Request)
     Button RequestDonationFragmentBTSendRequest;
+    @BindView(R.id.RequestDonationFragment_Progress_Bar)
+    ProgressBar RequestDonationFragmentProgressBar;
+    @BindView(R.id.RequestDonationFragment_ET_Adrees_Hospital)
+    TextInputEditText RequestDonationFragmentETAdreesHospital;
     Unbinder unbinder;
-    private SaveData saveData;
+
+    RememberMy rememberMy;
     private APIServices apiServicesgetGovernorate;
     Integer positionCity;
     Integer positionBloodType;
+    Bundle bundle;
 
     final ArrayList<Integer> IdsCity = new ArrayList<>();
     final ArrayList<Integer> IdsBloodType = new ArrayList<>();
@@ -90,8 +98,9 @@ public class RequestDonationFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_request_donation, container, false);
         unbinder = ButterKnife.bind(this, view);
-        saveData = getArguments().getParcelable(GET_DATA);
+        rememberMy = new RememberMy(getActivity());
         getBloodTypes();
+        bundle = getArguments();
 
         stringsNumberBackage.add(getString(R.string.select_number_package));
         stringsNumberBackage.add("1");
@@ -111,7 +120,6 @@ public class RequestDonationFragment extends Fragment {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 IdsNumberBackage = position;
-                //    Toast.makeText(getActivity(), "Position :" + IdsNumberBackage , Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -257,19 +265,29 @@ public class RequestDonationFragment extends Fragment {
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.RequestDonationFragment_TV_Adrees_Hospital:
-                MapFragment mapFragment = new MapFragment();
-                HelperMethod.replece(mapFragment, getActivity().getSupportFragmentManager(),
-                        R.id.Cycle_Home_contener, toolbar, getString(R.string.address_hospital), saveData);
+                if (GPSTracker.isServicesOk(getActivity())) {
+                    MapFragment mapFragment = new MapFragment();
+                    HelperMethod.replece(mapFragment, getActivity().getSupportFragmentManager(),
+                            R.id.Cycle_Home_contener, toolbar, getString(R.string.address_hospital));
+                }
                 break;
             case R.id.RequestDonationFragment_BT_Send_Request:
+                // for check network
+                boolean check_network = HelperMethod.isNetworkConnected(getActivity(), getView());
+                if (check_network == false) {
+                    return;
+                }
                 String name_patient = RequestDonationFragmentETNamePatient.getText().toString().trim();
                 String age_patient = RequestDonationFragmentETAgePatient.getText().toString().trim();
                 String hospital_name = RequestDonationFragmentETNameHospitalPatient.getText().toString().trim();
                 String phone = RequestDonationFragmentETPhonePatient.getText().toString().trim();
                 String notes = RequestDonationFragmentETNotesPatient.getText().toString().trim();
-                String hospital_address = RequestDonationFragmentETNamePatient.getText().toString().trim();
-                String longtude = null;
-                String latitude = null;
+                String hospital_address = RequestDonationFragmentETAdreesHospital.getText().toString().trim();
+                if (name_patient.isEmpty() || age_patient.isEmpty() || hospital_name.isEmpty() ||
+                        phone.isEmpty() || notes.isEmpty()) {
+                    Toast.makeText(getActivity(), getString(R.string.all_filed_request), Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 if (IdsNumberBackage <= 0) {
                     Toast.makeText(getActivity(), getString(R.string.select_number_package), Toast.LENGTH_SHORT).show();
                     return;
@@ -280,30 +298,38 @@ public class RequestDonationFragment extends Fragment {
                     Toast.makeText(getActivity(), getString(R.string.selct_blood_and_city), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                if (longtude.isEmpty() || latitude.isEmpty()) {
+                String latitude = bundle.getString(LATITUDE_MAP);
+                String longtite = bundle.getString(LONGITUDE_MAP);
+
+                if (longtite == null || latitude == null) {
                     Toast.makeText(getActivity(), getString(R.string.select_map), Toast.LENGTH_SHORT).show();
                     return;
                 }
                 int city_id = IdsCity.get(RequestDonationFragmentSPCityRequestDonation.getSelectedItemPosition());
                 int blood_type = IdsBloodType.get(RequestDonationFragmentSPBloodTypes.getSelectedItemPosition());
-                apiServicesgetGovernorate.getDonationRequestCreate(saveData.getApi_token(), name_patient, age_patient
-                        , blood_type, number_package_string, hospital_name, hospital_address, city_id, phone, notes, latitude, longtude).enqueue(new Callback<DonationRequestCreate>() {
+                RequestDonationFragmentProgressBar.setVisibility(View.VISIBLE);
+                apiServicesgetGovernorate.getDonationRequestCreate(rememberMy.getAPIKey(), name_patient, age_patient
+                        , blood_type, number_package_string, hospital_name, hospital_address, city_id, phone, notes, latitude, longtite).enqueue(new Callback<DonationRequestCreate>() {
                     @Override
                     public void onResponse(Call<DonationRequestCreate> call, Response<DonationRequestCreate> response) {
                         DonationRequestCreate donationRequestCreate = response.body();
                         try {
                             if (donationRequestCreate.getStatus() == 1) {
+                                RequestDonationFragmentProgressBar.setVisibility(View.GONE);
                                 Toast.makeText(getActivity(), donationRequestCreate.getMsg(), Toast.LENGTH_SHORT).show();
                             } else {
+                                RequestDonationFragmentProgressBar.setVisibility(View.GONE);
                                 Toast.makeText(getActivity(), donationRequestCreate.getMsg(), Toast.LENGTH_SHORT).show();
                             }
                         } catch (Exception e) {
+                            RequestDonationFragmentProgressBar.setVisibility(View.GONE);
                             Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<DonationRequestCreate> call, Throwable t) {
+                        RequestDonationFragmentProgressBar.setVisibility(View.GONE);
                         Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });

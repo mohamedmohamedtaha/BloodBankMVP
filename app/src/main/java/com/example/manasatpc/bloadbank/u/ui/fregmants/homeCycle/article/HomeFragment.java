@@ -30,7 +30,7 @@ import com.example.manasatpc.bloadbank.u.data.model.posts.posttogglefavourite.Po
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 import com.example.manasatpc.bloadbank.u.helper.OnEndless;
-import com.example.manasatpc.bloadbank.u.helper.SaveData;
+import com.example.manasatpc.bloadbank.u.helper.RememberMy;
 import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.donation.RequestDonationFragment;
 
 import java.util.ArrayList;
@@ -45,7 +45,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.manasatpc.bloadbank.u.data.rest.RetrofitClient.getRetrofit;
-import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.GET_DATA;
 import static com.example.manasatpc.bloadbank.u.ui.activities.HomeActivity.toolbar;
 
 /**
@@ -69,16 +68,15 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.HomeFragment_Select_Category)
     Spinner HomeFragmentSelectCategory;
     Unbinder unbinder;
+    RememberMy rememberMy;
     private int max = 0;
     private APIServices apiServices;
     public static final String POST_ID = "post_id";
     AdapterArticle adapterArticle;
     ArrayList<Data2Posts> postsArrayList = new ArrayList<>();
-
     Integer positionCategories;
     final ArrayList<Integer> IdsCategories = new ArrayList<>();
     Bundle bundle;
-    private SaveData saveData;
     ImageView imageViewFavorite;
     int catdgory_id = 0;
 
@@ -94,9 +92,12 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, view);
+        rememberMy = new RememberMy(getActivity());
         apiServices = getRetrofit().create(APIServices.class);
-        bundle = getArguments();
-        saveData = getArguments().getParcelable(GET_DATA);
+        boolean check_network = HelperMethod.isNetworkConnected(getActivity(), getView());
+        if (check_network == false) {
+        }
+        bundle = new Bundle();
         getCategory();
         imageViewFavorite = (ImageView) view.findViewById(R.id.IM_Favorite);
         postsArrayList.clear();
@@ -104,7 +105,6 @@ public class HomeFragment extends Fragment {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         HomeFragmentRecycleView.setLayoutManager(linearLayoutManager);
         OnEndless onEndless = new OnEndless(linearLayoutManager, 1) {
-
             @Override
             public void onLoadMore(int current_page) {
                 if (current_page <= max) {
@@ -122,13 +122,13 @@ public class HomeFragment extends Fragment {
                 DetailsHomeFragment detailsHomeFragment = new DetailsHomeFragment();
                 bundle.putInt(POST_ID, posts);
                 HelperMethod.replece(detailsHomeFragment, getActivity().getSupportFragmentManager(),
-                        R.id.Cycle_Home_contener, null, null, bundle);
+                        R.id.Cycle_Home_contener, toolbar, position.getTitle(), bundle);
             }
         }, new AdapterArticle.saveFavorite() {
             @Override
             public void itemSaveFavorite(final Data2Posts position) {
                 String postFavourite = String.valueOf(position.getId());
-                apiServices.getPostToggleFavourite(saveData.getApi_token(), postFavourite).enqueue(new Callback<PostToggleFavourite>() {
+                apiServices.getPostToggleFavourite(rememberMy.getAPIKey(), postFavourite).enqueue(new Callback<PostToggleFavourite>() {
                     @Override
                     public void onResponse(Call<PostToggleFavourite> call, Response<PostToggleFavourite> response) {
                         PostToggleFavourite postToggleFavourite = response.body();
@@ -162,7 +162,7 @@ public class HomeFragment extends Fragment {
                     } else {
                         postsArrayList.clear();
                         HomeFragmentLoadingIndicator.setVisibility(View.VISIBLE);
-                        final Call<Posts> postsFilterCall = apiServices.getPostFilter(saveData.getApi_token(),
+                        final Call<Posts> postsFilterCall = apiServices.getPostFilter(rememberMy.getAPIKey(),
                                 1, text, catdgory_id);
                         postsFilterCall.enqueue(new Callback<Posts>() {
                             @Override
@@ -207,7 +207,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void getPosts(int page) {
-        apiServices.getPosts(saveData.getApi_token(),
+        apiServices.getPosts(rememberMy.getAPIKey(),
                 page).enqueue(new Callback<Posts>() {
             @Override
             public void onResponse(Call<Posts> call, Response<Posts> response) {
@@ -269,7 +269,7 @@ public class HomeFragment extends Fragment {
                                 if (position != 0) {
                                     postsArrayList.clear();
                                     HomeFragmentLoadingIndicator.setVisibility(View.VISIBLE);
-                                    final Call<Posts> postsFilterCall = apiServices.getPostFilter(saveData.getApi_token(),
+                                    final Call<Posts> postsFilterCall = apiServices.getPostFilter(rememberMy.getAPIKey(),
                                             1, null, IdsCategories.get(position));
                                     postsFilterCall.enqueue(new Callback<Posts>() {
                                         @Override
@@ -328,7 +328,7 @@ public class HomeFragment extends Fragment {
     }
 
     public void getProperties() {
-        HomeFragmentRecycleView.setVisibility(View.GONE);
+//        HomeFragmentRecycleView.setVisibility(View.GONE);
         HomeFragmentLoadingIndicator.setVisibility(View.GONE);
         HomeFragmentRLEmptyView.setVisibility(View.VISIBLE);
     }
@@ -342,6 +342,6 @@ public class HomeFragment extends Fragment {
     @OnClick(R.id.Fab_Request_Donation)
     public void onViewClicked() {
         RequestDonationFragment requestDonationFragment = new RequestDonationFragment();
-        HelperMethod.replece(requestDonationFragment, getActivity().getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.request_donation), saveData);
+        HelperMethod.replece(requestDonationFragment, getActivity().getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.request_donation));
     }
 }

@@ -18,7 +18,6 @@ import com.example.manasatpc.bloadbank.u.data.model.user.login.Login;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 import com.example.manasatpc.bloadbank.u.helper.RememberMy;
-import com.example.manasatpc.bloadbank.u.helper.SaveData;
 import com.example.manasatpc.bloadbank.u.ui.activities.HomeActivity;
 import com.google.firebase.iid.FirebaseInstanceId;
 
@@ -31,38 +30,33 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.manasatpc.bloadbank.u.data.rest.RetrofitClient.getRetrofit;
-import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.GET_DATA;
 
 public class LoginFragment extends Fragment {
-
-    private static APIServices APIServices;
-
     @BindView(R.id.LoginFragment_Forget_Password)
     TextView LoginFragmentForgetPassword;
     @BindView(R.id.LoginFragment_BT_Login)
     Button LoginFragmentBTLogin;
     @BindView(R.id.LoginFragment_BT_Register)
     Button LoginFragmentBTRegister;
-    Unbinder unbinder;
-
-    @BindView(R.id.LoginFragment_CB_Remeber_My)
-    CheckBox LoginFragmentCBRemeberMy;
-    RememberMy remeberMy;
-    String phone;
-    String password;
     @BindView(R.id.LoginFragment_Phone)
     TextInputEditText LoginFragmentPhone;
     @BindView(R.id.LoginFragment_Password)
     TextInputEditText LoginFragmentPassword;
     @BindView(R.id.LoginFragment_Progress_Bar)
     ProgressBar LoginFragmentProgressBar;
-    private SaveData saveData;
+    @BindView(R.id.LoginFragment_CB_Remeber_My)
+    CheckBox LoginFragmentCBRemeberMy;
+    Unbinder unbinder;
+
+    private static APIServices APIServices;
+    RememberMy remeberMy;
+    String phone;
+    String password;
 
     public LoginFragment() {
         // Required empty public constructor
 
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,17 +64,13 @@ public class LoginFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_login, container, false);
         unbinder = ButterKnife.bind(this, view);
-        saveData = getArguments().getParcelable(GET_DATA);
-
-
         //for check if the user in login or not
         remeberMy = new RememberMy(getActivity());
         if (remeberMy.isRemember()) {
-            HelperMethod.startActivity(getActivity(), HomeActivity.class, saveData.getApi_token());
+            HelperMethod.startActivity(getActivity(), HomeActivity.class);
         }
         return view;
     }
-
 
     @Override
     public void onDestroyView() {
@@ -99,7 +89,7 @@ public class LoginFragment extends Fragment {
             case R.id.LoginFragment_Forget_Password:
                 ForgetPasswordStep1Fragment forgetPasswordStep1Fragment = new ForgetPasswordStep1Fragment();
                 HelperMethod.replece(forgetPasswordStep1Fragment, getActivity().getSupportFragmentManager(),
-                        R.id.Cycle_User_contener, null, null, saveData);
+                        R.id.Cycle_User_contener, null, null);
                 break;
             case R.id.LoginFragment_BT_Login:
                 phone = LoginFragmentPhone.getText().toString().trim();
@@ -121,20 +111,17 @@ public class LoginFragment extends Fragment {
                             try {
                                 Login login = response.body();
                                 if (login.getStatus() == 1) {
-                                    SaveData saveData = new SaveData(login.getData().getApiToken(),
-                                            login.getData().getClient().getName(), login.getData().getClient().getPhone()
-                                            , login.getData().getClient().getEmail()
-                                            , login.getData().getClient().getBirthDate(), login.getData().getClient().getCityId(),
-                                            login.getData().getClient().getDonationLastDate(), login.getData().getClient().getBloodTypeId());
+                                    remeberMy.saveDateUserTwo(login.getData().getClient().getName(), login.getData().getClient().getPhone(),
+                                            login.getData().getClient().getEmail(), login.getData().getApiToken());
                                     Log.i("API Kay : ", login.getData().getApiToken());
                                     //for notification
                                     String tokentxt = FirebaseInstanceId.getInstance().getToken();
-                                    HelperMethod.getRegisterToken(getActivity(),tokentxt,saveData.getApi_token(),"android");
+                                    HelperMethod.getRegisterToken(getActivity(), tokentxt, login.getData().getApiToken(), "android");
 
                                     if (LoginFragmentCBRemeberMy.isChecked()) {
-                                        remeberMy.saveDateUser(phone, password, saveData.getApi_token());
+                                        remeberMy.saveDateUser(phone, password, login.getData().getApiToken());
                                     }
-                                    HelperMethod.startActivity(getActivity(), HomeActivity.class, saveData);
+                                    HelperMethod.startActivity(getActivity(), HomeActivity.class);
                                     Toast.makeText(getActivity(), login.getMsg(), Toast.LENGTH_LONG).show();
                                     LoginFragmentProgressBar.setVisibility(View.GONE);
                                 } else {
@@ -159,7 +146,7 @@ public class LoginFragment extends Fragment {
             case R.id.LoginFragment_BT_Register:
                 RegesterFragment regesterFragment = new RegesterFragment();
                 HelperMethod.replece(regesterFragment, getActivity().getSupportFragmentManager(),
-                        R.id.Cycle_User_contener, null, getString(R.string.create_new_user), saveData);
+                        R.id.Cycle_User_contener, null, getString(R.string.create_new_user));
                 break;
         }
     }

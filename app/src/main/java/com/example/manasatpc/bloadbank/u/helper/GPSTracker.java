@@ -4,6 +4,7 @@ import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,8 +20,13 @@ import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 //import com.ipda3.discover_me.R;
+
+import com.example.manasatpc.bloadbank.R;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 
 import java.io.IOException;
 import java.util.List;
@@ -34,6 +40,9 @@ import java.util.Locale;
  */
 
 public class GPSTracker extends Activity implements LocationListener {
+
+    public static final int ERROR_DIALOG_REQUEST = 9001;
+
     // The minimum distance to change updates in meters
     private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 10; // 10 meters
     // The minimum time between updates in milliseconds
@@ -363,6 +372,21 @@ public class GPSTracker extends Activity implements LocationListener {
 
     @Override
     public void onProviderDisabled(String provider) {
+    }
+
+
+
+    public static boolean isServicesOk(Activity context){
+        int available = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context);
+        if (available == ConnectionResult.SUCCESS){
+            return true;
+        }else if (GoogleApiAvailability.getInstance().isUserResolvableError(available)){
+            Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(context,available,ERROR_DIALOG_REQUEST);
+            dialog.show();
+        }else {
+            Toast.makeText(context, context.getString(R.string.no_google_services), Toast.LENGTH_SHORT).show();
+        }
+        return false;
     }
 
 }

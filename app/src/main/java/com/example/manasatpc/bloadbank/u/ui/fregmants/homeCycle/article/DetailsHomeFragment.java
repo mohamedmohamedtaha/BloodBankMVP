@@ -17,7 +17,8 @@ import com.example.manasatpc.bloadbank.R;
 import com.example.manasatpc.bloadbank.u.data.model.posts.postdetails.PostDetails;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.helper.DrawerLocker;
-import com.example.manasatpc.bloadbank.u.helper.SaveData;
+import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
+import com.example.manasatpc.bloadbank.u.helper.RememberMy;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,7 +28,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.manasatpc.bloadbank.u.data.rest.RetrofitClient.getRetrofit;
-import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.GET_DATA;
 import static com.example.manasatpc.bloadbank.u.ui.activities.HomeActivity.toolbar;
 import static com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.article.HomeFragment.POST_ID;
 
@@ -35,8 +35,6 @@ import static com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.article.H
  * A simple {@link Fragment} subclass.
  */
 public class DetailsHomeFragment extends Fragment {
-
-
     @BindView(R.id.DetailsHomeFragment_IM_Show_Image_Details)
     ImageView DetailsHomeFragmentIMShowImageDetails;
     @BindView(R.id.DetailsHomeFragment_IM_Show_Favorite_Details)
@@ -48,9 +46,9 @@ public class DetailsHomeFragment extends Fragment {
     @BindView(R.id.DetailsHomeFragment_TV_Show_Details)
     TextView DetailsHomeFragmentTVShowDetails;
     Unbinder unbinder;
+    RememberMy rememberMy;
     private APIServices apiServices;
     Bundle bundle;
-    SaveData saveData;
 
     public DetailsHomeFragment() {
         // Required empty public constructor
@@ -62,15 +60,17 @@ public class DetailsHomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_details_home, container, false);
         unbinder = ButterKnife.bind(this, view);
-        saveData = getArguments().getParcelable(GET_DATA);
+        rememberMy = new RememberMy(getActivity());
         toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         ((DrawerLocker) getActivity()).setDraweEnabled(false);
-
+        boolean check_network = HelperMethod.isNetworkConnected(getActivity(), getView());
+        if (check_network == false) {
+        }
         bundle = getArguments();
         int postId = bundle.getInt(POST_ID);
         apiServices = getRetrofit().create(APIServices.class);
         DetailsHomeFragmentLoginProgress.setVisibility(View.VISIBLE);
-        apiServices.getPostDetails(saveData.getApi_token(), postId,1).enqueue(new Callback<PostDetails>() {
+        apiServices.getPostDetails(rememberMy.getAPIKey(), postId, 1).enqueue(new Callback<PostDetails>() {
             @Override
             public void onResponse(Call<PostDetails> call, Response<PostDetails> response) {
                 PostDetails post = response.body();
@@ -87,13 +87,11 @@ public class DetailsHomeFragment extends Fragment {
                     } else {
                         Glide.with(getActivity()).load(R.drawable.favorite)
                                 .error(R.drawable.no_image).centerCrop().into(DetailsHomeFragmentIMShowFavoriteDetails);
-
                     }
                 } else {
                     DetailsHomeFragmentLoginProgress.setVisibility(View.GONE);
                     Toast.makeText(getActivity(), post.getMsg(), Toast.LENGTH_SHORT).show();
                     toolbar.setTitle("");
-
                 }
             }
 
@@ -112,5 +110,4 @@ public class DetailsHomeFragment extends Fragment {
         super.onDestroyView();
         unbinder.unbind();
     }
-
 }

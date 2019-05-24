@@ -88,7 +88,6 @@ public class SliderFragment extends Fragment {
         if (dottv.length > 0) {
             dottv[page].setTextColor(Color.parseColor("#9da0a3"));
         }
-
     }
 
     @OnClick(R.id.SliderFragment_Skip)

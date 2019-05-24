@@ -17,26 +17,18 @@ import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.GET_DATA;
 public class AdapterForConverter extends FragmentPagerAdapter {
     private Context mContext;
     Bundle bundle;
-    SaveData saveData;
-    public AdapterForConverter(Context mContext, FragmentManager fm,SaveData bundle) {
+    public AdapterForConverter(Context mContext, FragmentManager fm) {
         super(fm);
         this.mContext =mContext;
-        this.saveData = bundle;
     }
 
     @Override
     public Fragment getItem(int position) {
         if (position == 0 ){
             HomeFragment homeFragment = new HomeFragment();
-            bundle = new Bundle();
-            bundle.putParcelable(GET_DATA,saveData);
-            homeFragment.setArguments(bundle);
             return homeFragment;
         }else {
             ListRequestsDonationFragment listRequestsDonationFragment = new ListRequestsDonationFragment();
-            bundle = new Bundle();
-            bundle.putParcelable(GET_DATA,saveData);
-            listRequestsDonationFragment.setArguments(bundle);
             return listRequestsDonationFragment;
 
         }

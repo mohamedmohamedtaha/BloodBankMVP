@@ -20,7 +20,8 @@ import com.example.manasatpc.bloadbank.R;
 import com.example.manasatpc.bloadbank.u.data.model.donation.donationrequest.DonationRequest;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.helper.DrawerLocker;
-import com.example.manasatpc.bloadbank.u.helper.SaveData;
+import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
+import com.example.manasatpc.bloadbank.u.helper.RememberMy;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -37,8 +38,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.manasatpc.bloadbank.u.data.rest.RetrofitClient.getRetrofit;
-import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.GET_DATA;
 import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.makePhoneCall;
+import static com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.donation.ListRequestsDonationFragment.REQUEST_ID;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -67,12 +68,13 @@ public class DetailRequestDonationFragment extends Fragment implements OnMapRead
     @BindView(R.id.DetailRequestDonationFragment_Progress_Bar)
     ProgressBar DetailRequestDonationFragmentProgressBar;
     Unbinder unbinder;
+    RememberMy rememberMy;
+    Bundle bundle;
     private APIServices apiServices;
     private GoogleMap gMap;
     private static final String MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey";
     Double longitude = null;
     Double latiude = null;
-    SaveData saveData;
     private String savePhone;
     private static final int REQUEST_CALL = 1;
 
@@ -86,11 +88,16 @@ public class DetailRequestDonationFragment extends Fragment implements OnMapRead
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_detail_request_donation, container, false);
         unbinder = ButterKnife.bind(this, view);
-        saveData = getArguments().getParcelable(GET_DATA);
+        rememberMy = new RememberMy(getActivity());
+        bundle = getArguments();
+        int requestId = bundle.getInt(REQUEST_ID);
+        boolean check_network = HelperMethod.isNetworkConnected(getActivity(), getView());
+        if (check_network == false) {
+        }
         ((DrawerLocker) getActivity()).setDraweEnabled(false);
         apiServices = getRetrofit().create(APIServices.class);
         DetailRequestDonationFragmentProgressBar.setVisibility(View.VISIBLE);
-        apiServices.getDonationRequest(saveData.getApi_token(), saveData.getPositionId())
+        apiServices.getDonationRequest(rememberMy.getAPIKey(), requestId)
                 .enqueue(new Callback<DonationRequest>() {
                     @Override
                     public void onResponse(Call<DonationRequest> call, Response<DonationRequest> response) {
@@ -120,7 +127,7 @@ public class DetailRequestDonationFragment extends Fragment implements OnMapRead
                                 Toast.makeText(getActivity(), donationRequest.getMsg(), Toast.LENGTH_SHORT).show();
                                 DetailRequestDonationFragmentProgressBar.setVisibility(View.GONE);
                             }
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
                             DetailRequestDonationFragmentProgressBar.setVisibility(View.GONE);
                         }

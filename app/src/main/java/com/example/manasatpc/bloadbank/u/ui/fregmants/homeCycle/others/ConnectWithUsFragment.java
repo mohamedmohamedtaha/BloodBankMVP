@@ -23,7 +23,6 @@ import com.example.manasatpc.bloadbank.u.data.model.general.settings.Settings;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 import com.example.manasatpc.bloadbank.u.helper.RememberMy;
-import com.example.manasatpc.bloadbank.u.helper.SaveData;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -34,16 +33,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.manasatpc.bloadbank.u.data.rest.RetrofitClient.getRetrofit;
-import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.API_KEY;
-import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.GET_DATA;
 import static com.example.manasatpc.bloadbank.u.ui.activities.HomeActivity.toolbar;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class ConnectWithUsFragment extends Fragment {
-
-
     @BindView(R.id.IM_Face_Book)
     ImageView IMFaceBook;
     @BindView(R.id.IM_Twitter)
@@ -72,7 +67,6 @@ public class ConnectWithUsFragment extends Fragment {
     private APIServices apiServices;
     Bundle bundle;
     private RememberMy rememberMy;
-    private SaveData saveData;
     private String urlYouTube, urlWhatsApp, urlTwitter, urlInstgram, urlGooglePlus, urlFacebook;
 
     public ConnectWithUsFragment() {
@@ -86,43 +80,44 @@ public class ConnectWithUsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_connect_with_us, container, false);
         unbinder = ButterKnife.bind(this, view);
+        rememberMy = new RememberMy(getActivity());
         bundle = getArguments();
 
-        saveData = getArguments().getParcelable(GET_DATA);
-        String email = saveData.getEmail();
-        String name = saveData.getName();
-        String phone = saveData.getPhone();
+        String email = rememberMy.getEmailUser();
+        String name = rememberMy.getNameUser();
+        String phone = rememberMy.getPhoneUser();
         FragmentConnectUsPhone.append(phone);
         FragmentConnectUsEmail.append(email);
         FragmentConnectUsName.append(name);
 
+        boolean check_network = HelperMethod.isNetworkConnected(getActivity(), getView());
+        if (check_network == false) {
+        } else {
+            apiServices = getRetrofit().create(APIServices.class);
+            apiServices.getSettings(rememberMy.getAPIKey()).enqueue(new Callback<Settings>() {
+                @Override
+                public void onResponse(Call<Settings> call, Response<Settings> response) {
+                    Settings settings = response.body();
+                    if (settings.getStatus() == 1) {
+                        urlGooglePlus = settings.getData().getGoogleUrl();
+                        urlInstgram = settings.getData().getInstagramUrl();
+                        urlTwitter = settings.getData().getTwitterUrl();
+                        urlWhatsApp = settings.getData().getWhatsapp();
+                        urlYouTube = settings.getData().getYoutubeUrl();
+                        urlFacebook = settings.getData().getFacebookUrl();
 
-        apiServices = getRetrofit().create(APIServices.class);
-        apiServices.getSettings(saveData.getApi_token()).enqueue(new Callback<Settings>() {
-            @Override
-            public void onResponse(Call<Settings> call, Response<Settings> response) {
-                Settings settings = response.body();
-                if (settings.getStatus() == 1) {
-                    urlGooglePlus = settings.getData().getGoogleUrl();
-                    urlInstgram = settings.getData().getInstagramUrl();
-                    urlTwitter = settings.getData().getTwitterUrl();
-                    urlWhatsApp = settings.getData().getWhatsapp();
-                    urlYouTube = settings.getData().getYoutubeUrl();
-                    urlFacebook = settings.getData().getFacebookUrl();
-
-                } else {
-                    Toast.makeText(getActivity(), settings.getMsg(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getActivity(), settings.getMsg(), Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<Settings> call, Throwable t) {
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                @Override
+                public void onFailure(Call<Settings> call, Throwable t) {
+                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
 
-            }
-        });
-
-
+                }
+            });
+        }
         return view;
     }
 
@@ -134,6 +129,9 @@ public class ConnectWithUsFragment extends Fragment {
 
     @OnClick({R.id.IM_Face_Book, R.id.IM_Twitter, R.id.IM_YouTube, R.id.IM_Instgram, R.id.IM_whatsApp, R.id.IM_GooglePlus, R.id.BT_Send_Message})
     public void onViewClicked(View view) {
+        boolean check_network = HelperMethod.isNetworkConnected(getActivity(), getView());
+        if (check_network == false) {
+        }
         switch (view.getId()) {
             case R.id.IM_Face_Book:
                 HelperMethod.openWebSite(getActivity(), urlFacebook);
@@ -164,7 +162,7 @@ public class ConnectWithUsFragment extends Fragment {
                 if (TextUtils.isEmpty(title_message) || TextUtils.isEmpty(text_message)) {
                     Toast.makeText(getActivity(), getString(R.string.filed_request), Toast.LENGTH_SHORT).show();
                 } else {
-                    apiServices.getContact(saveData.getApi_token(), title_message, text_message).enqueue(new Callback<Contact>() {
+                    apiServices.getContact(rememberMy.getAPIKey(), title_message, text_message).enqueue(new Callback<Contact>() {
                         @Override
                         public void onResponse(Call<Contact> call, Response<Contact> response) {
                             Contact contact = response.body();

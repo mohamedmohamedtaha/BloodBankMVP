@@ -25,7 +25,6 @@ import com.example.manasatpc.bloadbank.u.data.model.user.register.Register;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.helper.DateModel;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
-import com.example.manasatpc.bloadbank.u.helper.SaveData;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -40,8 +39,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.manasatpc.bloadbank.u.data.rest.RetrofitClient.getRetrofit;
-import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.GET_DATA;
-import static com.example.manasatpc.bloadbank.u.ui.activities.HomeActivity.toolbar;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -74,14 +71,12 @@ public class RegesterFragment extends Fragment {
     @BindView(R.id.RegesterFragment_Progress_Bar)
     ProgressBar RegesterFragmentProgressBar;
     Unbinder unbinder;
-    Bundle bundle;
     private DateModel dateModel1;
     private DateModel dateModel2;
     final Calendar getDatenow = Calendar.getInstance();
     private int startYear;
     private int startMonth;
     private int startDay;
-    private SaveData saveData;
     //for gaverment and cities
     String getResult;
     int IDPosition;
@@ -105,8 +100,6 @@ public class RegesterFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_regester, container, false);
         unbinder = ButterKnife.bind(this, view);
-        bundle = getArguments();
-        saveData = getArguments().getParcelable(GET_DATA);
         getBloodTypes();
         startYear = getDatenow.get(Calendar.YEAR);
         startMonth = getDatenow.get(Calendar.MONTH);
@@ -309,7 +302,7 @@ public class RegesterFragment extends Fragment {
                         RegesterFragmentProgressBar.setVisibility(View.GONE);
                         LoginFragment loginFragment = new LoginFragment();
                         HelperMethod.replece(loginFragment, getActivity().getSupportFragmentManager(),
-                                R.id.Cycle_User_contener, toolbar, getString(R.string.login), saveData);
+                                R.id.Cycle_User_contener, null, null);
                     }
                 } catch (Exception e) {
                     Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();

@@ -23,6 +23,7 @@ import com.example.manasatpc.bloadbank.u.data.model.general.governorates.Governo
 import com.example.manasatpc.bloadbank.u.data.model.notification.getnotificationssettings.DataGetNotificationSsettings;
 import com.example.manasatpc.bloadbank.u.data.model.notification.getnotificationssettings.GetNotificationSsettings;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
+import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 import com.example.manasatpc.bloadbank.u.helper.SaveData;
 
 import java.util.ArrayList;
@@ -42,7 +43,6 @@ import static com.example.manasatpc.bloadbank.u.ui.activities.HomeActivity.toolb
 
 
 public class SettingsNotificationFragment extends Fragment {
-
     @BindView(R.id.SettingsNotificationFragment_RecyclerView_Types_Blood)
     RecyclerView SettingsNotificationFragmentRecyclerViewTypesBlood;
     @BindView(R.id.SettingsNotificationFragment_RecyclerView_Types_Cities)
@@ -62,7 +62,6 @@ public class SettingsNotificationFragment extends Fragment {
     private ArrayList<String> getGovrnoratesArrayList = new ArrayList<>();
 
     private APIServices apiServices;
-    private SaveData saveData;
     private List<String> selectedBloodTypesIds = new ArrayList<>();
 
     private List<Integer> selectedGavermentIds = new ArrayList<>();
@@ -78,8 +77,11 @@ public class SettingsNotificationFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_settings_notification, container, false);
         unbinder = ButterKnife.bind(this, view);
-        saveData = getArguments().getParcelable(GET_DATA);
         apiServices = getRetrofit().create(APIServices.class);
+
+        boolean check_network = HelperMethod.isNetworkConnected(getActivity(), getView());
+        if (check_network == false) {
+        }
         SettingsNotificationFragmentProgressBar.setVisibility(View.VISIBLE);
         SettingsNotificationFragmentRecyclerViewTypesBlood.setLayoutManager(new GridLayoutManager(getActivity(), 3));
         adapterNotification = new AdapterNotification(getActivity(), getDataBloodTypes, selectedBloodTypesIds);
