@@ -24,12 +24,13 @@ import android.widget.Toast;
 
 import com.bumptech.glide.manager.SupportRequestManagerFragment;
 import com.example.manasatpc.bloadbank.R;
+import com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes.BloodTypes;
+import com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes.DataBloodTypes;
 import com.example.manasatpc.bloadbank.u.data.model.notification.firebaseApiToken.registertoken.RegisterToken;
 import com.example.manasatpc.bloadbank.u.data.model.notification.firebaseApiToken.removetoken.RemoveToken;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.ui.activities.LoginActivity;
 import com.example.manasatpc.bloadbank.u.ui.fregmants.userCycle.LoginFragment;
-import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -37,6 +38,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import retrofit2.Call;
@@ -67,7 +69,8 @@ public class HelperMethod {
         }
 
     }
-      //This method for handle Fragments
+
+    //This method for handle Fragments
     public static void replece(Fragment fragment, FragmentManager fragmentManager, int id, Toolbar toolbar, String title, Bundle bundle) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         fragment.setArguments(bundle);
@@ -80,22 +83,6 @@ public class HelperMethod {
 
     }
 
-        public static void removeOneFragment(Fragment fragment, FragmentManager fragmentManager,Toolbar toolbar, String title, SaveData saveData) {
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(GET_DATA, saveData);
-        fragment.setArguments(bundle);
-        transaction.remove(fragment);
-        transaction.commit();
-        fragmentManager.popBackStack();
-        // for change from commit() because don't happen Error
-        //   java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
-        if (toolbar != null) {
-            toolbar.setTitle(title);
-        }
-
-
-    }
     public static void replece(Fragment fragment, FragmentManager fragmentManager, int id, Toolbar toolbar, String title) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(id, fragment);
@@ -110,25 +97,26 @@ public class HelperMethod {
 
 
     }
-/*
-    public static void replece(Fragment fragment, FragmentManager fragmentManager, int id, Toolbar toolbar, String title, SaveData saveData) {
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        Bundle bundle = new Bundle();
-        bundle.putParcelable(GET_DATA, saveData);
-        fragment.setArguments(bundle);
-        transaction.replace(id, fragment);
-        transaction.addToBackStack(null);
-        // for change from commit() because don't happen Error
-        //   java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
-        transaction.commitAllowingStateLoss();
 
-        if (toolbar != null) {
-            toolbar.setTitle(title);
+    /*
+        public static void replece(Fragment fragment, FragmentManager fragmentManager, int id, Toolbar toolbar, String title, SaveData saveData) {
+            FragmentTransaction transaction = fragmentManager.beginTransaction();
+            Bundle bundle = new Bundle();
+            bundle.putParcelable(GET_DATA, saveData);
+            fragment.setArguments(bundle);
+            transaction.replace(id, fragment);
+            transaction.addToBackStack(null);
+            // for change from commit() because don't happen Error
+            //   java.lang.IllegalStateException: Can not perform this action after onSaveInstanceState
+            transaction.commitAllowingStateLoss();
+
+            if (toolbar != null) {
+                toolbar.setTitle(title);
+            }
+
+
         }
-
-
-    }
-*/
+    */
     // This method for check Do the internet is available or not ?
     public static boolean isNetworkConnected(Context context, View view) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -148,15 +136,8 @@ public class HelperMethod {
         context.startActivity(startActivity);
     }
 
-    // This method for handle Activity
-    public static void startActivity(Context context, Class<?> toActivity, SaveData saveData) {
-        Intent startActivity = new Intent(context, toActivity);
-        startActivity.putExtra(GET_DATA, saveData);
-        context.startActivity(startActivity);
-    }
-
     //This method for set time for Reset the password
-    public static void startCountdownTimer(final Context context, final View view, final FragmentManager fragmentManager, final TextView textView, final SaveData saveData) {
+    public static void startCountdownTimer(final Context context, final View view, final FragmentManager fragmentManager, final TextView textView) {
         countDownTimer = new CountDownTimer(50000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -167,7 +148,7 @@ public class HelperMethod {
             @Override
             public void onFinish() {
                 Snackbar.make(view, context.getString(R.string.time_out), Snackbar.LENGTH_LONG).show();
-                HelperMethod.startActivity(context, LoginActivity.class, saveData);
+                HelperMethod.startActivity(context, LoginActivity.class);
 
                 LoginFragment loginFragment = new LoginFragment();
                 replece(loginFragment, fragmentManager, R.id.Cycle_User_contener, null, null);
@@ -269,20 +250,21 @@ public class HelperMethod {
         String finalDay = dateFormat1.format(dt1);
         return finalDay;
     }
-    public static void getRemoveToken(final Context context, String token, String api_token){
+
+    public static void getRemoveToken(final Context context, String token, String api_token) {
         apiServices = getRetrofit().create(APIServices.class);
-        apiServices.getRemoveToken(token,api_token).enqueue(new Callback<RemoveToken>() {
+        apiServices.getRemoveToken(token, api_token).enqueue(new Callback<RemoveToken>() {
             @Override
             public void onResponse(Call<RemoveToken> call, Response<RemoveToken> response) {
                 RemoveToken removeToken = response.body();
                 try {
-                    if (removeToken.getStatus() == 1){
+                    if (removeToken.getStatus() == 1) {
                         Toast.makeText(context.getApplicationContext(), removeToken.getMsg(), Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
                         Toast.makeText(context.getApplicationContext(), removeToken.getMsg(), Toast.LENGTH_SHORT).show();
                     }
 
-                }catch (Exception e){
+                } catch (Exception e) {
                     Toast.makeText(context.getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
@@ -296,20 +278,20 @@ public class HelperMethod {
         });
     }
 
-    public static void getRegisterToken(final Context context, String token, String api_token, String platform){
+    public static void getRegisterToken(final Context context, String token, String api_token, String platform) {
         apiServices = getRetrofit().create(APIServices.class);
-        apiServices.getRegisterToken(token,api_token,platform).enqueue(new Callback<RegisterToken>() {
+        apiServices.getRegisterToken(token, api_token, platform).enqueue(new Callback<RegisterToken>() {
             @Override
             public void onResponse(Call<RegisterToken> call, Response<RegisterToken> response) {
                 RegisterToken registerToken = response.body();
                 try {
-                    if (registerToken.getStatus() == 1){
+                    if (registerToken.getStatus() == 1) {
                         Toast.makeText(context.getApplicationContext(), registerToken.getMsg(), Toast.LENGTH_SHORT).show();
-                    }else {
+                    } else {
                         Toast.makeText(context.getApplicationContext(), registerToken.getMsg(), Toast.LENGTH_SHORT).show();
                     }
 
-                }catch (Exception e){
+                } catch (Exception e) {
                     Toast.makeText(context.getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
@@ -322,5 +304,4 @@ public class HelperMethod {
             }
         });
     }
-
 }

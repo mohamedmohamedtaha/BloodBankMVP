@@ -277,6 +277,7 @@ public class RequestDonationFragment extends Fragment {
                 if (check_network == false) {
                     return;
                 }
+
                 String name_patient = RequestDonationFragmentETNamePatient.getText().toString().trim();
                 String age_patient = RequestDonationFragmentETAgePatient.getText().toString().trim();
                 String hospital_name = RequestDonationFragmentETNameHospitalPatient.getText().toString().trim();
@@ -298,9 +299,8 @@ public class RequestDonationFragment extends Fragment {
                     Toast.makeText(getActivity(), getString(R.string.selct_blood_and_city), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                String latitude = bundle.getString(LATITUDE_MAP);
-                String longtite = bundle.getString(LONGITUDE_MAP);
-
+                String latitude =MapFragment. latitude ;
+                String longtite = MapFragment.longitude ;
                 if (longtite == null || latitude == null) {
                     Toast.makeText(getActivity(), getString(R.string.select_map), Toast.LENGTH_SHORT).show();
                     return;

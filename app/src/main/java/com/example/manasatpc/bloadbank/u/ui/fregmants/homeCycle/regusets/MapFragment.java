@@ -20,6 +20,7 @@ import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -76,8 +77,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
     AutoCompleteTextView inputSearch;
     @BindView(R.id.ic_gps)
     ImageView icGps;
-    @BindView(R.id.ic_back)
-    ImageView icBack;
+    @BindView(R.id.MapFragment_Select_Location)
+    Button MapFragmentSelectLocation;
     @BindView(R.id.ic_info_location)
     ImageView icInfoLocation;
     Unbinder unbinder;
@@ -100,8 +101,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
     Bundle bundle;
     private PlaceInfo mPlace;
     private Marker mMarker;
-    String latitude = null;
-    String longitude = null;
+    public static String latitude = null;
+    public static String longitude = null;
     GoogleApiClient client;
     LocationRequest mLocationRequest;
     PendingResult<LocationSettingsResult> result;
@@ -130,11 +131,13 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
 
         mapFragment.getMapAsync(this);
         getLocationPermission();
+if (client == null){
+    client = new GoogleApiClient.Builder(getActivity())
+            .addApi(Places.GEO_DATA_API)
+            .addApi(Places.PLACE_DETECTION_API)
+            .enableAutoManage(getActivity(), this).build();
+}
 
-        client = new GoogleApiClient.Builder(getActivity())
-                .addApi(Places.GEO_DATA_API)
-                .addApi(Places.PLACE_DETECTION_API)
-                .enableAutoManage(getActivity(), this).build();
         inputSearch.setOnItemClickListener(mOnItemClickListener);
         mPlaceAutocompleteAdapter = new PlaceAutocompleteAdapter(getActivity(), client, LAT_LNG_BOUNDS, null);
         inputSearch.setAdapter(mPlaceAutocompleteAdapter);
@@ -253,7 +256,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
                                     DEFAULT_ZOOM, "My Location");
                         } else {
                             getLocationPermission();
-                            Toast.makeText(getActivity(), "Current Location is null. Using defaults.", Toast.LENGTH_SHORT).show();
+                          //  Toast.makeText(getActivity(), "Current Location is null. Using defaults.", Toast.LENGTH_SHORT).show();
                             //  mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
                             //mGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
                         }
@@ -273,18 +276,17 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
          * onRequestPermissionsResult.
          */
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
-        if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
-                FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(getContext(),
+                FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+        && ActivityCompat.checkSelfPermission(getContext(),
+                COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             mLocationPermissionGranted = true;
+            Toast.makeText(getActivity(), "Permission Granted", Toast.LENGTH_SHORT).show();
 
-            if (ContextCompat.checkSelfPermission(getActivity().getApplicationContext(),
-                    COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                mLocationPermissionGranted = true;
-            } else {
-                ActivityCompat.requestPermissions(getActivity(), permissions, LOCATION_PERMISSION_REQUEST_CODE);
-            }
         } else {
             ActivityCompat.requestPermissions(getActivity(), permissions, LOCATION_PERMISSION_REQUEST_CODE);
+            Toast.makeText(getActivity(), "Permission Diented", Toast.LENGTH_SHORT).show();
+
         }
     }
 
@@ -416,11 +418,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
         hideSoftKeyboard();
     }
 
-    @OnClick({R.id.ic_gps, R.id.ic_back, R.id.ic_info_location})
+    @OnClick({R.id.ic_gps, R.id.MapFragment_Select_Location, R.id.ic_info_location})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.ic_gps:
-                getDeviceLocation();
+
+                        getDeviceLocation();
             /*    try {
                     if (mMarker.isInfoWindowShown()) {
                         mMarker.hideInfoWindow();
@@ -434,16 +437,12 @@ public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleA
 
                 }*/
                 break;
-            case R.id.ic_back:
+            case R.id.MapFragment_Select_Location:
                 if (longitude == null || latitude == null) {
                     Toast.makeText(getActivity(), getString(R.string.no_place), Toast.LENGTH_SHORT).show();
                     return;
                 } else {
-                    bundle.putString(LATITUDE_MAP, latitude);
-                    bundle.putString(LONGITUDE_MAP, longitude);
-                    RequestDonationFragment requestDonationFragment = new RequestDonationFragment();
-                    HelperMethod.replece(requestDonationFragment, getActivity().getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.request_donation), bundle);
-
+                   getActivity().onBackPressed();
                 }
                 break;
             case R.id.ic_info_location:

@@ -8,11 +8,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.example.manasatpc.bloadbank.R;
-import com.example.manasatpc.bloadbank.u.helper.SaveData;
 import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.article.HomeFragment;
 import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.donation.ListRequestsDonationFragment;
-
-import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.GET_DATA;
 
 public class AdapterForConverter extends FragmentPagerAdapter {
     private Context mContext;

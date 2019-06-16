@@ -13,22 +13,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.manasatpc.bloadbank.R;
-import com.example.manasatpc.bloadbank.u.data.model.user.newpassword.NewPassword;
-import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
+import com.example.manasatpc.bloadbank.u.data.interactor.ChangePasswordInteractor;
+import com.example.manasatpc.bloadbank.u.data.presenter.ChangePasswordPresenter;
+import com.example.manasatpc.bloadbank.u.data.view.ChangePasswordView;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-import static com.example.manasatpc.bloadbank.u.data.rest.RetrofitClient.getRetrofit;
 import static com.example.manasatpc.bloadbank.u.ui.fregmants.userCycle.ForgetPasswordStep1Fragment.PHONE;
 
-public class ForgetPasswordStep2Fragment extends Fragment {
+public class ForgetPasswordStep2Fragment extends Fragment implements ChangePasswordView {
     @BindView(R.id.ForgetPasswordStep2Fragment_Code_Check)
     TextInputEditText ForgetPasswordStep2FragmentCodeCheck;
     @BindView(R.id.ForgetPasswordStep2Fragment_New_Password)
@@ -42,10 +39,10 @@ public class ForgetPasswordStep2Fragment extends Fragment {
     @BindView(R.id.ForgetPasswordStep2Fragment_Progress_Bar)
     ProgressBar ForgetPasswordStep2FragmentProgressBar;
     Unbinder unbinder;
-    private static APIServices APIServices;
     Bundle getPhoneBundle;
     String savePhone;
     boolean check_network;
+    private ChangePasswordPresenter presenter;
 
     public ForgetPasswordStep2Fragment() {
         // Required empty public constructor
@@ -60,61 +57,59 @@ public class ForgetPasswordStep2Fragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         getPhoneBundle = getArguments();
         savePhone = getPhoneBundle.getString(PHONE);
-        // for check network
+        presenter = new ChangePasswordPresenter(this, new ChangePasswordInteractor());
         check_network = HelperMethod.isNetworkConnected(getActivity(), getView());
+        // for check network
         if (check_network == true) {
-            HelperMethod.startCountdownTimer(getActivity(), getActivity().findViewById(android.R.id.content)
-                    , getActivity().getSupportFragmentManager(), ForgetPasswordStep2FragmentTVRemindTime, null);
+            presenter.isNetworkAvailable();
         }
         return view;
     }
 
     @Override
     public void onDestroyView() {
+        presenter.onDestory();
         super.onDestroyView();
         unbinder.unbind();
     }
 
     @OnClick(R.id.ForgetPasswordStep2Fragment_BT_Change_Password)
     public void onViewClicked() {
-        // for check network
-        if (check_network == false) {
-            return;
-        }
         String code = ForgetPasswordStep2FragmentCodeCheck.getText().toString().trim();
         String newPassword = ForgetPasswordStep2FragmentNewPassword.getText().toString().trim();
         String retryNewPassword = ForgetPasswordStep2FragmentRetryNewPassword.getText().toString().trim();
-        if (code.isEmpty() || newPassword.isEmpty() || retryNewPassword.isEmpty()) {
-            Toast.makeText(getActivity(), getString(R.string.all_filed_request), Toast.LENGTH_LONG).show();
-            return;
-        }
+        presenter.changePassword(newPassword, retryNewPassword, code, savePhone, getActivity(), getView());
+    }
+
+    @Override
+    public void hideProgress() {
+        ForgetPasswordStep2FragmentProgressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showProgress() {
         ForgetPasswordStep2FragmentProgressBar.setVisibility(View.VISIBLE);
+    }
 
-        APIServices = getRetrofit().create(APIServices.class);
+    @Override
+    public void navigateToLogin() {
+        LoginFragment loginFragment = new LoginFragment();
+        HelperMethod.replece(loginFragment, getActivity().getSupportFragmentManager(), R.id.Cycle_User_contener, null, null);
+    }
 
-        Call<NewPassword> newPasswordCall = APIServices.getNewPassword(newPassword, retryNewPassword, code, savePhone);
-        newPasswordCall.enqueue(new Callback<NewPassword>() {
-            @Override
-            public void onResponse(Call<NewPassword> call, Response<NewPassword> response) {
-                NewPassword newPassword1 = response.body();
-                if (newPassword1.getStatus() == 1) {
-                    HelperMethod.stopCountdownTimer();
-                    ForgetPasswordStep2FragmentProgressBar.setVisibility(View.GONE);
-                    Toast.makeText(getActivity(), newPassword1.getMsg(), Toast.LENGTH_SHORT).show();
-                    LoginFragment loginFragment = new LoginFragment();
-                    HelperMethod.replece(loginFragment, getActivity().getSupportFragmentManager(), R.id.Cycle_User_contener, null, null);
-                } else {
-                    ForgetPasswordStep2FragmentProgressBar.setVisibility(View.GONE);
-                    Toast.makeText(getActivity(), newPassword1.getMsg(), Toast.LENGTH_SHORT).show();
-                }
-            }
+    @Override
+    public void setEmpty() {
+        Toast.makeText(getActivity(), getString(R.string.all_filed_request), Toast.LENGTH_SHORT).show();
+    }
 
-            @Override
-            public void onFailure(Call<NewPassword> call, Throwable t) {
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
-                ForgetPasswordStep2FragmentProgressBar.setVisibility(View.GONE);
-            }
-        });
+    @Override
+    public void networkAvailable() {
+        HelperMethod.startCountdownTimer(getActivity(), getActivity().findViewById(android.R.id.content)
+                , getActivity().getSupportFragmentManager(), ForgetPasswordStep2FragmentTVRemindTime);
+    }
 
+    @Override
+    public void stopCounter() {
+        HelperMethod.stopCountdownTimer();
     }
 }

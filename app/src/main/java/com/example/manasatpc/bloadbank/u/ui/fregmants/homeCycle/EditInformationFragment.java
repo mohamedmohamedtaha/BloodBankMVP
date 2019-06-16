@@ -17,20 +17,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.manasatpc.bloadbank.R;
+import com.example.manasatpc.bloadbank.u.data.interactor.EditProfileInteractor;
+import com.example.manasatpc.bloadbank.u.data.model.EditProfileModel;
 import com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes.BloodTypes;
 import com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes.DataBloodTypes;
 import com.example.manasatpc.bloadbank.u.data.model.general.cities.Cities;
 import com.example.manasatpc.bloadbank.u.data.model.general.cities.DataCities;
 import com.example.manasatpc.bloadbank.u.data.model.general.governorates.Governorates;
 import com.example.manasatpc.bloadbank.u.data.model.general.governorates.GovernoratesData;
-import com.example.manasatpc.bloadbank.u.data.model.user.editprofile.EditProfile;
 import com.example.manasatpc.bloadbank.u.data.model.user.getprofile.ClientGetProfile;
-import com.example.manasatpc.bloadbank.u.data.model.user.getprofile.GetProfile;
+import com.example.manasatpc.bloadbank.u.data.presenter.EditProfilePresenter;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
+import com.example.manasatpc.bloadbank.u.data.view.EditProfileView;
 import com.example.manasatpc.bloadbank.u.helper.DateModel;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 import com.example.manasatpc.bloadbank.u.helper.RememberMy;
-import com.example.manasatpc.bloadbank.u.helper.SaveData;
 import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.article.HomeFragment;
 
 import java.util.ArrayList;
@@ -46,13 +47,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.manasatpc.bloadbank.u.data.rest.RetrofitClient.getRetrofit;
-import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.GET_DATA;
 import static com.example.manasatpc.bloadbank.u.ui.activities.HomeActivity.toolbar;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class EditInformationFragment extends Fragment {
+public class EditInformationFragment extends Fragment implements EditProfileView {
     @BindView(R.id.EditInformationFragment_Name)
     TextInputEditText EditInformationFragmentName;
     @BindView(R.id.EditInformationFragment_Email)
@@ -96,8 +96,8 @@ public class EditInformationFragment extends Fragment {
     final ArrayList<Integer> IdsBloodType = new ArrayList<>();
     final ArrayList<Integer> IdsGeverment = new ArrayList<>();
     ArrayList<String> stringsGaverment = new ArrayList<>();
-
-    private ClientGetProfile clientGetProfile;
+    EditProfileModel editProfileModel;
+    private EditProfilePresenter editProfilePresenter;
 
     public EditInformationFragment() {
         // Required empty public constructor
@@ -109,6 +109,8 @@ public class EditInformationFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_edit_information, container, false);
         unbinder = ButterKnife.bind(this, view);
+        editProfilePresenter = new EditProfileInteractor(this, getActivity());
+
         rememberMy = new RememberMy(getActivity());
         check_network = HelperMethod.isNetworkConnected(getActivity(), getView());
         startYear = getDatenow.get(Calendar.YEAR);
@@ -122,7 +124,9 @@ public class EditInformationFragment extends Fragment {
             EditInformationFragmentProgressBar.setVisibility(View.GONE);
         }
 
-        apiServices = getRetrofit().create(APIServices.class);
+        editProfilePresenter.getProfile(rememberMy.getAPIKey(), getActivity());
+
+        /*apiServices = getRetrofit().create(APIServices.class);
         EditInformationFragmentProgressBar.setVisibility(View.VISIBLE);
         apiServices.getProfile(rememberMy.getAPIKey()).enqueue(new Callback<GetProfile>() {
             @Override
@@ -153,7 +157,7 @@ public class EditInformationFragment extends Fragment {
                 EditInformationFragmentProgressBar.setVisibility(View.GONE);
                 Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
         EditInformationFragmentDateOfBirth.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -172,10 +176,11 @@ public class EditInformationFragment extends Fragment {
 
     @Override
     public void onDestroyView() {
+        editProfilePresenter.onDestroy();
         super.onDestroyView();
         unbinder.unbind();
     }
-
+/*
     private void getGaverment() {
         apiServices = getRetrofit().create(APIServices.class);
         final Call<Governorates> governorates = apiServices.getGovernorates();
@@ -305,7 +310,7 @@ public class EditInformationFragment extends Fragment {
             }
         });
     }
-
+*/
     @OnClick(R.id.EditInformationFragment_BT_Regester)
     public void onViewClicked() {
         // for check network
@@ -319,7 +324,9 @@ public class EditInformationFragment extends Fragment {
         String phone = EditInformationFragmentPhone.getText().toString().trim();
         String password = EditInformationFragmentPassword.getText().toString().trim();
         String retry_password = EditInformationFragmentRetryPassword.getText().toString().trim();
-        if (new_user.isEmpty() || email.isEmpty() || date_birth.isEmpty() || last_date.isEmpty() || phone.isEmpty() || password.isEmpty() || retry_password.isEmpty()) {
+        editProfilePresenter.editProfile(new_user, email, date_birth, last_date, phone, password, retry_password, getActivity(),
+                EditInformationFragmentSPBloodType, EditInformationFragmentSPCity);
+        /*if (new_user.isEmpty() || email.isEmpty() || date_birth.isEmpty() || last_date.isEmpty() || phone.isEmpty() || password.isEmpty() || retry_password.isEmpty()) {
             Toast.makeText(getActivity(), getString(R.string.all_filed_request), Toast.LENGTH_SHORT).show();
             return;
         }
@@ -354,7 +361,7 @@ public class EditInformationFragment extends Fragment {
             public void onFailure(Call<EditProfile> call, Throwable t) {
                 Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
             }
-        });
+        });*/
     }
 
     @Override
@@ -362,4 +369,42 @@ public class EditInformationFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         toolbar.setTitle(R.string.edit_information);
     }
+
+    @Override
+    public void showProgress() {
+        EditInformationFragmentProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        EditInformationFragmentProgressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void editSuccess() {
+        HomeFragment homeFragment = new HomeFragment();
+        HelperMethod.replece(homeFragment, getActivity().getSupportFragmentManager(),
+                R.id.Cycle_Home_contener, toolbar, getString(R.string.home));
+    }
+
+    @Override
+    public void emptyField() {
+        Toast.makeText(getActivity(), getString(R.string.all_filed_request), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void emptyCity() {
+        Toast.makeText(getActivity(), getString(R.string.selct_blood_and_city), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void retrieveSuccess() {
+        editProfilePresenter.getGaverment(getActivity(), EditInformationFragmentSPGaverment, EditInformationFragmentSPCity);
+        editProfilePresenter.getBloodTypes(getActivity(), EditInformationFragmentSPBloodType);
+        EditInformationFragmentDateOfBirth.setText(editProfileModel.getBirthDay());
+        EditInformationFragmentEmail.setText(editProfileModel.getEmail());
+        EditInformationFragmentLastDateDonation.setText(editProfileModel.getDonationLastDate());
+        EditInformationFragmentName.setText(editProfileModel.getName());
+        EditInformationFragmentPhone.setText(editProfileModel.getPhone());
+         }
 }

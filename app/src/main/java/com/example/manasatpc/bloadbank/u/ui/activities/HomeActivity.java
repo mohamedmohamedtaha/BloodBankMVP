@@ -1,6 +1,5 @@
 package com.example.manasatpc.bloadbank.u.ui.activities;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
@@ -20,14 +19,13 @@ import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.helper.DrawerLocker;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 import com.example.manasatpc.bloadbank.u.helper.RememberMy;
-import com.example.manasatpc.bloadbank.u.helper.SaveData;
+import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.CustomFragment;
+import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.EditInformationFragment;
+import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.MyFavoriteFragment;
 import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.notifications.NotificationListFragment;
 import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.notifications.SettingsNotificationFragment;
 import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.others.AboutAppFragment;
 import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.others.ConnectWithUsFragment;
-import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.CustomFragment;
-import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.EditInformationFragment;
-import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.MyFavoriteFragment;
 import com.google.firebase.iid.FirebaseInstanceId;
 
 import butterknife.BindView;
@@ -37,22 +35,18 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.manasatpc.bloadbank.u.data.rest.RetrofitClient.getRetrofit;
-import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.GET_DATA;
 
 public class HomeActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, DrawerLocker {
-    private static final String SAVE_TITLE = "save_title";
-    // @BindView(R.id.toolbar)
-    public static Toolbar toolbar;
     @BindView(R.id.nav_view)
     NavigationView navView;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
-    Intent intent;
-    Bundle bundle;
-    RememberMy logout;
     @BindView(R.id.TV_Count_Notification)
     TextView TVCountNotification;
+    private static final String SAVE_TITLE = "save_title";
+    public static Toolbar toolbar;
+    RememberMy logout;
     private Boolean exitApp = false;
     public static int titleID;
     ActionBarDrawerToggle toggle;
@@ -64,18 +58,10 @@ public class HomeActivity extends AppCompatActivity
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-        intent = getIntent();
-        bundle = intent.getExtras();
         logout = new RememberMy(this);
 
         // for show Menu notification
         setSupportActionBar(toolbar);
-    /*    if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        }
-*/
         if (savedInstanceState != null) {
             titleID = savedInstanceState.getInt(SAVE_TITLE);
             toolbar.setTitle(titleID);
@@ -87,8 +73,6 @@ public class HomeActivity extends AppCompatActivity
                     R.id.Cycle_Home_contener, toolbar, String.valueOf(titleID));
 
         }
-
-
         toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
@@ -118,10 +102,7 @@ public class HomeActivity extends AppCompatActivity
                 Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
-
-
     }
-
 
     @Override
     public void onBackPressed() {
@@ -176,8 +157,6 @@ public class HomeActivity extends AppCompatActivity
             default:
 
         }
-
-        //noinspection SimplifiableIfStatement
         return super.onOptionsItemSelected(item);
     }
 
@@ -203,8 +182,6 @@ public class HomeActivity extends AppCompatActivity
                         R.id.Cycle_Home_contener, toolbar, getString(R.string.my_information));
                 break;
             case R.id.used_information:
-
-
                 break;
             case R.id.connect_with_us:
                 ConnectWithUsFragment connectWithUsFragment = new ConnectWithUsFragment();
@@ -221,12 +198,9 @@ public class HomeActivity extends AppCompatActivity
                 break;
             case R.id.sign_out:
                 String tokentxt = FirebaseInstanceId.getInstance().getToken();
-                HelperMethod.getRemoveToken(getApplicationContext(),tokentxt,logout.getAPIKey());
+                HelperMethod.getRemoveToken(getApplicationContext(), tokentxt, logout.getAPIKey());
                 logout.removeDateUser(this);
                 HelperMethod.startActivity(getApplicationContext(), LoginActivity.class);
-                /*                MapFragment mapFragment = new MapFragment();
-                HelperMethod.replece(mapFragment, getSupportFragmentManager(),
-                        R.id.Cycle_Home_contener, null, null, saveData);*/
                 break;
             default:
                 CustomFragment customFragmentDefault = new CustomFragment();
@@ -234,7 +208,6 @@ public class HomeActivity extends AppCompatActivity
                         , getSupportFragmentManager(),
                         R.id.Cycle_Home_contener, toolbar, getString(R.string.home));
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -246,7 +219,6 @@ public class HomeActivity extends AppCompatActivity
         outState.putInt(SAVE_TITLE, titleID);
     }
 
-
     @Override
     public void setDraweEnabled(boolean enabled) {
         int lockMode = enabled ? DrawerLayout.LOCK_MODE_UNLOCKED : DrawerLayout.LOCK_MODE_LOCKED_CLOSED;
@@ -257,7 +229,6 @@ public class HomeActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         HelperMethod.removeFragment(this);
-
         super.onPause();
     }
 }

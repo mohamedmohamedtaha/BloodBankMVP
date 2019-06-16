@@ -1,21 +1,21 @@
 package com.example.manasatpc.bloadbank.u.ui.fregmants.splashCycle;
 
 
-import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.example.manasatpc.bloadbank.R;
 import com.example.manasatpc.bloadbank.u.adapter.AdapterSlider;
+import com.example.manasatpc.bloadbank.u.data.interactor.SliderInteractor;
+import com.example.manasatpc.bloadbank.u.data.presenter.SliderPresenter;
+import com.example.manasatpc.bloadbank.u.data.view.SliderView;
+import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 import com.example.manasatpc.bloadbank.u.ui.activities.LoginActivity;
 
 import butterknife.BindView;
@@ -26,7 +26,7 @@ import butterknife.Unbinder;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class SliderFragment extends Fragment {
+public class SliderFragment extends Fragment implements SliderView {
     @BindView(R.id.SliderFragment_ViewPager)
     ViewPager SliderFragmentViewPager;
     @BindView(R.id.SliderFragment_DotLayout)
@@ -36,7 +36,7 @@ public class SliderFragment extends Fragment {
     Unbinder unbinder;
     private int[] layouts;
     private AdapterSlider adapterSlider;
-    private TextView[] dottv;
+    private SliderPresenter presenter;
 
     public SliderFragment() {
         // Required empty public constructor
@@ -50,59 +50,40 @@ public class SliderFragment extends Fragment {
         unbinder = ButterKnife.bind(this, view);
         layouts = new int[]{R.layout.info_1, R.layout.info_2};
         adapterSlider = new AdapterSlider(getActivity(), layouts);
+        presenter = new SliderPresenter(this, new SliderInteractor());
         SliderFragmentViewPager.setAdapter(adapterSlider);
         SliderFragmentViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override
             public void onPageSelected(int position) {
-                if (position == layouts.length - 1) {
-
-                }
-                setDotLayout(position);
+                presenter.swipePage(position, SliderFragmentDotLayout, getActivity(), layouts);
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
             }
         });
-        setDotLayout(0);
+        presenter.swipePage(0, SliderFragmentDotLayout, getActivity(), layouts);
         return view;
-    }
-
-    private void setDotLayout(int page) {
-        SliderFragmentDotLayout.removeAllViews();
-        dottv = new TextView[layouts.length];
-        for (int i = 0; i < dottv.length; i++) {
-            dottv[i] = new TextView(getActivity());
-            dottv[i].setText(Html.fromHtml("&#8226"));
-            dottv[i].setTextSize(30);
-            dottv[i].setTextColor(Color.parseColor("#000000"));
-            SliderFragmentDotLayout.addView(dottv[i]);
-        }
-
-        //set current dot active
-        if (dottv.length > 0) {
-            dottv[page].setTextColor(Color.parseColor("#9da0a3"));
-        }
     }
 
     @OnClick(R.id.SliderFragment_Skip)
     public void onViewClicked() {
-        startLoginActivity();
-    }
-
-    private void startLoginActivity() {
-        Intent startLoginActivity = new Intent(getActivity(), LoginActivity.class);
-        getActivity().startActivity(startLoginActivity);
+        presenter.skip();
     }
 
     @Override
     public void onDestroyView() {
+        presenter.onDestory();
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void skip() {
+        HelperMethod.startActivity(getActivity(), LoginActivity.class);
     }
 }

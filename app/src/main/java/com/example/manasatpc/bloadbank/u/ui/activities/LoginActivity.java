@@ -7,10 +7,7 @@ import android.widget.Toast;
 
 import com.example.manasatpc.bloadbank.R;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
-import com.example.manasatpc.bloadbank.u.helper.SaveData;
 import com.example.manasatpc.bloadbank.u.ui.fregmants.userCycle.LoginFragment;
-
-import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.GET_DATA;
 
 public class LoginActivity extends AppCompatActivity {
     private Boolean exitApp = false;

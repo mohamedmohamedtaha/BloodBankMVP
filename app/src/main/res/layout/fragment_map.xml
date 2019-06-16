@@ -14,17 +14,17 @@
     <RelativeLayout
         android:id="@+id/relLayout"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_margin="10dp"
-        android:background="#fff"
-        android:elevation="10dp">
+        android:layout_height="@dimen/dimens_xxxxl"
+        android:layout_margin="@dimen/dimens_l"
+        android:background="@android:color/white"
+        android:elevation="@dimen/dimens_m">
 
         <ImageView
             android:id="@+id/ic_magnify"
-            android:layout_width="15dp"
-            android:layout_height="15dp"
+            android:layout_width="@dimen/dimens_l"
+            android:layout_height="@dimen/dimens_l"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="@dimen/dimens_l"
             android:src="@drawable/ic_magnify" />
 
         <AutoCompleteTextView
@@ -35,42 +35,46 @@
             android:layout_toRightOf="@+id/ic_magnify"
 
             android:background="@null"
-            android:hint="Enter Address, City or Zip code"
+            android:hint="@string/enter_address"
             android:imeOptions="actionSearch"
             android:paddingStart="@dimen/dimens_xl"
             android:paddingEnd="@dimen/dimens_xl"
-            android:textColor="#000"
-            android:textSize="15dp" />
+            android:textColor="@android:color/black"
+            android:textSize="@dimen/txt_size_l" />
     </RelativeLayout>
 
     <ImageView
         android:id="@+id/ic_gps"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_below="@+id/relLayout"
+        android:layout_width="@dimen/dimens_xxxxl"
+        android:layout_height="@dimen/dimens_xxxxl"
+        android:layout_above="@+id/MapFragment_Select_Location"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="@dimen/dimens_xxxxl"
+        android:layout_marginEnd="@dimen/dimens_xl"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_gps" />
 
     <ImageView
         android:id="@+id/ic_info_location"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="@dimen/dimens_xxxl"
+        android:layout_height="@dimen/dimens_xxxl"
         android:layout_below="@+id/relLayout"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginStart="@dimen/dimens_xl"
+        android:layout_marginTop="@dimen/dimens_l"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_info" />
 
-    <ImageView
-        android:id="@+id/ic_back"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+    <Button
+        android:id="@+id/MapFragment_Select_Location"
+        android:layout_width="match_parent"
+        android:background="@color/colorBackgroundTab"
+        android:textColor="@android:color/white"
+        android:fontFamily="@font/cairo"
+        android:layout_height="wrap_content"
+        android:text="@string/select_location"
         android:layout_alignParentBottom="true"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="@dimen/dimens_xl"
+        android:layout_marginStart="@dimen/dimens_xl"
         android:layout_marginBottom="@dimen/dimens_xxl"
-        android:scaleType="centerCrop"
-        android:src="@drawable/ic_back" />
+         />
 </RelativeLayout>

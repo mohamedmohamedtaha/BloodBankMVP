@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -22,13 +23,16 @@
                 android:inputType="phone" />
         </android.support.design.widget.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout style="@style/StyleEditText">
+        <android.support.design.widget.TextInputLayout
+            style="@style/StyleEditText"
+            app:passwordToggleEnabled="true"
+            app:passwordToggleTint="@color/colorPrimary">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/LoginFragment_Password"
                 style="@style/StyleEditTextNull"
-                android:inputType="textPassword"
-                android:hint="@string/password" />
+                android:hint="@string/password"
+                android:inputType="textPassword" />
 
         </android.support.design.widget.TextInputLayout>
 
@@ -61,10 +65,10 @@
                 android:layout_gravity="end"
                 android:layout_marginTop="@dimen/dimens_l"
                 android:layout_marginEnd="@dimen/dimens_l"
-                android:fontFamily="@font/cairo_regular"
-                android:text="@string/rememberMy"
                 android:button="@null"
-                android:drawableRight="?android:attr/listChoiceIndicatorMultiple"/>
+                android:drawableRight="?android:attr/listChoiceIndicatorMultiple"
+                android:fontFamily="@font/cairo_regular"
+                android:text="@string/rememberMy" />
 
         </RelativeLayout>
 

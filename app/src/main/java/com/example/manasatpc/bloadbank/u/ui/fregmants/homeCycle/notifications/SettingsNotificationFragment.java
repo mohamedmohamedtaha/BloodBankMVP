@@ -24,7 +24,6 @@ import com.example.manasatpc.bloadbank.u.data.model.notification.getnotification
 import com.example.manasatpc.bloadbank.u.data.model.notification.getnotificationssettings.GetNotificationSsettings;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
-import com.example.manasatpc.bloadbank.u.helper.SaveData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +37,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.manasatpc.bloadbank.u.data.rest.RetrofitClient.getRetrofit;
-import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.GET_DATA;
 import static com.example.manasatpc.bloadbank.u.ui.activities.HomeActivity.toolbar;
 
 
