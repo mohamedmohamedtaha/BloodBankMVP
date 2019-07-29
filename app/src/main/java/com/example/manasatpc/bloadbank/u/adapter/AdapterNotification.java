@@ -1,5 +1,6 @@
 package com.example.manasatpc.bloadbank.u.adapter;
 
+import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -10,8 +11,10 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 
 import com.example.manasatpc.bloadbank.R;
+import com.example.manasatpc.bloadbank.u.data.model.general.GeneralResponseData;
 import com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes.DataBloodTypes;
-import com.example.manasatpc.bloadbank.u.data.model.general.governorates.GovernoratesData;
+import com.example.manasatpc.bloadbank.u.data.model.general.cities.Cities;
+import com.example.manasatpc.bloadbank.u.data.model.general.cities.DataCities;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,24 +24,18 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class AdapterNotification extends RecyclerView.Adapter<AdapterNotification.NotificationViewHolder> {
-    private List<String> selectedBloodTypesIds = new ArrayList<>();
+    private List<String> oldBloodTypes = new ArrayList<>();
     private Context context;
-    private ArrayList<DataBloodTypes> getNotificationsSettingsList = new ArrayList<>();
-    private ArrayList<GovernoratesData> governoratesDataArrayList = new ArrayList<>();
+    private Activity activity;
+    private List<GeneralResponseData> bloods = new ArrayList<>();
+    public List<Integer> Ids = new ArrayList<>();
 
-
-    public List<Integer> selectBloodTypesIds = new ArrayList<>();
-
-    public AdapterNotification(Context context, ArrayList<DataBloodTypes> getNotificationsSettingsList, List<String> selectedBloodTypesIds) {
+    public AdapterNotification(Context context, Activity activity, List<GeneralResponseData> bloods, List<String> oldBloodTypes) {
         this.context = context;
-        this.getNotificationsSettingsList = getNotificationsSettingsList;
-        this.selectedBloodTypesIds = selectedBloodTypesIds;
+        this.activity = activity;
+        this.bloods = bloods;
+        this.oldBloodTypes = oldBloodTypes;
     }
-   /* public AdapterNotification(Context context, ArrayList<GovernoratesData> governoratesDataArrayList, List<String> selectedBloodTypesIds) {
-        this.context = context;
-        this.governoratesDataArrayList = governoratesDataArrayList;
-        this.selectedBloodTypesIds = selectedBloodTypesIds;
-    }*/
 
     @NonNull
     @Override
@@ -50,13 +47,17 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
 
     @Override
     public void onBindViewHolder(@NonNull final NotificationViewHolder holder, final int position) {
-        holder.CBRecyclerView.setText(getNotificationsSettingsList.get(position).getName());
-        for (int i = 0; i < selectedBloodTypesIds.size(); i++) {
-            if (getNotificationsSettingsList.get(position).getId().equals(selectedBloodTypesIds.get(i))) {
+        holder.setIsRecyclable(false);
+        setData(holder,position);
+        setAction(holder,position);
+       /* holder.CBRecyclerView.setText(getNotificationsSettingsList.get(position).getName());
+        for (int i = 0; i < selectedIds.size(); i++) {
+            if (String.valueOf(getNotificationsSettingsList.get(position).getId()).equals(selectedIds.get(i))) {
                 holder.CBRecyclerView.setChecked(true);
                 selectBloodTypesIds.add(getNotificationsSettingsList.get(position).getId());
             }
         }
+
         holder.CBRecyclerView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -70,15 +71,50 @@ public class AdapterNotification extends RecyclerView.Adapter<AdapterNotificatio
                     }
                 }
             }
-        });
+        });*/
+//        holder.CBRecyclerView.setText(getBloodTypesArrayList.get(position).getName());
+
     }
+    private void setData(NotificationViewHolder holder, int position){
+        try{
+            holder.CBRecyclerView.setChecked(false);
+        for (int i = 0; i < oldBloodTypes.size(); i++) {
+            if (oldBloodTypes.get(i).equals((String.valueOf(bloods.get(position).getId())))) {
+                holder.CBRecyclerView.setChecked(true);
+                Ids.add(bloods.get(position).getId());
+                break;
+            }}
+            holder.CBRecyclerView.setText(bloods.get(position).getName());
+        }catch (Exception e){
+
+        }
+    }
+    private void setAction(NotificationViewHolder holder, final int position){
+
+        try {
+            holder.CBRecyclerView.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        Ids.add(bloods.get(position).getId());
+                    } else {
+                        for (int i = 0; i < Ids.size(); i++) {
+                            if (Ids.get(i).equals(bloods.get(position).getId())) {
+                                Ids.remove(i);
+                            }
+                        }
+                    }
+                }
+            });
+        }catch (Exception e){
+
+        }
+    }
+
 
     @Override
     public int getItemCount() {
-        if (getNotificationsSettingsList != null) {
-            return getNotificationsSettingsList.size();
-        }
-        return 0;
+        return bloods.size();
     }
 
     @OnClick(R.id.CB_Recycler_View)

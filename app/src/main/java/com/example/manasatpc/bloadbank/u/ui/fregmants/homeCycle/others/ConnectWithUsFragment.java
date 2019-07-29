@@ -8,19 +8,21 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.manasatpc.bloadbank.R;
-import com.example.manasatpc.bloadbank.u.data.model.general.contact.Contact;
+import com.example.manasatpc.bloadbank.u.data.interactor.ConnectWithUsInteractor;
 import com.example.manasatpc.bloadbank.u.data.model.general.settings.Settings;
+import com.example.manasatpc.bloadbank.u.data.presenter.ConnectWithUsPresenter;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
+import com.example.manasatpc.bloadbank.u.data.view.ConnectWithUsView;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 import com.example.manasatpc.bloadbank.u.helper.RememberMy;
 
@@ -28,17 +30,13 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-import static com.example.manasatpc.bloadbank.u.data.rest.RetrofitClient.getRetrofit;
 import static com.example.manasatpc.bloadbank.u.ui.activities.HomeActivity.toolbar;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ConnectWithUsFragment extends Fragment {
+public class ConnectWithUsFragment extends Fragment implements ConnectWithUsView {
     @BindView(R.id.IM_Face_Book)
     ImageView IMFaceBook;
     @BindView(R.id.IM_Twitter)
@@ -64,9 +62,12 @@ public class ConnectWithUsFragment extends Fragment {
     @BindView(R.id.BT_Send_Message)
     Button BTSendMessage;
     Unbinder unbinder;
+    @BindView(R.id.Fragment_Connect_Us_Progress_Bar)
+    ProgressBar FragmentConnectUsProgressBar;
     private APIServices apiServices;
     Bundle bundle;
     private RememberMy rememberMy;
+    private ConnectWithUsPresenter presenter;
     private String urlYouTube, urlWhatsApp, urlTwitter, urlInstgram, urlGooglePlus, urlFacebook;
 
     public ConnectWithUsFragment() {
@@ -80,9 +81,9 @@ public class ConnectWithUsFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_connect_with_us, container, false);
         unbinder = ButterKnife.bind(this, view);
+        presenter = new ConnectWithUsInteractor(this, getActivity());
         rememberMy = new RememberMy(getActivity());
         bundle = getArguments();
-
         String email = rememberMy.getEmailUser();
         String name = rememberMy.getNameUser();
         String phone = rememberMy.getPhoneUser();
@@ -93,36 +94,14 @@ public class ConnectWithUsFragment extends Fragment {
         boolean check_network = HelperMethod.isNetworkConnected(getActivity(), getView());
         if (check_network == false) {
         } else {
-            apiServices = getRetrofit().create(APIServices.class);
-            apiServices.getSettings(rememberMy.getAPIKey()).enqueue(new Callback<Settings>() {
-                @Override
-                public void onResponse(Call<Settings> call, Response<Settings> response) {
-                    Settings settings = response.body();
-                    if (settings.getStatus() == 1) {
-                        urlGooglePlus = settings.getData().getGoogleUrl();
-                        urlInstgram = settings.getData().getInstagramUrl();
-                        urlTwitter = settings.getData().getTwitterUrl();
-                        urlWhatsApp = settings.getData().getWhatsapp();
-                        urlYouTube = settings.getData().getYoutubeUrl();
-                        urlFacebook = settings.getData().getFacebookUrl();
-
-                    } else {
-                        Toast.makeText(getActivity(), settings.getMsg(), Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onFailure(Call<Settings> call, Throwable t) {
-                    Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
-
-                }
-            });
+            presenter.getSettings(rememberMy.getAPIKey());
         }
         return view;
     }
 
     @Override
     public void onDestroyView() {
+        presenter.onDestroy();
         super.onDestroyView();
         unbinder.unbind();
     }
@@ -134,16 +113,16 @@ public class ConnectWithUsFragment extends Fragment {
         }
         switch (view.getId()) {
             case R.id.IM_Face_Book:
-                HelperMethod.openWebSite(getActivity(), urlFacebook);
+                presenter.openWebSite(getActivity(), urlFacebook);
                 break;
             case R.id.IM_Twitter:
-                HelperMethod.openWebSite(getActivity(), urlTwitter);
+                presenter.openWebSite(getActivity(), urlTwitter);
                 break;
             case R.id.IM_YouTube:
-                HelperMethod.openWebSite(getActivity(), urlTwitter);
+                presenter.openWebSite(getActivity(), urlYouTube);
                 break;
             case R.id.IM_Instgram:
-                HelperMethod.openWebSite(getActivity(), urlInstgram);
+                presenter.openWebSite(getActivity(), urlInstgram);
                 break;
             case R.id.IM_whatsApp:
                 Uri uri = Uri.parse("smsto:" + urlWhatsApp);
@@ -153,39 +132,12 @@ public class ConnectWithUsFragment extends Fragment {
                 startActivity(openWhatsApp);
                 break;
             case R.id.IM_GooglePlus:
-                HelperMethod.openWebSite(getActivity(), urlGooglePlus);
+                presenter.openWebSite(getActivity(), urlGooglePlus);
                 break;
             case R.id.BT_Send_Message:
                 final String title_message = FragmentConnectUsTitle.getText().toString().trim();
                 final String text_message = FragmentConnectUsTextMessage.getText().toString().trim();
-                apiServices = getRetrofit().create(APIServices.class);
-                if (TextUtils.isEmpty(title_message) || TextUtils.isEmpty(text_message)) {
-                    Toast.makeText(getActivity(), getString(R.string.filed_request), Toast.LENGTH_SHORT).show();
-                } else {
-                    apiServices.getContact(rememberMy.getAPIKey(), title_message, text_message).enqueue(new Callback<Contact>() {
-                        @Override
-                        public void onResponse(Call<Contact> call, Response<Contact> response) {
-                            Contact contact = response.body();
-                            try {
-                                if (contact.getStatus() == 1) {
-                                    Toast.makeText(getActivity(), contact.getMsg(), Toast.LENGTH_SHORT).show();
-                                    FragmentConnectUsTitle.setText("");
-                                    FragmentConnectUsTextMessage.setText("");
-                                } else {
-                                    Toast.makeText(getActivity(), contact.getMsg(), Toast.LENGTH_SHORT).show();
-                                }
-                            } catch (Exception e) {
-                                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<Contact> call, Throwable t) {
-                            Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                }
-
+                presenter.getContact(title_message, text_message);
                 break;
             default:
         }
@@ -196,5 +148,41 @@ public class ConnectWithUsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         toolbar.setTitle(R.string.connect_with_us);
 
+    }
+
+    @Override
+    public void showProgress() {
+        FragmentConnectUsProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        FragmentConnectUsProgressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void send() {
+        FragmentConnectUsTitle.setText("");
+        FragmentConnectUsTextMessage.setText("");
+    }
+
+    @Override
+    public void isEmpty() {
+        Toast.makeText(getActivity(), getString(R.string.filed_request), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void showMessage(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void retrieveData(Settings settings) {
+        urlGooglePlus = settings.getData().getGoogleUrl();
+        urlInstgram = settings.getData().getInstagramUrl();
+        urlTwitter = settings.getData().getTwitterUrl();
+        urlWhatsApp = settings.getData().getWhatsapp();
+        urlYouTube = settings.getData().getYoutubeUrl();
+        urlFacebook = settings.getData().getFacebookUrl();
     }
 }

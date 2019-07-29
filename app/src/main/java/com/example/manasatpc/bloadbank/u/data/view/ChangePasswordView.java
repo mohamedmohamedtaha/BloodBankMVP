@@ -7,4 +7,5 @@ public interface ChangePasswordView {
     void setEmpty();
     void networkAvailable();
     void stopCounter();
+    void showError(String message);
 }

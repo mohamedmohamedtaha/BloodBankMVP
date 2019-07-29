@@ -4,9 +4,10 @@ import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.example.manasatpc.bloadbank.R;
+import com.example.manasatpc.bloadbank.u.data.model.donation.donationrequestcreate.DonationRequestCreate;
+import com.example.manasatpc.bloadbank.u.data.model.general.GeneralResponseData;
 import com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes.BloodTypes;
 import com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes.DataBloodTypes;
 import com.example.manasatpc.bloadbank.u.data.model.general.cities.Cities;
@@ -18,6 +19,7 @@ import com.example.manasatpc.bloadbank.u.data.presenter.RegisterPresenter;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.data.view.RegisterView;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
+import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.regusets.MapFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +52,6 @@ public class RegisterInteractor implements RegisterPresenter {
     @Override
     public void register(String new_user, String email, String date_birth, String last_date, String phone, String password,
                          String retry_password,
-                         final Context context,
                          final Spinner RegesterFragmentSPCity, final Spinner RegesterFragmentBloodType) {
 
         if (new_user.isEmpty() || email.isEmpty() || date_birth.isEmpty() || last_date.isEmpty() ||
@@ -75,21 +76,21 @@ public class RegisterInteractor implements RegisterPresenter {
                 try {
                     Register register = response.body();
                     if (register.getStatus() == 0) {
-                        Toast.makeText(context, register.getMsg(), Toast.LENGTH_LONG).show();
+                        registerView.showError(register.getMsg());
                         registerView.hideProgress();
                     } else {
                         registerView.onSuccess();
-                        Toast.makeText(context, register.getMsg(), Toast.LENGTH_LONG).show();
+                        registerView.showError(register.getMsg());
                     }
                 } catch (Exception e) {
-                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                    registerView.showError(e.getMessage());
                     registerView.hideProgress();
                 }
             }
 
             @Override
             public void onFailure(Call<Register> call, Throwable t) {
-                Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
+                registerView.showError(t.getMessage());
                 registerView.hideProgress();
             }
         });
@@ -111,7 +112,7 @@ public class RegisterInteractor implements RegisterPresenter {
                         Governorates governorates1 = response.body();
                         strings.add(context.getString(R.string.select_gaverment));
                         Ids.add(0);
-                        List<GovernoratesData> governoratesData = governorates1.getData();
+                        List<GeneralResponseData> governoratesData = governorates1.getData();
                         for (int i = 0; i < governoratesData.size(); i++) {
                             getResult = governoratesData.get(i).getName();
                             strings.add(getResult);
@@ -133,15 +134,14 @@ public class RegisterInteractor implements RegisterPresenter {
                             }
                         });
                     } catch (Exception e) {
-                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                        registerView.showError(e.getMessage());
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<Governorates> call, Throwable t) {
-                Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
-
+                registerView.showError(t.getMessage());
             }
         });
         return Ids;
@@ -181,14 +181,14 @@ public class RegisterInteractor implements RegisterPresenter {
                             }
                         });
                     } catch (Exception e) {
-                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                        registerView.showError(e.getMessage());
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<Cities> call, Throwable t) {
-                Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
+                registerView.showError(t.getMessage());
             }
         });
         return IdsCity;
@@ -210,7 +210,7 @@ public class RegisterInteractor implements RegisterPresenter {
                     try {
                         strings.add(context.getString(R.string.blood_type));
                         IdsBloodType.add(0);
-                        List<DataBloodTypes> bloodTypesList = bloodTypes.getData();
+                        List<GeneralResponseData> bloodTypesList = bloodTypes.getData();
                         for (int i = 0; i < bloodTypesList.size(); i++) {
                             getResult = bloodTypesList.get(i).getName();
                             strings.add(getResult);
@@ -219,18 +219,69 @@ public class RegisterInteractor implements RegisterPresenter {
                         }
                         HelperMethod.showGovernorates(strings, context, RegesterFragmentBloodType);
                     } catch (Exception e) {
-                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
-
+                        registerView.showError(e.getMessage());
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<BloodTypes> call, Throwable t) {
-                Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
-
+                registerView.showError(t.getMessage());
             }
         });
         return IdsBloodType;
+    }
+
+    @Override
+    public void getDonationRequestCreate(String apiKey, String name_patient, String age_patient, int blood_type,
+                                          String hospital_name, String hospital_address, int city_id,
+                                         String phone, String notes, String latitude, String longtite,int IdsNumberBackage) {
+        if (name_patient.isEmpty() || age_patient.isEmpty() || hospital_name.isEmpty() ||
+                phone.isEmpty() || notes.isEmpty()) {
+            registerView.emptyFiled();
+            return;
+        }
+        if (IdsNumberBackage <= 0) {
+            registerView.selectBackage();
+            return;
+        }
+        String number_package_string = String.valueOf(IdsNumberBackage);
+
+        if (IdsCity.isEmpty() || IdsBloodType.isEmpty()) {
+            registerView.cityEmpty();
+            return;
+        }
+        double latitude_st = MapFragment. latitude ;
+        double longtite_st = MapFragment.longitude ;
+        if (longtite == null || latitude == null) {
+            registerView.selectMap();
+            return;
+        }
+        registerView.showProgress();
+        apiServices.getDonationRequestCreate(apiKey, name_patient, age_patient
+                , blood_type, number_package_string, hospital_name, hospital_address, city_id, phone, notes, latitude_st, longtite_st).enqueue(new Callback<DonationRequestCreate>() {
+            @Override
+            public void onResponse(Call<DonationRequestCreate> call, Response<DonationRequestCreate> response) {
+                DonationRequestCreate donationRequestCreate = response.body();
+                try {
+                    if (donationRequestCreate.getStatus() == 1) {
+                        registerView.hideProgress();
+                        registerView.showError(donationRequestCreate.getMsg());
+                       } else {
+                        registerView.hideProgress();
+                        registerView.showError(donationRequestCreate.getMsg());
+                    }
+                } catch (Exception e) {
+                    registerView.hideProgress();
+                    registerView.showError(e.getMessage());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<DonationRequestCreate> call, Throwable t) {
+                registerView.hideProgress();
+                registerView.showError(t.getMessage());
+            }
+        });
     }
 }

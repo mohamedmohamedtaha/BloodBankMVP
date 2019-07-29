@@ -21,6 +21,7 @@ public class CheckPasswordInteractor {
         void send();
 
         void setEmpty();
+        void showError(String message);
     }
 
     public void checkPhone(String phone, final OnChangedListener listener, final Context context) {
@@ -30,19 +31,22 @@ public class CheckPasswordInteractor {
             resetPassword.enqueue(new Callback<ResetPassword>() {
                 @Override
                 public void onResponse(Call<ResetPassword> call, Response<ResetPassword> response) {
-                    ResetPassword resetPassword1 = response.body();
-                    if (resetPassword1.getStatus() == 1) {
-                        listener.send();
-                    } else {
-                        Toast.makeText(context, resetPassword1.getMsg(), Toast.LENGTH_LONG).show();
-                        listener.hideProgress();
-                    }
+                   try {
+                       ResetPassword resetPassword1 = response.body();
+                       if (resetPassword1.getStatus() == 1) {
+                           listener.send();
+                       } else {
+                           listener.showError(resetPassword1.getMsg());
+                       }
+                   }catch (Exception e){
+                       listener.showError(e.getMessage());
+
+                   }
                 }
 
                 @Override
                 public void onFailure(Call<ResetPassword> call, Throwable t) {
-                    Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
-                    listener.hideProgress();
+                    listener.showError(t.getMessage());
                 }
             });
         } else {

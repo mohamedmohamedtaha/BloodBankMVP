@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.manasatpc.bloadbank.R;
+import com.example.manasatpc.bloadbank.u.data.model.donation.donationrequest.DataDonationRequest;
 import com.example.manasatpc.bloadbank.u.data.model.donation.donationrequest.DonationRequest;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.helper.DrawerLocker;
@@ -103,26 +104,33 @@ public class DetailRequestDonationFragment extends Fragment implements OnMapRead
                     public void onResponse(Call<DonationRequest> call, Response<DonationRequest> response) {
                         DonationRequest donationRequest = response.body();
                         try {
+                            DataDonationRequest dataDonationRequest = donationRequest.getData();
                             if (donationRequest.getStatus() == 1) {
-                                DetailRequestDonationFragmentProgressBar.setVisibility(View.GONE);
-                                TVShowNameDetailsDonation.append(donationRequest.getData().getPatientName());
-                                TVShowAgeDetailsDonation.append(donationRequest.getData().getPatientAge());
-                                TVShowTypeBloodDetailsDonation.append(donationRequest.getData().getBloodType().getName());
-                                TVShowNumberPackageRequestDetailsDonation.append(donationRequest.getData().getBagsNum());
-                                TVShowHospitalDetailsDonation.append(donationRequest.getData().getHospitalName());
-                                TVShowAddressHospitalDetailsDonation.append(donationRequest.getData().getHospitalAddress());
-                                savePhone = donationRequest.getData().getPhone();
-                                TVShowPhoneDetailsDonation.append(savePhone);
-                                TVShowDetailsDetailsDonation.append(donationRequest.getData().getNotes());
-                                latiude = Double.parseDouble(donationRequest.getData().getLatitude());
-                                longitude = Double.parseDouble(donationRequest.getData().getLongitude());
-                                Bundle mapViewBundle = null;
-                                if (savedInstanceState != null) {
-                                    mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY);
+                                if (dataDonationRequest != null){
+                                    DetailRequestDonationFragmentProgressBar.setVisibility(View.GONE);
+                                    TVShowNameDetailsDonation.append(dataDonationRequest.getPatientName());
+                                    TVShowAgeDetailsDonation.append(dataDonationRequest.getPatientAge());
+                                    TVShowTypeBloodDetailsDonation.append(dataDonationRequest.getBloodType().getName());
+                                    TVShowNumberPackageRequestDetailsDonation.append(dataDonationRequest.getBagsNum());
+                                    TVShowHospitalDetailsDonation.append(dataDonationRequest.getHospitalName());
+                                    TVShowAddressHospitalDetailsDonation.append(dataDonationRequest.getHospitalAddress());
+                                    savePhone = dataDonationRequest.getPhone();
+                                    TVShowPhoneDetailsDonation.append(savePhone);
+                                    TVShowDetailsDetailsDonation.append(dataDonationRequest.getNotes());
+                                    latiude = Double.parseDouble(dataDonationRequest.getLatitude());
+                                    longitude = Double.parseDouble(dataDonationRequest.getLongitude());
+                                    Bundle mapViewBundle = null;
+                                    if (savedInstanceState != null) {
+                                        mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY);
+                                    }
+                                    mapView.onCreate(mapViewBundle);
+                                    mapView.getMapAsync(DetailRequestDonationFragment.this);
+                                    mapView.onStart();
+                                }else {
+                                    Toast.makeText(getActivity(), donationRequest.getMsg(), Toast.LENGTH_SHORT).show();
+                                    DetailRequestDonationFragmentProgressBar.setVisibility(View.GONE);
                                 }
-                                mapView.onCreate(mapViewBundle);
-                                mapView.getMapAsync(DetailRequestDonationFragment.this);
-                                mapView.onStart();
+
                             } else {
                                 Toast.makeText(getActivity(), donationRequest.getMsg(), Toast.LENGTH_SHORT).show();
                                 DetailRequestDonationFragmentProgressBar.setVisibility(View.GONE);
@@ -183,7 +191,9 @@ public class DetailRequestDonationFragment extends Fragment implements OnMapRead
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        mapView.onDestroy();
+        if (mapView != null) {
+            mapView.onDestroy();
+        }
         unbinder.unbind();
     }
 
@@ -214,7 +224,7 @@ public class DetailRequestDonationFragment extends Fragment implements OnMapRead
         gMap = googleMap;
         gMap.setMinZoomPreference(12);
         if (longitude != null || latiude != null) {
-            LatLng latLng = new LatLng(longitude, latiude);
+            LatLng latLng = new LatLng(latiude, longitude);
             MarkerOptions markerOptions = new MarkerOptions();
             markerOptions.position(latLng);
             gMap.addMarker(markerOptions);
@@ -222,6 +232,5 @@ public class DetailRequestDonationFragment extends Fragment implements OnMapRead
         } else {
             Toast.makeText(getActivity(), getString(R.string.error), Toast.LENGTH_SHORT).show();
         }
-
     }
 }

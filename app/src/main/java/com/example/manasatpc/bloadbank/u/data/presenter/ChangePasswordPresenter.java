@@ -67,4 +67,12 @@ public class ChangePasswordPresenter implements ChangePasswordInteractor.OnChang
             changePasswordView.hideProgress();
         }
     }
+
+    @Override
+    public void showError(String message) {
+        if (changePasswordView != null){
+            changePasswordView.showError(message);
+            changePasswordView.hideProgress();
+        }
+    }
 }

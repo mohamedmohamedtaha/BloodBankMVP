@@ -1,6 +1,7 @@
 package com.example.manasatpc.bloadbank.u.ui.fregmants.userCycle;
 
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.support.design.widget.TextInputEditText;
 import android.support.v4.app.Fragment;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -21,6 +23,7 @@ import com.example.manasatpc.bloadbank.u.data.view.RegisterView;
 import com.example.manasatpc.bloadbank.u.helper.DateModel;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -62,22 +65,6 @@ public class RegesterFragment extends Fragment implements RegisterView {
     Unbinder unbinder;
     private DateModel dateModel1;
     private DateModel dateModel2;
-    final Calendar getDatenow = Calendar.getInstance();
-    private int startYear;
-    private int startMonth;
-    private int startDay;
-    //for gaverment and cities
-    String getResult;
-    int IDPosition;
-    Integer positionCity;
-    Integer positionBloodType;
-    int blood_type;
-    int cityId;
-    ArrayList<String> strings = new ArrayList<>();
-    final ArrayList<Integer> Ids = new ArrayList<>();
-    private ArrayList<Integer> IdsCity = new ArrayList<>();
-    ArrayList<Integer> IdsBloodType = new ArrayList<>();
-    APIServices apiServices;
     private RegisterPresenter presenter;
 
     public RegesterFragment() {
@@ -95,14 +82,14 @@ public class RegesterFragment extends Fragment implements RegisterView {
         presenter.getBloodTypes(getActivity(), RegesterFragmentBloodType);
         presenter.getGaverment(getActivity(), RegesterFragmentSPGaverment, RegesterFragmentSPCity);
 
-        startYear = getDatenow.get(Calendar.YEAR);
-        startMonth = getDatenow.get(Calendar.MONTH);
-        startDay = getDatenow.get(Calendar.DAY_OF_MONTH);
+        DecimalFormat format = new DecimalFormat("00");
+         Calendar calendar = Calendar.getInstance();
+        String startDay = format.format(Double.valueOf(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH))));
+        String startMonth = format.format(Double.valueOf(String.valueOf(calendar.get(Calendar.MONTH + 1))));
+        String startYear =String.valueOf(calendar.get(Calendar.YEAR));
 
-        dateModel1 = new DateModel(String.valueOf(startYear), String.valueOf(startMonth)
-                , String.valueOf(startDay), null);
-        dateModel2 = new DateModel(String.valueOf(startYear), String.valueOf(startMonth)
-                , String.valueOf(startDay), null);
+        dateModel1 = new DateModel(startDay, startMonth     , startYear, null);
+        dateModel2 = new DateModel(startDay, startMonth ,startYear,  startDay + "-" + startMonth +" -" + startYear);
 
         RegesterFragmentDateOfBirth.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,7 +128,7 @@ public class RegesterFragment extends Fragment implements RegisterView {
         String password = RegesterFragmentPassword.getText().toString().trim();
         String retry_password = RegesterFragment_Retry_Password.getText().toString().trim();
         presenter.register(new_user, email, date_birth, last_date, phone, password, retry_password,
-                getActivity(), RegesterFragmentSPCity, RegesterFragmentBloodType);
+                 RegesterFragmentSPCity, RegesterFragmentBloodType);
     }
 
     @Override
@@ -169,5 +156,21 @@ public class RegesterFragment extends Fragment implements RegisterView {
     @Override
     public void cityEmpty() {
         Toast.makeText(getActivity(), getString(R.string.selct_blood_and_city), Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void selectMap() {
+
+    }
+
+    @Override
+    public void selectBackage() {
+
+    }
+
+    @Override
+    public void showError(String message) {
+        Toast.makeText(getActivity(),message, Toast.LENGTH_SHORT).show();
+
     }
 }

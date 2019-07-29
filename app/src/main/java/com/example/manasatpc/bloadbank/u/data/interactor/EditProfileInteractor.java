@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import com.example.manasatpc.bloadbank.R;
 import com.example.manasatpc.bloadbank.u.data.model.EditProfileModel;
+import com.example.manasatpc.bloadbank.u.data.model.general.GeneralResponseData;
 import com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes.BloodTypes;
 import com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes.DataBloodTypes;
 import com.example.manasatpc.bloadbank.u.data.model.general.cities.Cities;
@@ -15,14 +16,11 @@ import com.example.manasatpc.bloadbank.u.data.model.general.cities.DataCities;
 import com.example.manasatpc.bloadbank.u.data.model.general.governorates.Governorates;
 import com.example.manasatpc.bloadbank.u.data.model.general.governorates.GovernoratesData;
 import com.example.manasatpc.bloadbank.u.data.model.user.editprofile.EditProfile;
-
 import com.example.manasatpc.bloadbank.u.data.model.user.getprofile.ClientGetProfile;
 import com.example.manasatpc.bloadbank.u.data.model.user.getprofile.GetProfile;
 import com.example.manasatpc.bloadbank.u.data.presenter.EditProfilePresenter;
-import com.example.manasatpc.bloadbank.u.data.presenter.RegisterPresenter;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.data.view.EditProfileView;
-import com.example.manasatpc.bloadbank.u.data.view.RegisterView;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 import com.example.manasatpc.bloadbank.u.helper.RememberMy;
 
@@ -35,12 +33,12 @@ import retrofit2.Response;
 
 import static com.example.manasatpc.bloadbank.u.data.rest.RetrofitClient.getRetrofit;
 
-public class EditProfileInteractor implements EditProfilePresenter{
+public class EditProfileInteractor implements EditProfilePresenter {
     private EditProfileView editProfileView;
     APIServices apiServices = getRetrofit().create(APIServices.class);
     private RememberMy rememberMy;
     private ClientGetProfile clientGetProfile;
-
+    private EditProfileModel editProfileModel;
     private ArrayList<Integer> IdsCity = new ArrayList<>();
     ArrayList<Integer> IdsBloodType = new ArrayList<>();
     String getResult;
@@ -49,9 +47,10 @@ public class EditProfileInteractor implements EditProfilePresenter{
     Integer positionBloodType;
 
 
-    public EditProfileInteractor(EditProfileView editProfileView,Context context) {
+    public EditProfileInteractor(EditProfileView editProfileView, Context context) {
         this.editProfileView = editProfileView;
         rememberMy = new RememberMy(context);
+        editProfileModel = new EditProfileModel();
     }
 
     @Override
@@ -61,9 +60,8 @@ public class EditProfileInteractor implements EditProfilePresenter{
     }
 
     @Override
-    public void getProfile(String APIKey, final Context context ) {
+    public void getProfile(String APIKey, final Context context) {
         editProfileView.showProgress();
-        final EditProfileModel editProfileModel = new EditProfileModel() ;
         apiServices.getProfile(APIKey).enqueue(new Callback<GetProfile>() {
             @Override
             public void onResponse(Call<GetProfile> call, Response<GetProfile> response) {
@@ -71,26 +69,21 @@ public class EditProfileInteractor implements EditProfilePresenter{
                 clientGetProfile = getProfile.getData().getClient();
                 try {
                     if (getProfile.getStatus() == 1) {
-                        editProfileModel.setName(clientGetProfile.getName());
-                        editProfileModel.setPhone(clientGetProfile.getPhone());
-                        editProfileModel.setEmail(clientGetProfile.getEmail());
-                        editProfileModel.setBirthDay(clientGetProfile.getBirthDate());
-                        editProfileModel.setDonationLastDate(clientGetProfile.getDonationLastDate());
-                        editProfileView.retrieveSuccess();
+                        editProfileView.retrieveSuccess(clientGetProfile);
                         editProfileView.hideProgress();
                     } else {
-                        Toast.makeText(context, getProfile.getMsg(), Toast.LENGTH_SHORT).show();
+                        editProfileView.showError(getProfile.getMsg());
                         editProfileView.hideProgress();
                     }
                 } catch (Exception e) {
-                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    editProfileView.showError(e.getMessage());
                     editProfileView.hideProgress();
                 }
             }
 
             @Override
             public void onFailure(Call<GetProfile> call, Throwable t) {
-                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
+                editProfileView.showError(t.getMessage());
                 editProfileView.hideProgress();
             }
         });
@@ -98,8 +91,7 @@ public class EditProfileInteractor implements EditProfilePresenter{
 
     @Override
     public void editProfile(String new_user, String email, String date_birth, String last_date, String phone, String password,
-                            String retry_password, final Context context, final Spinner EditInformationFragmentSPBloodType, final Spinner EditInformationFragmentSPCity) {
-
+                            String retry_password, final Spinner EditInformationFragmentSPBloodType, final Spinner EditInformationFragmentSPCity) {
 
         if (new_user.isEmpty() || email.isEmpty() || date_birth.isEmpty() || last_date.isEmpty() || phone.isEmpty() || password.isEmpty() || retry_password.isEmpty()) {
             editProfileView.emptyField();
@@ -120,22 +112,22 @@ public class EditProfileInteractor implements EditProfilePresenter{
                 try {
                     EditProfile profile = response.body();
                     if (profile.getStatus() == 0) {
-                        Toast.makeText(context, profile.getMsg(), Toast.LENGTH_LONG).show();
+                        editProfileView.showError(profile.getMsg());
                         editProfileView.hideProgress();
                     } else {
-                        Toast.makeText(context, profile.getMsg(), Toast.LENGTH_LONG).show();
+                        editProfileView.showError(profile.getMsg());
                         editProfileView.editSuccess();
                         editProfileView.hideProgress();
                     }
                 } catch (Exception e) {
-                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                    editProfileView.showError(e.getMessage());
                     editProfileView.hideProgress();
                 }
             }
 
             @Override
             public void onFailure(Call<EditProfile> call, Throwable t) {
-                Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
+                editProfileView.showError(t.getMessage());
                 editProfileView.hideProgress();
             }
         });
@@ -144,7 +136,7 @@ public class EditProfileInteractor implements EditProfilePresenter{
 
 
     @Override
-    public ArrayList<Integer> getGaverment(final Context context,final Spinner EditInformationFragmentSPGaverment, final Spinner EditInformationFragmentSPCity) {
+    public ArrayList<Integer> getGaverment(final Context context, final Spinner EditInformationFragmentSPGaverment, final Spinner EditInformationFragmentSPCity) {
         final Call<Governorates> governorates = apiServices.getGovernorates();
         final ArrayList<String> stringsGaverment = new ArrayList<>();
         final ArrayList<Integer> IdsGeverment = new ArrayList<>();
@@ -157,7 +149,7 @@ public class EditProfileInteractor implements EditProfilePresenter{
                         Governorates governorates1 = response.body();
                         stringsGaverment.add(context.getString(R.string.select_gaverment));
                         IdsGeverment.add(0);
-                        List<GovernoratesData> governoratesData = governorates1.getData();
+                        List<GeneralResponseData> governoratesData = governorates1.getData();
                         for (int i = 0; i < governoratesData.size(); i++) {
                             getResult = governoratesData.get(i).getName();
                             stringsGaverment.add(getResult);
@@ -173,7 +165,7 @@ public class EditProfileInteractor implements EditProfilePresenter{
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                 if (position != 0) {
-                                    getCities(IdsGeverment.get(position),context,EditInformationFragmentSPCity);
+                                    getCities(IdsGeverment.get(position), context, EditInformationFragmentSPCity);
                                 }
                             }
 
@@ -183,21 +175,21 @@ public class EditProfileInteractor implements EditProfilePresenter{
                             }
                         });
                     } catch (Exception e) {
-                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                        editProfileView.showError(e.getMessage());
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<Governorates> call, Throwable t) {
-                Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
+                editProfileView.showError(t.getMessage());
             }
         });
         return IdsGeverment;
     }
 
     @Override
-    public ArrayList<Integer> getCities(int getIdGovernorates,final Context context, final Spinner EditInformationFragmentSPCity) {
+    public ArrayList<Integer> getCities(int getIdGovernorates, final Context context, final Spinner EditInformationFragmentSPCity) {
 
         final Call<Cities> citiesCall = apiServices.getCities(getIdGovernorates);
         citiesCall.enqueue(new Callback<Cities>() {
@@ -222,17 +214,17 @@ public class EditProfileInteractor implements EditProfilePresenter{
                                 pio = i + 1;
                             }
                         }
-                        HelperMethod.showGovernorates(stringsCity,context, EditInformationFragmentSPCity);
+                        HelperMethod.showGovernorates(stringsCity, context, EditInformationFragmentSPCity);
                         EditInformationFragmentSPCity.setSelection(pio);
                     } catch (Exception e) {
-                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                        editProfileView.showError(e.getMessage());
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<Cities> call, Throwable t) {
-                Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
+                editProfileView.showError(t.getMessage());
             }
         });
         return IdsCity;
@@ -252,7 +244,7 @@ public class EditProfileInteractor implements EditProfilePresenter{
                     try {
                         stringsBloodType.add(context.getString(R.string.blood_type));
                         IdsBloodType.add(0);
-                        List<DataBloodTypes> bloodTypesList = bloodTypes.getData();
+                        List<GeneralResponseData> bloodTypesList = bloodTypes.getData();
                         int pio = 0;
                         for (int i = 0; i < bloodTypesList.size(); i++) {
                             getResult = bloodTypesList.get(i).getName();
@@ -268,14 +260,14 @@ public class EditProfileInteractor implements EditProfilePresenter{
                         EditInformationFragmentBloodType.setSelection(pio);
 
                     } catch (Exception e) {
-                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                        editProfileView.showError(e.getMessage());
                     }
                 }
             }
 
             @Override
             public void onFailure(Call<BloodTypes> call, Throwable t) {
-                Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
+                editProfileView.showError(t.getMessage());
             }
         });
         return IdsBloodType;

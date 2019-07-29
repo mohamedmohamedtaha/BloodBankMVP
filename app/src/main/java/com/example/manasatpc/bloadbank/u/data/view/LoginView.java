@@ -10,5 +10,7 @@ public interface LoginView {
     void hideProgressOnly();
     void getToken();
     void navigateToResetPassword();
+    void showError(String message);
+
 
 }

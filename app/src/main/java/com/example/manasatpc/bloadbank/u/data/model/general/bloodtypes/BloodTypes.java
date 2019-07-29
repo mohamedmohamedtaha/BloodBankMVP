@@ -2,6 +2,8 @@
 package com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes;
 
 import java.util.List;
+
+import com.example.manasatpc.bloadbank.u.data.model.general.GeneralResponseData;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -15,7 +17,7 @@ public class BloodTypes {
     private String msg;
     @SerializedName("data")
     @Expose
-    private List<DataBloodTypes> data = null;
+    private List<GeneralResponseData> data = null;
 
     public Integer getStatus() {
         return status;
@@ -33,11 +35,11 @@ public class BloodTypes {
         this.msg = msg;
     }
 
-    public List<DataBloodTypes> getData() {
+    public List<GeneralResponseData> getData() {
         return data;
     }
 
-    public void setData(List<DataBloodTypes> data) {
+    public void setData(List<GeneralResponseData> data) {
         this.data = data;
     }
 

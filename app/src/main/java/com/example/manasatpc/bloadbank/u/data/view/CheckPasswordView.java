@@ -5,4 +5,5 @@ public interface CheckPasswordView {
     void hideProgress();
     void send();
     void isEmpty();
+    void showMessage(String message);
 }

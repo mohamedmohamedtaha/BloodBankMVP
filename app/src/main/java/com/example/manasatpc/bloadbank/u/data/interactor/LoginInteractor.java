@@ -20,21 +20,16 @@ public class LoginInteractor {
 
     public interface OnLoginFinishedListener {
         void onErrorLogin();
-
         void onEmptyFields();
-
         void onSuccess();
-
         void hideProgress();
-
         void getToken();
-
         void navigateToRegister();
         void navigateToResetPassword();
-
+        void showError(String message);
     }
 
-    public void checkLogin(final String name, final String password, final OnLoginFinishedListener listener, final Context context, final RememberMy rememberMy, final CheckBox checkBox) {
+    public void checkLogin(final String name, final String password, final OnLoginFinishedListener listener, final RememberMy rememberMy, final CheckBox checkBox) {
         if (TextUtils.isEmpty(name) || TextUtils.isEmpty(password)) {
             listener.onEmptyFields();
             return;
@@ -55,17 +50,16 @@ public class LoginInteractor {
                             rememberMy.saveDateUser(name, password, login.getData().getApiToken());
                         }
                     } else {
-                        Toast.makeText(context.getApplicationContext(), login.getMsg(), Toast.LENGTH_SHORT).show();
-                        listener.hideProgress();
+                        listener.showError(login.getMsg());
                     }
                 } catch (Exception e) {
-                    Toast.makeText(context.getApplicationContext(), e.getMessage(), Toast.LENGTH_SHORT).show();
+                    listener.showError(e.getMessage());
                 }
             }
 
             @Override
             public void onFailure(Call<Login> call, Throwable t) {
-                Toast.makeText(context.getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                listener.showError(t.getMessage());
             }
         });
     }

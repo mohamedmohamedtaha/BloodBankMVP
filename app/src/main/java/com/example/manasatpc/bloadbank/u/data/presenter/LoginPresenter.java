@@ -1,6 +1,5 @@
 package com.example.manasatpc.bloadbank.u.data.presenter;
 
-import android.content.Context;
 import android.widget.CheckBox;
 
 import com.example.manasatpc.bloadbank.u.data.interactor.LoginInteractor;
@@ -10,21 +9,23 @@ import com.example.manasatpc.bloadbank.u.helper.RememberMy;
 public class LoginPresenter implements LoginInteractor.OnLoginFinishedListener {
     public LoginView loginView;
     public LoginInteractor loginInteractor;
+
     public LoginPresenter(LoginView loginView, LoginInteractor loginInteractor) {
         this.loginView = loginView;
         this.loginInteractor = loginInteractor;
 
     }
-    public void validate(String userName, String password, Context context, RememberMy rememberMy, CheckBox checkBox){
-        if (loginView != null){
+
+    public void validate(String userName, String password, RememberMy rememberMy, CheckBox checkBox) {
+        if (loginView != null) {
             loginView.showProgress();
         }
-        loginInteractor.checkLogin(userName,password,this,context,rememberMy,checkBox);
+        loginInteractor.checkLogin(userName, password, this, rememberMy, checkBox);
     }
 
     @Override
     public void onErrorLogin() {
-        if (loginView != null){
+        if (loginView != null) {
             loginView.errorLogin();
             loginView.hideProgress();
         }
@@ -32,19 +33,20 @@ public class LoginPresenter implements LoginInteractor.OnLoginFinishedListener {
 
     @Override
     public void onEmptyFields() {
-        if (loginView!=null){
+        if (loginView != null) {
             loginView.emptyFiled();
             loginView.hideProgress();
         }
 
     }
-    public void onDestory(){
+
+    public void onDestory() {
         loginView = null;
     }
 
     @Override
     public void onSuccess() {
-        if (loginView !=null){
+        if (loginView != null) {
             loginView.navigateToHome();
         }
 
@@ -52,28 +54,37 @@ public class LoginPresenter implements LoginInteractor.OnLoginFinishedListener {
 
     @Override
     public void hideProgress() {
-        if (loginView !=null){
+        if (loginView != null) {
             loginView.hideProgressOnly();
         }
     }
 
     @Override
     public void getToken() {
-        if (loginView !=null){
+        if (loginView != null) {
             loginView.getToken();
         }
     }
-            @Override
+
+    @Override
     public void navigateToRegister() {
-        if (loginView !=null){
+        if (loginView != null) {
             loginView.navigateToRegister();
         }
     }
 
     @Override
     public void navigateToResetPassword() {
-        if (loginView != null){
+        if (loginView != null) {
             loginView.navigateToResetPassword();
+        }
+    }
+
+    @Override
+    public void showError(String message) {
+        if (loginView != null) {
+            loginView.hideProgress();
+            loginView.showError(message);
         }
     }
 }

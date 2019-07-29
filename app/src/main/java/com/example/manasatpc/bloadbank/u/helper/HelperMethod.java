@@ -24,8 +24,11 @@ import android.widget.Toast;
 
 import com.bumptech.glide.manager.SupportRequestManagerFragment;
 import com.example.manasatpc.bloadbank.R;
+import com.example.manasatpc.bloadbank.u.data.model.general.GeneralResponseData;
 import com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes.BloodTypes;
 import com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes.DataBloodTypes;
+import com.example.manasatpc.bloadbank.u.data.model.general.governorates.Governorates;
+import com.example.manasatpc.bloadbank.u.data.model.general.governorates.GovernoratesData;
 import com.example.manasatpc.bloadbank.u.data.model.notification.firebaseApiToken.registertoken.RegisterToken;
 import com.example.manasatpc.bloadbank.u.data.model.notification.firebaseApiToken.removetoken.RemoveToken;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
@@ -34,6 +37,7 @@ import com.example.manasatpc.bloadbank.u.ui.fregmants.userCycle.LoginFragment;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -75,6 +79,18 @@ public class HelperMethod {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         fragment.setArguments(bundle);
         transaction.replace(id, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+        if (toolbar != null) {
+            toolbar.setTitle(title);
+        }
+
+    }
+    //This method for handle Fragments
+    public static void add(Fragment fragment, FragmentManager fragmentManager, int id, Toolbar toolbar, String title, Bundle bundle) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        fragment.setArguments(bundle);
+        transaction.add(id, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
         if (toolbar != null) {
@@ -166,26 +182,43 @@ public class HelperMethod {
     }
 
     //Calender
-    public static void showCalender(Context context, String title, final TextView text_view_data, final DateModel data1) {
-        DatePickerDialog mDatePicker = new DatePickerDialog(context, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT,
-                new DatePickerDialog.OnDateSetListener() {
-                    public void onDateSet(DatePicker datepicker, int selectedYear, int selectedMonth, int selectedDay) {
-                        DecimalFormat mFormat = new DecimalFormat("00");
-                        if (!data1.getMonth().equals(mFormat.format(Double.valueOf(selectedMonth)))) {
-                            String data = selectedYear + "-" + mFormat.format(Double.valueOf((selectedMonth + 1))) + "-" + mFormat.format(Double.valueOf(selectedDay));
-                            data1.setDate_txt(data);
-                            data1.setDay(mFormat.format(Double.valueOf(selectedDay)));
-                            data1.setMonth(mFormat.format(Double.valueOf(selectedMonth + 1)));
-                            data1.setYear(String.valueOf(selectedYear));
-                            text_view_data.setText(data);
-                        }
-                    }
-                }, Integer.parseInt(data1.getYear()), Integer.parseInt(data1.getMonth()), Integer.parseInt(data1.getDay()));
-        mDatePicker.setTitle(title);
-        mDatePicker.show();
-    }
 
-    //This method for show data in Spinner
+//    public static void showCalender(Context context, String title, final TextView text_view_data, final DateModel data1) {
+//        DatePickerDialog mDatePicker = new DatePickerDialog(context, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT,
+//                new DatePickerDialog.OnDateSetListener() {
+//                    public void onDateSet(DatePicker datepicker, int selectedYear, int selectedMonth, int selectedDay) {
+//                        DecimalFormat mFormat = new DecimalFormat("00");
+//                        if (!data1.getMonth().equals(mFormat.format(Double.valueOf(selectedMonth)))) {
+//                            String data = selectedYear + "-" + mFormat.format(Double.valueOf((selectedMonth + 1))) + "-" + mFormat.format(Double.valueOf(selectedDay));
+//                            data1.setDate_txt(data);
+//                            data1.setDay(mFormat.format(Double.valueOf(selectedDay)));
+//                            data1.setMonth(mFormat.format(Double.valueOf(selectedMonth + 1)));
+//                            data1.setYear(String.valueOf(selectedYear));
+//                            text_view_data.setText(data);
+//                        }
+//                    }
+//                }, Integer.parseInt(data1.getYear()), Integer.parseInt(data1.getMonth()), Integer.parseInt(data1.getDay()));
+//        mDatePicker.setTitle(title);
+//        mDatePicker.show();
+//    }
+public static void showCalender(Context context, String title, final TextView text_view_data, final DateModel data1) {
+    DatePickerDialog mDatePicker = new DatePickerDialog(context, AlertDialog.THEME_HOLO_DARK, new DatePickerDialog.OnDateSetListener() {
+        public void onDateSet(DatePicker datepicker, int selectedYear, int selectedMonth, int selectedDay) {
+            DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
+            DecimalFormat mFormat = new DecimalFormat("00", symbols);
+            String data = selectedYear + "-" + mFormat.format(Double.valueOf((selectedMonth + 1))) + "-" + mFormat.format(Double.valueOf(selectedDay));
+            data1.setDate_txt(data);
+            data1.setDay(mFormat.format(Double.valueOf(selectedDay)));
+            data1.setMonth(mFormat.format(Double.valueOf(selectedMonth + 1)));
+            data1.setYear(String.valueOf(selectedYear));
+            text_view_data.setText(data);
+        }
+    }, Integer.parseInt(data1.getYear()), Integer.parseInt(data1.getMonth()) - 1, Integer.parseInt(data1.getDay()));
+    mDatePicker.setTitle(title);
+    mDatePicker.show();
+}
+
+       //This method for show data in Spinner
 
     public static void showGovernorates(ArrayList<String> date, Context context, Spinner spinner) {
 
@@ -197,7 +230,6 @@ public class HelperMethod {
 
     //This method for Exit App
     public static void closeApp(Context context) {
-
         Intent exitAppIntent = new Intent(Intent.ACTION_MAIN);
         exitAppIntent.addCategory(Intent.CATEGORY_HOME);
         exitAppIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -304,4 +336,81 @@ public class HelperMethod {
             }
         });
     }
+
+
+    public static ArrayList<Integer> getBloodTypes(final Context context, final Spinner RegesterFragmentBloodType) {
+        APIServices apiServicesgetBloodTypes = getRetrofit().create(APIServices.class);
+        final ArrayList<Integer> IdsBloodType = new ArrayList<>();
+        final Call<BloodTypes> bloodTypesCall = apiServicesgetBloodTypes.getBloodTypes();
+        bloodTypesCall.enqueue(new Callback<BloodTypes>() {
+            @Override
+            public void onResponse(Call<BloodTypes> call, Response<BloodTypes> response) {
+                String getResult;
+                ArrayList<String> strings = new ArrayList<>();
+                BloodTypes bloodTypes = response.body();
+                if (bloodTypes.getStatus() == 1) {
+                    try {
+                        strings.add(context.getString(R.string.blood_type));
+                        IdsBloodType.add(0);
+                        List<GeneralResponseData> bloodTypesList = bloodTypes.getData();
+                        for (int i = 0; i < bloodTypesList.size(); i++) {
+                            getResult = bloodTypesList.get(i).getName();
+                            strings.add(getResult);
+                            Integer positionBloodType = bloodTypesList.get(i).getId();
+                            IdsBloodType.add(positionBloodType);
+                        }
+                        HelperMethod.showGovernorates(strings, context, RegesterFragmentBloodType);
+                    } catch (Exception e) {
+                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<BloodTypes> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
+
+            }
+        });
+        return IdsBloodType;
+    }
+
+    public static ArrayList<Integer> getGovernorates(final Context context, final Spinner ListRequestsDonationFragmentSelectGeverment) {
+        final Call<Governorates> governorates = apiServices.getGovernorates();
+        final ArrayList<Integer> IdsGeverment = new ArrayList<>();
+        governorates.enqueue(new Callback<Governorates>() {
+            @Override
+            public void onResponse(Call<Governorates> call, Response<Governorates> response) {
+                if (response.body().getStatus() == 1) {
+                    try {
+                        String getResult;
+                        Governorates governorates1 = response.body();
+                        ArrayList<String> stringsGeverment = new ArrayList<>();
+                        stringsGeverment.add(context.getString(R.string.select_gaverment));
+                        IdsGeverment.add(0);
+                        List<GeneralResponseData> governoratesData = governorates1.getData();
+                        for (int i = 0; i < governoratesData.size(); i++) {
+                            getResult = governoratesData.get(i).getName();
+                            stringsGeverment.add(getResult);
+                         Integer  positionGeverment = governoratesData.get(i).getId();
+                            IdsGeverment.add(positionGeverment);
+                        }
+                        HelperMethod.showGovernorates(stringsGeverment, context, ListRequestsDonationFragmentSelectGeverment);
+                    } catch (Exception e) {
+                        Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Governorates> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
+
+            }
+        });
+        return IdsGeverment;
+
+    }
+
 }

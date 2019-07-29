@@ -104,6 +104,7 @@
     <string name="no_place">لم تقم بإختيار اي عنوان</string>
     <string name="select_location">اختيار الموقع</string>
     <string name="enter_address">أدخل العنوان أوالمدينة</string>
+    <string name="title_activity_maps">Map</string>
 
 
 </resources>

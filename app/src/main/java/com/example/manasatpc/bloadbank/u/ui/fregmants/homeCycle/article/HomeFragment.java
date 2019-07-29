@@ -22,12 +22,15 @@ import android.widget.Toast;
 
 import com.example.manasatpc.bloadbank.R;
 import com.example.manasatpc.bloadbank.u.adapter.AdapterArticle;
+import com.example.manasatpc.bloadbank.u.data.interactor.ArticleInteractor;
 import com.example.manasatpc.bloadbank.u.data.model.posts.categories.Categories;
 import com.example.manasatpc.bloadbank.u.data.model.posts.categories.DataCategories;
 import com.example.manasatpc.bloadbank.u.data.model.posts.posts.Data2Posts;
 import com.example.manasatpc.bloadbank.u.data.model.posts.posts.Posts;
 import com.example.manasatpc.bloadbank.u.data.model.posts.posttogglefavourite.PostToggleFavourite;
+import com.example.manasatpc.bloadbank.u.data.presenter.ArticlePresenter;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
+import com.example.manasatpc.bloadbank.u.data.view.ArticleView;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 import com.example.manasatpc.bloadbank.u.helper.OnEndless;
 import com.example.manasatpc.bloadbank.u.helper.RememberMy;
@@ -50,7 +53,7 @@ import static com.example.manasatpc.bloadbank.u.ui.activities.HomeActivity.toolb
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements ArticleView {
     @BindView(R.id.HomeFragment_Tiet_Search)
     TextInputEditText HomeFragmentTietSearch;
     @BindView(R.id.HomeFragment_Recycle_View)
@@ -73,12 +76,13 @@ public class HomeFragment extends Fragment {
     private APIServices apiServices;
     public static final String POST_ID = "post_id";
     AdapterArticle adapterArticle;
-    ArrayList<Data2Posts> postsArrayList = new ArrayList<>();
+   // ArrayList<Data2Posts> postsArrayList = new ArrayList<>();
     Integer positionCategories;
     final ArrayList<Integer> IdsCategories = new ArrayList<>();
     Bundle bundle;
     ImageView imageViewFavorite;
     int catdgory_id = 0;
+    private ArticlePresenter presenter;
 
 
     public HomeFragment() {
@@ -92,15 +96,16 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, view);
+        presenter = new ArticleInteractor(this,getContext());
         rememberMy = new RememberMy(getActivity());
         apiServices = getRetrofit().create(APIServices.class);
         boolean check_network = HelperMethod.isNetworkConnected(getActivity(), getView());
         if (check_network == false) {
         }
         bundle = new Bundle();
-        getCategory();
+      //  getCategory();
         imageViewFavorite = (ImageView) view.findViewById(R.id.IM_Favorite);
-        postsArrayList.clear();
+       // postsArrayList.clear();
         HomeFragmentRecycleView.setHasFixedSize(true);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         HomeFragmentRecycleView.setLayoutManager(linearLayoutManager);
@@ -108,13 +113,15 @@ public class HomeFragment extends Fragment {
             @Override
             public void onLoadMore(int current_page) {
                 if (current_page <= max) {
-                    getPosts(current_page);
+                    presenter.loadData(current_page);
+                   // getPosts(current_page);
 
                 }
 
             }
         };
         HomeFragmentRecycleView.addOnScrollListener(onEndless);
+        /*
         adapterArticle = new AdapterArticle(getActivity(), postsArrayList, new AdapterArticle.showDetial() {
             @Override
             public void itemShowDetail(Data2Posts position) {
@@ -147,9 +154,11 @@ public class HomeFragment extends Fragment {
                 });
             }
         });
-        HomeFragmentRecycleView.setAdapter(adapterArticle);
-        getPosts(1);
+        HomeFragmentRecycleView.setAdapter(adapterArticle);*/
+      //  getPosts(1);
+        presenter.loadData(1);
 
+/*
         HomeFragmentTietSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -202,11 +211,11 @@ public class HomeFragment extends Fragment {
                 }
                 return handle;
             }
-        });
+        });*/
         return view;
     }
 
-    private void getPosts(int page) {
+  /*  private void getPosts(int page) {
         apiServices.getPosts(rememberMy.getAPIKey(),
                 page).enqueue(new Callback<Posts>() {
             @Override
@@ -242,8 +251,8 @@ public class HomeFragment extends Fragment {
             }
         });
     }
-
-    private void getCategory() {
+*/
+ /*   private void getCategory() {
         final Call<Categories> categoriesCall = apiServices.getCategories();
         categoriesCall.enqueue(new Callback<Categories>() {
             @Override
@@ -325,7 +334,7 @@ public class HomeFragment extends Fragment {
 
             }
         });
-    }
+    }*/
 
     public void getProperties() {
 //        HomeFragmentRecycleView.setVisibility(View.GONE);
@@ -343,5 +352,76 @@ public class HomeFragment extends Fragment {
     public void onViewClicked() {
         RequestDonationFragment requestDonationFragment = new RequestDonationFragment();
         HelperMethod.replece(requestDonationFragment, getActivity().getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.request_donation));
+    }
+
+    @Override
+    public void showProgress() {
+        HomeFragmentLoadingIndicator.setVisibility(View.GONE);
+        }
+
+    @Override
+    public void hideProgress() {
+        HomeFragmentLoadingIndicator.setVisibility(View.GONE);
+            }
+
+    @Override
+    public void loadSuccess(ArrayList<Data2Posts> postsArrayList) {
+        adapterArticle = new AdapterArticle(getActivity(), postsArrayList, new AdapterArticle.showDetial() {
+            @Override
+            public void itemShowDetail(Data2Posts position) {
+                int posts = position.getId();
+                DetailsHomeFragment detailsHomeFragment = new DetailsHomeFragment();
+                bundle.putInt(POST_ID, posts);
+                HelperMethod.replece(detailsHomeFragment, getActivity().getSupportFragmentManager(),
+                        R.id.Cycle_Home_contener, toolbar, position.getTitle(), bundle);
+            }
+        }, new AdapterArticle.saveFavorite() {
+            @Override
+            public void itemSaveFavorite(final Data2Posts position) {
+                String postFavourite = String.valueOf(position.getId());
+                apiServices.getPostToggleFavourite(rememberMy.getAPIKey(), postFavourite).enqueue(new Callback<PostToggleFavourite>() {
+                    @Override
+                    public void onResponse(Call<PostToggleFavourite> call, Response<PostToggleFavourite> response) {
+                        PostToggleFavourite postToggleFavourite = response.body();
+                        if (postToggleFavourite.getStatus() == 1) {
+                            adapterArticle.notifyDataSetChanged();
+                            Toast.makeText(getActivity(), postToggleFavourite.getMsg(), Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getActivity(), postToggleFavourite.getMsg(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<PostToggleFavourite> call, Throwable t) {
+                        Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        });
+        adapterArticle.notifyDataSetChanged();
+        HomeFragmentRecycleView.setAdapter(adapterArticle);
+    }
+
+    @Override
+    public void empty() {
+     }
+
+
+
+    @Override
+    public void showRecyclerView() {
+        HomeFragmentRecycleView.setVisibility(View.VISIBLE);
+        HomeFragmentRLEmptyView.setVisibility(View.GONE);    }
+
+    @Override
+    public void showRelativeView() {
+        HomeFragmentRecycleView.setVisibility(View.GONE);
+        HomeFragmentRLEmptyView.setVisibility(View.VISIBLE);
+
+    }
+
+    @Override
+    public void showError(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 }

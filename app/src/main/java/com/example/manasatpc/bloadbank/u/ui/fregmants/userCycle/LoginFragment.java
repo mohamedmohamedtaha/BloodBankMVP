@@ -85,7 +85,7 @@ public class LoginFragment extends Fragment implements LoginView {
             case R.id.LoginFragment_BT_Login:
                 String email = LoginFragmentPhone.getText().toString().trim();
                 String password = LoginFragmentPassword.getText().toString().trim();
-                presenter.validate(email, password, getActivity(), remeberMy, LoginFragmentCBRemeberMy);
+                presenter.validate(email, password,remeberMy, LoginFragmentCBRemeberMy);
                 break;
             case R.id.LoginFragment_BT_Register:
                 presenter.navigateToRegister();
@@ -143,5 +143,11 @@ public class LoginFragment extends Fragment implements LoginView {
         ForgetPasswordStep1Fragment forgetPasswordStep1Fragment = new ForgetPasswordStep1Fragment();
         HelperMethod.replece(forgetPasswordStep1Fragment, getActivity().getSupportFragmentManager(),
                 R.id.Cycle_User_contener, null, null);
+    }
+
+    @Override
+    public void showError(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+
     }
 }

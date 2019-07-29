@@ -112,4 +112,10 @@ public class ForgetPasswordStep2Fragment extends Fragment implements ChangePassw
     public void stopCounter() {
         HelperMethod.stopCountdownTimer();
     }
+
+    @Override
+    public void showError(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+
+    }
 }

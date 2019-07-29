@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.example.manasatpc.bloadbank.R;
 import com.example.manasatpc.bloadbank.u.data.interactor.CheckPasswordInteractor;
@@ -94,5 +95,10 @@ public class ForgetPasswordStep1Fragment extends Fragment implements CheckPasswo
     @Override
     public void isEmpty() {
         ForgetPasswordStep1FragmentPhone.setError(getString(R.string.filed_request));
+    }
+
+    @Override
+    public void showMessage(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 }

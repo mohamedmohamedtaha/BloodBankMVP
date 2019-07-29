@@ -6,4 +6,7 @@ public interface RegisterView {
     void emptyFiled();
     void onSuccess();
     void cityEmpty();
+    void selectMap();
+    void selectBackage();
+    void showError(String message);
 }

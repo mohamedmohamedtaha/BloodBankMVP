@@ -54,4 +54,12 @@ public class CheckPasswordPresenter implements CheckPasswordInteractor.OnChanged
         }
 
     }
+
+    @Override
+    public void showError(String message) {
+        if (checkPasswordView != null) {
+            checkPasswordView.showMessage(message);
+            checkPasswordView.hideProgress();
+        }
+    }
 }

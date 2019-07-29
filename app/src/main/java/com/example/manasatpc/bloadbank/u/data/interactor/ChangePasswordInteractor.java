@@ -2,7 +2,6 @@ package com.example.manasatpc.bloadbank.u.data.interactor;
 
 import android.content.Context;
 import android.view.View;
-import android.widget.Toast;
 
 import com.example.manasatpc.bloadbank.u.data.model.user.newpassword.NewPassword;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
@@ -15,7 +14,6 @@ import static com.example.manasatpc.bloadbank.u.data.rest.RetrofitClient.getRetr
 
 public class ChangePasswordInteractor {
     private static APIServices APIServices;
-    boolean check_network;
 
     public interface OnChangedListener {
         void hideProgress();
@@ -29,6 +27,8 @@ public class ChangePasswordInteractor {
         void stopCounter();
 
         void isNetworkAvailable();
+
+        void showError(String message);
     }
 
     public void changePassword(String newPassword, String retryNewPassword, String code, String savePhone, final OnChangedListener listener, final Context context, View view) {
@@ -42,20 +42,22 @@ public class ChangePasswordInteractor {
             @Override
             public void onResponse(Call<NewPassword> call, Response<NewPassword> response) {
                 NewPassword newPassword1 = response.body();
-                if (newPassword1.getStatus() == 1) {
-                    listener.stopCounter();
-                    listener.onSuccess();
-                    listener.hideProgress();
-                } else {
-                    Toast.makeText(context, newPassword1.getMsg(), Toast.LENGTH_SHORT).show();
-                    listener.hideProgress();
+                try {
+                    if (newPassword1.getStatus() == 1) {
+                        listener.stopCounter();
+                        listener.onSuccess();
+                        listener.hideProgress();
+                    } else {
+                        listener.showError(newPassword1.getMsg());
+                    }
+                } catch (Exception e) {
+                    listener.showError(e.getMessage());
                 }
             }
 
             @Override
             public void onFailure(Call<NewPassword> call, Throwable t) {
-                Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
-                listener.hideProgress();
+                listener.showError(t.getMessage());
             }
         });
     }

@@ -95,7 +95,10 @@
                 android:src="@drawable/ic_googleplus" />
         </LinearLayout>
 
-        <TextView
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+      <TextView
             android:layout_width="match_parent"
             android:layout_height="@dimen/dimens_xxxxl"
             android:layout_marginTop="@dimen/txt_size_xl"
@@ -103,6 +106,11 @@
             android:gravity="center"
             android:text="@string/connect_with_us"
             android:textColor="@android:color/white" />
+    <ProgressBar
+        android:id="@+id/Fragment_Connect_Us_Progress_Bar"
+        style="@style/StyleProgressBar" />
+
+</RelativeLayout>
 
         <TextView
             android:id="@+id/Fragment_Connect_Us_Name"
@@ -118,9 +126,7 @@
             android:id="@+id/Fragment_Connect_Us_Phone"
             style="@style/StyleTextViewForContectUS"
             android:hint="@string/phone" />
-
-
-        <android.support.design.widget.TextInputLayout
+                <android.support.design.widget.TextInputLayout
 
             style="@style/StyleEditText">
 
@@ -145,7 +151,6 @@
                 />
 
         </android.support.design.widget.TextInputLayout>
-
         <Button
             android:id="@+id/BT_Send_Message"
             android:layout_width="match_parent"

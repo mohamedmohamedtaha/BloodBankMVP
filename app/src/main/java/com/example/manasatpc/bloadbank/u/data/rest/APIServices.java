@@ -8,11 +8,11 @@ import com.example.manasatpc.bloadbank.u.data.model.general.cities.Cities;
 import com.example.manasatpc.bloadbank.u.data.model.general.contact.Contact;
 import com.example.manasatpc.bloadbank.u.data.model.general.governorates.Governorates;
 import com.example.manasatpc.bloadbank.u.data.model.general.settings.Settings;
+import com.example.manasatpc.bloadbank.u.data.model.notification.firebaseApiToken.registertoken.RegisterToken;
+import com.example.manasatpc.bloadbank.u.data.model.notification.firebaseApiToken.removetoken.RemoveToken;
 import com.example.manasatpc.bloadbank.u.data.model.notification.getnotificationssettings.GetNotificationSsettings;
 import com.example.manasatpc.bloadbank.u.data.model.notification.notificationscount.NotificationsCount;
 import com.example.manasatpc.bloadbank.u.data.model.notification.notificationslist.NotificationsList;
-import com.example.manasatpc.bloadbank.u.data.model.notification.firebaseApiToken.registertoken.RegisterToken;
-import com.example.manasatpc.bloadbank.u.data.model.notification.firebaseApiToken.removetoken.RemoveToken;
 import com.example.manasatpc.bloadbank.u.data.model.posts.categories.Categories;
 import com.example.manasatpc.bloadbank.u.data.model.posts.my_favourites.MyFavourites;
 import com.example.manasatpc.bloadbank.u.data.model.posts.postdetails.PostDetails;
@@ -24,6 +24,8 @@ import com.example.manasatpc.bloadbank.u.data.model.user.login.Login;
 import com.example.manasatpc.bloadbank.u.data.model.user.newpassword.NewPassword;
 import com.example.manasatpc.bloadbank.u.data.model.user.register.Register;
 import com.example.manasatpc.bloadbank.u.data.model.user.resetpassword.ResetPassword;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Field;
@@ -73,10 +75,10 @@ public interface APIServices {
     Call<Posts> getPosts(@Query("api_token") String api_token, @Query("page") int page);
 
     @GET("post")
-    Call<PostDetails> getPostDetails(@Query("api_token") String api_token, @Query("post_id") int post_id,@Query("page") int page);
+    Call<PostDetails> getPostDetails(@Query("api_token") String api_token, @Query("post_id") int post_id, @Query("page") int page);
 
     @GET("posts")
-    Call<Posts> getPostFilter(@Query("api_token") String api_token, @Query("page") int page,@Query("keyword") String keyword, @Query("category_id") int category_id);
+    Call<Posts> getPostFilter(@Query("api_token") String api_token, @Query("page") int page, @Query("keyword") String keyword, @Query("category_id") int category_id);
 
     @GET("my-favourites")
     Call<MyFavourites> getMyFavourites(@Query("api_token") String api_token);
@@ -105,13 +107,19 @@ public interface APIServices {
     @GET("blood-types")
     Call<BloodTypes> getBloodTypes();
 
+    @GET("blood-types")
+    Call<BloodTypes> getBloodTypes2();
+
+    @GET("governorates")
+    Call<Cities> getGovernorates2();
+
     @GET("settings")
     Call<Settings> getSettings(@Query("api_token") String api_token);
 
     //   ---------------------  End General ---------------------------------------
     //   ---------------------  For Donation ---------------------------------------
     @GET("donation-requests")
-    Call<DonationRequests> getDonationRequests(@Query("api_token") String api_token);
+    Call<DonationRequests> getDonationRequests(@Query("api_token") String api_token, @Query("page") int page);
 
     @GET("donation-request")
     Call<DonationRequest> getDonationRequest(@Query("api_token") String api_token, @Query("donation_id") int donation_id);
@@ -128,8 +136,8 @@ public interface APIServices {
                                                          @Field("city_id") int city_id,
                                                          @Field("phone") String phone,
                                                          @Field("notes") String notes,
-                                                         @Field("latitude") String latitude,
-                                                         @Field("longitude") String longitude);
+                                                         @Field("latitude") double latitude,
+                                                         @Field("longitude") double longitude);
 
     @GET("donation-requests")
     Call<DonationRequests> getDonationRequestFilter(@Query("api_token") String api_token, @Query("blood_type_id") int blood_type_id, @Query("governorate_id") int governorate_id, @Query("page") int page);
@@ -145,7 +153,7 @@ public interface APIServices {
     @FormUrlEncoded
     @POST("remove-token")
     Call<RemoveToken> getRemoveToken(@Field("token") String token,
-                                       @Field("api_token") String api_token);
+                                     @Field("api_token") String api_token);
 
     @FormUrlEncoded
     @POST("notifications-settings")
@@ -153,8 +161,9 @@ public interface APIServices {
 
     @FormUrlEncoded
     @POST("notifications-settings")
-    Call<GetNotificationSsettings> notificationsSettings(@Field("api_token") String api_token, @Field("governorates[0]") String governoratesZero
-            , @Field("governorates[1]") String governoratesOne, @Field("blood_types[0]") String blood_typesZero, @Field("blood_types[1]") String blood_typesOne);
+    Call<GetNotificationSsettings> notificationsSettings(@Field("api_token") String api_token,
+                                                         @Field("governorates[]") List<Integer> governorates,
+                                                         @Field("blood_types[]") List<Integer>  blood_types);
 
     @GET("notifications")
     Call<NotificationsList> getNotificationsList(@Query("api_token") String api_token);

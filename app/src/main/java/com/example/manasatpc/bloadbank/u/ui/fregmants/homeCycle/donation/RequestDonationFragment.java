@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.manasatpc.bloadbank.R;
 import com.example.manasatpc.bloadbank.u.data.model.donation.donationrequestcreate.DonationRequestCreate;
+import com.example.manasatpc.bloadbank.u.data.model.general.GeneralResponseData;
 import com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes.BloodTypes;
 import com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes.DataBloodTypes;
 import com.example.manasatpc.bloadbank.u.data.model.general.cities.Cities;
@@ -43,6 +44,7 @@ import static com.example.manasatpc.bloadbank.u.data.rest.RetrofitClient.getRetr
 import static com.example.manasatpc.bloadbank.u.ui.activities.HomeActivity.toolbar;
 import static com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.regusets.MapFragment.LATITUDE_MAP;
 import static com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.regusets.MapFragment.LONGITUDE_MAP;
+import static com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.regusets.MapFragment.longitude;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -143,7 +145,7 @@ public class RequestDonationFragment extends Fragment {
                         Governorates governorates1 = response.body();
                         strings.add(getString(R.string.select_gaverment));
                         Ids.add(0);
-                        List<GovernoratesData> governoratesData = governorates1.getData();
+                        List<GeneralResponseData> governoratesData = governorates1.getData();
                         for (int i = 0; i < governoratesData.size(); i++) {
                             getResult = governoratesData.get(i).getName();
                             strings.add(getResult);
@@ -234,7 +236,7 @@ public class RequestDonationFragment extends Fragment {
                     try {
                         strings.add(getString(R.string.blood_type));
                         IdsBloodType.add(0);
-                        List<DataBloodTypes> bloodTypesList = bloodTypes.getData();
+                        List<GeneralResponseData> bloodTypesList = bloodTypes.getData();
                         for (int i = 0; i < bloodTypesList.size(); i++) {
                             getResult = bloodTypesList.get(i).getName();
                             strings.add(getResult);
@@ -299,9 +301,9 @@ public class RequestDonationFragment extends Fragment {
                     Toast.makeText(getActivity(), getString(R.string.selct_blood_and_city), Toast.LENGTH_SHORT).show();
                     return;
                 }
-                String latitude =MapFragment. latitude ;
-                String longtite = MapFragment.longitude ;
-                if (longtite == null || latitude == null) {
+                double latitude =MapFragment. latitude ;
+                double longtite = MapFragment.longitude ;
+                if (longtite == 0 || latitude == 0) {
                     Toast.makeText(getActivity(), getString(R.string.select_map), Toast.LENGTH_SHORT).show();
                     return;
                 }

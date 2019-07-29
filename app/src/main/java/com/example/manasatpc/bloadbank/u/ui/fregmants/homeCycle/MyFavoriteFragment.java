@@ -16,28 +16,24 @@ import android.widget.Toast;
 
 import com.example.manasatpc.bloadbank.R;
 import com.example.manasatpc.bloadbank.u.adapter.AdapterMyFavorite;
+import com.example.manasatpc.bloadbank.u.data.interactor.FavoriteInteractor;
 import com.example.manasatpc.bloadbank.u.data.model.posts.my_favourites.DataMyFavouritesTwo;
-import com.example.manasatpc.bloadbank.u.data.model.posts.my_favourites.MyFavourites;
-import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
+import com.example.manasatpc.bloadbank.u.data.presenter.FavoritePresenter;
+import com.example.manasatpc.bloadbank.u.data.view.FavoriteView;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
-import com.example.manasatpc.bloadbank.u.helper.RememberMy;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-import static com.example.manasatpc.bloadbank.u.data.rest.RetrofitClient.getRetrofit;
 import static com.example.manasatpc.bloadbank.u.ui.activities.HomeActivity.toolbar;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MyFavoriteFragment extends Fragment {
+public class MyFavoriteFragment extends Fragment implements FavoriteView {
     @BindView(R.id.list)
     ListView list;
     @BindView(R.id.tv_empty_view)
@@ -45,10 +41,8 @@ public class MyFavoriteFragment extends Fragment {
     @BindView(R.id.loading_indicator)
     ProgressBar loadingIndicator;
     Unbinder unbinder;
-    private APIServices apiServices;
     AdapterMyFavorite adapterMyFavorite;
-    Bundle bundle;
-    RememberMy rememberMy;
+    private FavoritePresenter presenter;
 
     public MyFavoriteFragment() {
         // Required empty public constructor
@@ -61,52 +55,25 @@ public class MyFavoriteFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my_favorite, container, false);
         unbinder = ButterKnife.bind(this, view);
-        rememberMy = new RememberMy(getActivity());
-        bundle = getArguments();
-        list.setEmptyView(tvEmptyView);
+        presenter = new FavoriteInteractor(this);
+
         // for check network
         boolean check_network = HelperMethod.isNetworkConnected(getActivity(), getView());
         if (check_network == false) {
-        }else {
-            apiServices = getRetrofit().create(APIServices.class);
-            apiServices.getMyFavourites(rememberMy.getAPIKey())
-                    .enqueue(new Callback<MyFavourites>() {
-                        @Override
-                        public void onResponse(Call<MyFavourites> call, Response<MyFavourites> response) {
-                            ArrayList<DataMyFavouritesTwo> myFavourites = response.body().getData().getData();
-                            if (response.body().getStatus() == 1) {
-                                adapterMyFavorite = new AdapterMyFavorite(getActivity(), myFavourites);
-                                list.setAdapter(adapterMyFavorite);
-                                loadingIndicator.setVisibility(View.GONE);
-
-                            } else {
-                                Toast.makeText(getActivity(), response.body().getMsg(), Toast.LENGTH_SHORT).show();
-                                loadingIndicator.setVisibility(View.GONE);
-
-                            }
-
-                        }
-
-                        @Override
-                        public void onFailure(Call<MyFavourites> call, Throwable t) {
-                            Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
-                            loadingIndicator.setVisibility(View.GONE);
-
-                        }
-                    });
+        } else {
+            presenter.loadFavorite(getActivity());
             list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
                 }
             });
         }
-
         return view;
     }
 
     @Override
     public void onDestroyView() {
+        presenter.onDestroy();
         super.onDestroyView();
         unbinder.unbind();
     }
@@ -115,6 +82,31 @@ public class MyFavoriteFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         toolbar.setTitle(R.string.my_favorite);
+    }
 
+    @Override
+    public void showProgress() {
+        loadingIndicator.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        loadingIndicator.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void loadSuccess(ArrayList<DataMyFavouritesTwo> myFavourites) {
+        adapterMyFavorite = new AdapterMyFavorite(getActivity(), myFavourites);
+        list.setAdapter(adapterMyFavorite);
+    }
+
+    @Override
+    public void empty() {
+        list.setEmptyView(tvEmptyView);
+    }
+
+    @Override
+    public void showError(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 }

@@ -17,36 +17,28 @@ import android.widget.Toast;
 
 import com.example.manasatpc.bloadbank.R;
 import com.example.manasatpc.bloadbank.u.adapter.AdapterDonation;
+import com.example.manasatpc.bloadbank.u.data.interactor.DonationInteractor;
 import com.example.manasatpc.bloadbank.u.data.model.donation.donationrequests.Data2DonationRequests;
-import com.example.manasatpc.bloadbank.u.data.model.donation.donationrequests.DonationRequests;
-import com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes.BloodTypes;
-import com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes.DataBloodTypes;
-import com.example.manasatpc.bloadbank.u.data.model.general.governorates.Governorates;
-import com.example.manasatpc.bloadbank.u.data.model.general.governorates.GovernoratesData;
-import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
+import com.example.manasatpc.bloadbank.u.data.presenter.DonationPresenter;
+import com.example.manasatpc.bloadbank.u.data.view.DonationView;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 import com.example.manasatpc.bloadbank.u.helper.OnEndless;
 import com.example.manasatpc.bloadbank.u.helper.RememberMy;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-import static com.example.manasatpc.bloadbank.u.data.rest.RetrofitClient.getRetrofit;
 import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.makePhoneCall;
 import static com.example.manasatpc.bloadbank.u.ui.activities.HomeActivity.toolbar;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class ListRequestsDonationFragment extends Fragment {
+public class ListRequestsDonationFragment extends Fragment implements DonationView {
     @BindView(R.id.ListRequestsDonationFragment_IM_Search)
     ImageView ListRequestsDonationFragmentIMSearch;
     @BindView(R.id.ListRequestsDonationFragment_Select_Geverment)
@@ -63,17 +55,15 @@ public class ListRequestsDonationFragment extends Fragment {
     FloatingActionButton ListRequestsDonationFragmentFABRequestDonation;
     Unbinder unbinder;
     public static final String REQUEST_ID = "request_id";
-
+    private DonationPresenter presenter;
     private int max = 0;
-    ArrayList<Data2DonationRequests> dataDonations = new ArrayList<>();
     private AdapterDonation adapterDonation;
-    private APIServices apiServices;
     Bundle bundle;
-    Integer positionGeverment;
-    Integer positionBloodType;
     RememberMy rememberMy;
     private ArrayList<Integer> IdsGeverment = new ArrayList<>();
-    final ArrayList<Integer> IdsBloodType = new ArrayList<>();
+    ArrayList<Integer> IdsBloodType = new ArrayList<>();
+    OnEndless onEndless;
+
 
     public ListRequestsDonationFragment() {
         // Required empty public constructor
@@ -85,25 +75,87 @@ public class ListRequestsDonationFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_list_requests_donation, container, false);
         unbinder = ButterKnife.bind(this, view);
+        presenter = new DonationInteractor(this, getActivity());
         rememberMy = new RememberMy(getActivity());
         bundle = new Bundle();
-        dataDonations.clear();
+        //    dataDonations.clear();
         boolean check_network = HelperMethod.isNetworkConnected(getActivity(), getView());
         if (check_network == false) {
         }
-        apiServices = getRetrofit().create(APIServices.class);
-        getBloodTypes();
-        getGovernorates();
+        IdsBloodType = HelperMethod.getBloodTypes(getActivity(), ListRequestsDonationFragmentSelectBloodType);
+        IdsGeverment = HelperMethod.getGovernorates(getActivity(), ListRequestsDonationFragmentSelectGeverment);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         ListRequestsDonationFragmentRecyclerView.setLayoutManager(linearLayoutManager);
-        OnEndless onEndless = new OnEndless(linearLayoutManager, 1) {
+        onEndless = new OnEndless(linearLayoutManager, 1) {
             @Override
             public void onLoadMore(int current_page) {
                 if (current_page <= max) {
+                    //getDonation(current_page);
+                    presenter.loadData(current_page);
+
                 }
             }
         };
         ListRequestsDonationFragmentRecyclerView.addOnScrollListener(onEndless);
+        presenter.loadData(1);
+
+        return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    @OnClick({R.id.ListRequestsDonationFragment_IM_Search, R.id.ListRequestsDonationFragment_FAB_Request_Donation})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.ListRequestsDonationFragment_IM_Search:
+                int blood_id = IdsBloodType.get(ListRequestsDonationFragmentSelectBloodType.getSelectedItemPosition());
+                int geverment_id = IdsGeverment.get(ListRequestsDonationFragmentSelectGeverment.getSelectedItemPosition());
+                if (blood_id <= 0 || geverment_id <= 0) {
+                    Toast.makeText(getActivity(), getString(R.string.selct_blood_and_Geverment), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                presenter.search(blood_id, geverment_id, 1);
+                break;
+            case R.id.ListRequestsDonationFragment_FAB_Request_Donation:
+                RequestDonationFragment requestDonationFragment = new RequestDonationFragment();
+                HelperMethod.replece(requestDonationFragment, getActivity().getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.request_donation));
+                break;
+        }
+    }
+
+    @Override
+    public void showProgress() {
+        ListRequestsDonationFragmentBrogressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        ListRequestsDonationFragmentBrogressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showRecyclerView() {
+        ListRequestsDonationFragmentRecyclerView.setVisibility(View.VISIBLE);
+        ListRequestsDonationFragmentRLEmptyView.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showRelativeView() {
+        ListRequestsDonationFragmentRecyclerView.setVisibility(View.GONE);
+        ListRequestsDonationFragmentRLEmptyView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void showError(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void loadSuccess(ArrayList<Data2DonationRequests> dataDonations) {
         adapterDonation = new AdapterDonation(getActivity(), dataDonations, new AdapterDonation.showDetials() {
             @Override
             public void itemShowDetail(Data2DonationRequests position) {
@@ -120,182 +172,7 @@ public class ListRequestsDonationFragment extends Fragment {
                 makePhoneCall(getActivity(), positioncurrent);
             }
         });
+        adapterDonation.notifyDataSetChanged();
         ListRequestsDonationFragmentRecyclerView.setAdapter(adapterDonation);
-        getDonation();
-        return view;
-    }
-
-    private void getDonation() {
-        apiServices.getDonationRequests(rememberMy.getAPIKey())
-                .enqueue(new Callback<DonationRequests>() {
-                    @Override
-                    public void onResponse(Call<DonationRequests> call, Response<DonationRequests> response) {
-                        try {
-                            dataDonations.clear();
-                            ListRequestsDonationFragmentBrogressBar.setVisibility(View.VISIBLE);
-                            DonationRequests donation = response.body();
-                            if (donation.getStatus() == 1) {
-                                dataDonations.addAll(donation.getData().getData());
-                                if (!dataDonations.isEmpty()) {
-                                    ListRequestsDonationFragmentRecyclerView.setVisibility(View.VISIBLE);
-                                    ListRequestsDonationFragmentBrogressBar.setVisibility(View.GONE);
-                                    ListRequestsDonationFragmentRLEmptyView.setVisibility(View.GONE);
-                                    adapterDonation.notifyDataSetChanged();
-                                } else {
-                                    getProperties();
-                                }
-                            } else {
-                                Toast.makeText(getActivity(), donation.getMsg(), Toast.LENGTH_SHORT).show();
-                                getProperties();
-                            }
-                        } catch (Exception e) {
-                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                            getProperties();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<DonationRequests> call, Throwable t) {
-                        Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
-                        getProperties();
-                    }
-                });
-    }
-
-    public void getProperties() {
-        //     ListRequestsDonationFragmentRecyclerView.setVisibility(View.GONE);
-        ListRequestsDonationFragmentBrogressBar.setVisibility(View.GONE);
-        ListRequestsDonationFragmentRLEmptyView.setVisibility(View.VISIBLE);
-    }
-
-    private void getBloodTypes() {
-        final Call<BloodTypes> bloodTypesCall = apiServices.getBloodTypes();
-        bloodTypesCall.enqueue(new Callback<BloodTypes>() {
-            @Override
-            public void onResponse(Call<BloodTypes> call, Response<BloodTypes> response) {
-                String getResult;
-                ArrayList<String> strings = new ArrayList<>();
-                BloodTypes bloodTypes = response.body();
-                if (bloodTypes.getStatus() == 1) {
-                    try {
-                        strings.add(getString(R.string.blood_type));
-                        IdsBloodType.add(0);
-                        List<DataBloodTypes> bloodTypesList = bloodTypes.getData();
-                        for (int i = 0; i < bloodTypesList.size(); i++) {
-                            getResult = bloodTypesList.get(i).getName();
-                            strings.add(getResult);
-                            positionBloodType = bloodTypesList.get(i).getId();
-                            IdsBloodType.add(positionBloodType);
-
-                        }
-
-                        HelperMethod.showGovernorates(strings, getActivity(), ListRequestsDonationFragmentSelectBloodType);
-
-                    } catch (Exception e) {
-                        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
-
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<BloodTypes> call, Throwable t) {
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
-
-            }
-        });
-    }
-
-    private void getGovernorates() {
-        final Call<Governorates> governorates = apiServices.getGovernorates();
-        governorates.enqueue(new Callback<Governorates>() {
-            @Override
-            public void onResponse(Call<Governorates> call, Response<Governorates> response) {
-                if (response.body().getStatus() == 1) {
-                    try {
-                        String getResult;
-                        Governorates governorates1 = response.body();
-                        ArrayList<String> stringsGeverment = new ArrayList<>();
-                        stringsGeverment.add(getString(R.string.select_gaverment));
-                        IdsGeverment.add(0);
-                        List<GovernoratesData> governoratesData = governorates1.getData();
-                        for (int i = 0; i < governoratesData.size(); i++) {
-                            getResult = governoratesData.get(i).getName();
-                            stringsGeverment.add(getResult);
-                            positionGeverment = governoratesData.get(i).getId();
-                            IdsGeverment.add(positionGeverment);
-                        }
-                        HelperMethod.showGovernorates(stringsGeverment, getActivity(), ListRequestsDonationFragmentSelectGeverment);
-                    } catch (Exception e) {
-                        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Governorates> call, Throwable t) {
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
-
-            }
-        });
-
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
-    @OnClick({R.id.ListRequestsDonationFragment_IM_Search, R.id.ListRequestsDonationFragment_FAB_Request_Donation})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.ListRequestsDonationFragment_IM_Search:
-                if (IdsBloodType.isEmpty() || IdsGeverment.isEmpty()) {
-                    Toast.makeText(getActivity(), getString(R.string.selct_blood_and_Geverment), Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                int blood_id = IdsBloodType.get(ListRequestsDonationFragmentSelectBloodType.getSelectedItemPosition());
-                int geverment_id = IdsGeverment.get(ListRequestsDonationFragmentSelectGeverment.getSelectedItemPosition());
-                dataDonations.clear();
-                ListRequestsDonationFragmentBrogressBar.setVisibility(View.VISIBLE);
-                apiServices.getDonationRequestFilter(rememberMy.getAPIKey(), blood_id, geverment_id, 1)
-                        .enqueue(new Callback<DonationRequests>() {
-                            @Override
-                            public void onResponse(Call<DonationRequests> call, Response<DonationRequests> response) {
-                                DonationRequests donationRequestsFilter = response.body();
-                                try {
-                                    if (donationRequestsFilter.getStatus() == 1) {
-                                        dataDonations.addAll(donationRequestsFilter.getData().getData());
-                                        if (!dataDonations.isEmpty()) {
-                                            ListRequestsDonationFragmentRecyclerView.setVisibility(View.VISIBLE);
-                                            ListRequestsDonationFragmentBrogressBar.setVisibility(View.GONE);
-                                            ListRequestsDonationFragmentRLEmptyView.setVisibility(View.GONE);
-                                            adapterDonation.notifyDataSetChanged();
-                                        } else {
-                                            getProperties();
-                                        }
-                                    } else {
-                                        Toast.makeText(getActivity(), donationRequestsFilter.getMsg(), Toast.LENGTH_SHORT).show();
-                                        getProperties();
-                                    }
-                                } catch (Exception e) {
-                                    Toast.makeText(getActivity(), donationRequestsFilter.getMsg(), Toast.LENGTH_SHORT).show();
-                                    getProperties();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<DonationRequests> call, Throwable t) {
-                                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
-                                getProperties();
-                            }
-                        });
-                break;
-            case R.id.ListRequestsDonationFragment_FAB_Request_Donation:
-                RequestDonationFragment requestDonationFragment = new RequestDonationFragment();
-                HelperMethod.replece(requestDonationFragment, getActivity().getSupportFragmentManager(), R.id.Cycle_Home_contener, toolbar, getString(R.string.request_donation));
-                break;
-        }
     }
 }
