@@ -15,6 +15,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.manasatpc.bloadbank.R;
+import com.example.manasatpc.bloadbank.u.data.interactor.RequestDonationInteractor;
+import com.example.manasatpc.bloadbank.u.data.model.donation.donationrequest.DataDonationRequest;
 import com.example.manasatpc.bloadbank.u.data.model.donation.donationrequestcreate.DonationRequestCreate;
 import com.example.manasatpc.bloadbank.u.data.model.general.GeneralResponseData;
 import com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes.BloodTypes;
@@ -23,7 +25,9 @@ import com.example.manasatpc.bloadbank.u.data.model.general.cities.Cities;
 import com.example.manasatpc.bloadbank.u.data.model.general.cities.DataCities;
 import com.example.manasatpc.bloadbank.u.data.model.general.governorates.Governorates;
 import com.example.manasatpc.bloadbank.u.data.model.general.governorates.GovernoratesData;
+import com.example.manasatpc.bloadbank.u.data.presenter.RequestDonationPresenter;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
+import com.example.manasatpc.bloadbank.u.data.view.RequestDonationView;
 import com.example.manasatpc.bloadbank.u.helper.GPSTracker;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 import com.example.manasatpc.bloadbank.u.helper.RememberMy;
@@ -49,7 +53,7 @@ import static com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.regusets.
 /**
  * A simple {@link Fragment} subclass.
  */
-public class RequestDonationFragment extends Fragment {
+public class RequestDonationFragment extends Fragment implements RequestDonationView {
     @BindView(R.id.RequestDonationFragment_ET_Name_Patient)
     TextInputEditText RequestDonationFragmentETNamePatient;
     @BindView(R.id.RequestDonationFragment_ET_Age_Patient)
@@ -83,9 +87,10 @@ public class RequestDonationFragment extends Fragment {
     Integer positionCity;
     Integer positionBloodType;
     Bundle bundle;
+    private RequestDonationPresenter presenter;
 
-    final ArrayList<Integer> IdsCity = new ArrayList<>();
-    final ArrayList<Integer> IdsBloodType = new ArrayList<>();
+     ArrayList<Integer> IdsCity = new ArrayList<>();
+     ArrayList<Integer> IdsBloodType = new ArrayList<>();
     int IdsNumberBackage;
     ArrayList<String> stringsNumberBackage = new ArrayList<>();
 
@@ -100,8 +105,8 @@ public class RequestDonationFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_request_donation, container, false);
         unbinder = ButterKnife.bind(this, view);
+        presenter = new RequestDonationInteractor(this,getActivity());
         rememberMy = new RememberMy(getActivity());
-        getBloodTypes();
         bundle = getArguments();
 
         stringsNumberBackage.add(getString(R.string.select_number_package));
@@ -129,6 +134,8 @@ public class RequestDonationFragment extends Fragment {
 
             }
         });
+        IdsBloodType = HelperMethod.getBloodTypes(getActivity(),RequestDonationFragmentSPBloodTypes);
+
 
         // for get DataPost to governorate Spinner
         apiServicesgetGovernorate = getRetrofit().create(APIServices.class);
@@ -156,7 +163,7 @@ public class RequestDonationFragment extends Fragment {
                             @Override
                             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                                 if (i != 0) {
-                                    getCities(Ids.get(i));
+                                    IdsCity = HelperMethod.getCities(getActivity(),RequestDonationFragmentSPCityRequestDonation,Ids.get(i));
                                 }
                             }
 
@@ -167,9 +174,7 @@ public class RequestDonationFragment extends Fragment {
                         });
                     } catch (Exception e) {
                         Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
-
                     }
-
                 }
             }
 
@@ -179,82 +184,7 @@ public class RequestDonationFragment extends Fragment {
 
             }
         });
-
         return view;
-    }
-
-    private void getCities(int getIdGovernorates) {
-        APIServices apiServicesgetCities = getRetrofit().create(APIServices.class);
-        final Call<Cities> citiesCall = apiServicesgetCities.getCities(getIdGovernorates);
-        citiesCall.enqueue(new Callback<Cities>() {
-            @Override
-            public void onResponse(Call<Cities> call, Response<Cities> response) {
-                String getResult;
-                ArrayList<String> strings = new ArrayList<>();
-
-                try {
-                    strings.add(getString(R.string.select_city));
-                    IdsCity.add(0);
-
-                    Cities cities = response.body();
-
-                    List<DataCities> dataCities = cities.getData();
-                    for (int i = 0; i < dataCities.size(); i++) {
-                        getResult = dataCities.get(i).getName();
-                        strings.add(getResult);
-                        positionCity = dataCities.get(i).getId();
-                        IdsCity.add(positionCity);
-
-                    }
-
-                    HelperMethod.showGovernorates(strings, getActivity(), RequestDonationFragmentSPCityRequestDonation);
-
-                } catch (Exception e) {
-                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
-
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Cities> call, Throwable t) {
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
-
-            }
-        });
-    }
-
-    private void getBloodTypes() {
-        APIServices apiServicesgetBloodTypes = getRetrofit().create(APIServices.class);
-        final Call<BloodTypes> bloodTypesCall = apiServicesgetBloodTypes.getBloodTypes();
-        bloodTypesCall.enqueue(new Callback<BloodTypes>() {
-            @Override
-            public void onResponse(Call<BloodTypes> call, Response<BloodTypes> response) {
-                String getResult;
-                ArrayList<String> strings = new ArrayList<>();
-                BloodTypes bloodTypes = response.body();
-                if (bloodTypes.getStatus() == 1) {
-                    try {
-                        strings.add(getString(R.string.blood_type));
-                        IdsBloodType.add(0);
-                        List<GeneralResponseData> bloodTypesList = bloodTypes.getData();
-                        for (int i = 0; i < bloodTypesList.size(); i++) {
-                            getResult = bloodTypesList.get(i).getName();
-                            strings.add(getResult);
-                            positionBloodType = bloodTypesList.get(i).getId();
-                            IdsBloodType.add(positionBloodType);
-                        }
-                        HelperMethod.showGovernorates(strings, getActivity(), RequestDonationFragmentSPBloodTypes);
-                    } catch (Exception e) {
-                        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<BloodTypes> call, Throwable t) {
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
     @Override
@@ -309,33 +239,25 @@ public class RequestDonationFragment extends Fragment {
                 }
                 int city_id = IdsCity.get(RequestDonationFragmentSPCityRequestDonation.getSelectedItemPosition());
                 int blood_type = IdsBloodType.get(RequestDonationFragmentSPBloodTypes.getSelectedItemPosition());
-                RequestDonationFragmentProgressBar.setVisibility(View.VISIBLE);
-                apiServicesgetGovernorate.getDonationRequestCreate(rememberMy.getAPIKey(), name_patient, age_patient
-                        , blood_type, number_package_string, hospital_name, hospital_address, city_id, phone, notes, latitude, longtite).enqueue(new Callback<DonationRequestCreate>() {
-                    @Override
-                    public void onResponse(Call<DonationRequestCreate> call, Response<DonationRequestCreate> response) {
-                        DonationRequestCreate donationRequestCreate = response.body();
-                        try {
-                            if (donationRequestCreate.getStatus() == 1) {
-                                RequestDonationFragmentProgressBar.setVisibility(View.GONE);
-                                Toast.makeText(getActivity(), donationRequestCreate.getMsg(), Toast.LENGTH_SHORT).show();
-                            } else {
-                                RequestDonationFragmentProgressBar.setVisibility(View.GONE);
-                                Toast.makeText(getActivity(), donationRequestCreate.getMsg(), Toast.LENGTH_SHORT).show();
-                            }
-                        } catch (Exception e) {
-                            RequestDonationFragmentProgressBar.setVisibility(View.GONE);
-                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
 
-                    @Override
-                    public void onFailure(Call<DonationRequestCreate> call, Throwable t) {
-                        RequestDonationFragmentProgressBar.setVisibility(View.GONE);
-                        Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+                presenter.saveDonationRequest(name_patient,age_patient,blood_type,number_package_string,hospital_name,
+                        hospital_address,city_id,phone,notes,latitude,longtite);
                 break;
         }
+    }
+
+    @Override
+    public void showProgress() {
+        RequestDonationFragmentProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        RequestDonationFragmentProgressBar.setVisibility(View.GONE);
+    }
+
+    @Override
+    public void showError(String message) {
+        Toast.makeText(getActivity(),message, Toast.LENGTH_SHORT).show();
     }
 }

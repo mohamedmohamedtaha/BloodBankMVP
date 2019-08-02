@@ -4,17 +4,13 @@ import android.content.Context;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import com.example.manasatpc.bloadbank.R;
-import com.example.manasatpc.bloadbank.u.data.model.EditProfileModel;
 import com.example.manasatpc.bloadbank.u.data.model.general.GeneralResponseData;
 import com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes.BloodTypes;
-import com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes.DataBloodTypes;
 import com.example.manasatpc.bloadbank.u.data.model.general.cities.Cities;
 import com.example.manasatpc.bloadbank.u.data.model.general.cities.DataCities;
 import com.example.manasatpc.bloadbank.u.data.model.general.governorates.Governorates;
-import com.example.manasatpc.bloadbank.u.data.model.general.governorates.GovernoratesData;
 import com.example.manasatpc.bloadbank.u.data.model.user.editprofile.EditProfile;
 import com.example.manasatpc.bloadbank.u.data.model.user.getprofile.ClientGetProfile;
 import com.example.manasatpc.bloadbank.u.data.model.user.getprofile.GetProfile;
@@ -38,7 +34,6 @@ public class EditProfileInteractor implements EditProfilePresenter {
     APIServices apiServices = getRetrofit().create(APIServices.class);
     private RememberMy rememberMy;
     private ClientGetProfile clientGetProfile;
-    private EditProfileModel editProfileModel;
     private ArrayList<Integer> IdsCity = new ArrayList<>();
     ArrayList<Integer> IdsBloodType = new ArrayList<>();
     String getResult;
@@ -50,7 +45,6 @@ public class EditProfileInteractor implements EditProfilePresenter {
     public EditProfileInteractor(EditProfileView editProfileView, Context context) {
         this.editProfileView = editProfileView;
         rememberMy = new RememberMy(context);
-        editProfileModel = new EditProfileModel();
     }
 
     @Override
@@ -60,7 +54,7 @@ public class EditProfileInteractor implements EditProfilePresenter {
     }
 
     @Override
-    public void getProfile(String APIKey, final Context context) {
+    public void getProfile(String APIKey) {
         editProfileView.showProgress();
         apiServices.getProfile(APIKey).enqueue(new Callback<GetProfile>() {
             @Override

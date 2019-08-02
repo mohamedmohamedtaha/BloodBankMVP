@@ -2,7 +2,7 @@ package com.example.manasatpc.bloadbank.u.data.interactor;
 
 import android.content.Context;
 
-import com.example.manasatpc.bloadbank.u.data.model.DetailsDonationModel;
+import com.example.manasatpc.bloadbank.u.data.model.donation.donationrequest.DataDonationRequest;
 import com.example.manasatpc.bloadbank.u.data.model.donation.donationrequest.DonationRequest;
 import com.example.manasatpc.bloadbank.u.data.presenter.DetailsDonationPresenter;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
@@ -18,7 +18,6 @@ import static com.example.manasatpc.bloadbank.u.data.rest.RetrofitClient.getRetr
 public class DetailsDonationInteractor implements DetailsDonationPresenter {
     private DetailsDonationView detailsDonationView;
     private APIServices apiServices = getRetrofit().create(APIServices.class);
-    private DetailsDonationModel detailsDonationModel;
     RememberMy rememberMy;
     Context context;
 
@@ -26,7 +25,6 @@ public class DetailsDonationInteractor implements DetailsDonationPresenter {
         this.detailsDonationView = detailsDonationView;
         this.context = context;
         rememberMy = new RememberMy(context);
-        detailsDonationModel = new DetailsDonationModel();
     }
 
     @Override
@@ -44,9 +42,10 @@ public class DetailsDonationInteractor implements DetailsDonationPresenter {
                         public void onResponse(Call<DonationRequest> call, Response<DonationRequest> response) {
                             DonationRequest donationRequest = response.body();
                             try {
+                                DataDonationRequest dataDonationRequest = donationRequest.getData();
                                 if (donationRequest.getStatus() == 1) {
                                     detailsDonationView.hideProgress();
-                                    detailsDonationView.loadSuccess(donationRequest);
+                                    detailsDonationView.loadSuccess(dataDonationRequest);
                                 } else {
                                     detailsDonationView.showError(donationRequest.getMsg());
                                     detailsDonationView.hideProgress();

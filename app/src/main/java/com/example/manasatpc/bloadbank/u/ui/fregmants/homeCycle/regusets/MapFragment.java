@@ -11,10 +11,10 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
@@ -54,7 +54,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -76,8 +75,7 @@ import static android.app.Activity.RESULT_OK;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MapFragment extends Fragment implements OnMapReadyCallback,  GoogleApiClient.OnConnectionFailedListener
-{
+public class MapFragment extends Fragment implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener {
     @BindView(R.id.input_search)
     AutoCompleteTextView inputSearch;
     @BindView(R.id.ic_gps)
@@ -89,7 +87,6 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,  Google
     Unbinder unbinder;
 
 
-    private boolean mLocationPermissionGranted = false;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 12;
     //The entry point to the Fused Loaction Provider
     private FusedLocationProviderClient mFusedLocationProviderClient;
@@ -140,7 +137,9 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,  Google
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             getDeviceLocation();
         } else {
-            showGPSDosable();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                showGPSDosable();
+            }
 
         }
         if (client == null) {
@@ -211,35 +210,35 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,  Google
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
-           getDeviceLocation();
-            if (ActivityCompat.checkSelfPermission(getActivity(),
-                    FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(),
-                    COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                mGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
+        getDeviceLocation();
+        if (ActivityCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(),
+                Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            mGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
 
-                return;
+            return;
+        }
+        mGoogleMap.setMyLocationEnabled(true);
+        mGoogleMap.getUiSettings().setMyLocationButtonEnabled(true);
+
+        mGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                //create a marker
+                MarkerOptions markerOptions = new MarkerOptions();
+                latitude = latLng.latitude;
+                longitude = latLng.longitude;
+
+                //setting the position for the marker
+                markerOptions.position(latLng);
+                markerOptions.title(latitude + ":  " + longitude);
+                // clear the previously touch position
+                mGoogleMap.clear();
+                mGoogleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
+                //placing a marker on the touched position
+                mGoogleMap.addMarker(markerOptions);
             }
-            mGoogleMap.setMyLocationEnabled(true);
-            mGoogleMap.getUiSettings().setMyLocationButtonEnabled(true);
-
-            mGoogleMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-                @Override
-                public void onMapClick(LatLng latLng) {
-                    //create a marker
-                    MarkerOptions markerOptions = new MarkerOptions();
-                    latitude = latLng.latitude;
-                    longitude = latLng.longitude;
-
-                    //setting the position for the marker
-                    markerOptions.position(latLng);
-                    markerOptions.title(latitude + ":  " + longitude);
-                    // clear the previously touch position
-                    mGoogleMap.clear();
-                    mGoogleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
-                    //placing a marker on the touched position
-                    mGoogleMap.addMarker(markerOptions);
-                }
-            });
+        });
 
 
     }
@@ -251,73 +250,59 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,  Google
         //Construct a FusedLocationProviderClient
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getActivity());
         try {
-                final Task location = mFusedLocationProviderClient.getLastLocation();
-                location.addOnCompleteListener(getActivity(), new OnCompleteListener<Location>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Location> task) {
-                        if (task.isSuccessful() && task.getResult() != null) {
-                            // Toast.makeText(getActivity(), "find location!", Toast.LENGTH_SHORT).show();
-                            //Set the map's camera position to the current location of the device.
-                            //  mLastKnownLocation = task.getResult();
-                            Location location = (Location) task.getResult();
+            final Task location = mFusedLocationProviderClient.getLastLocation();
+            location.addOnCompleteListener(getActivity(), new OnCompleteListener<Location>() {
+                @Override
+                public void onComplete(@NonNull Task<Location> task) {
+                    if (task.isSuccessful() && task.getResult() != null) {
+                        // Toast.makeText(getActivity(), "find location!", Toast.LENGTH_SHORT).show();
+                        //Set the map's camera position to the current location of the device.
+                        //  mLastKnownLocation = task.getResult();
+                        Location location = (Location) task.getResult();
 
-                            moveCamera(new LatLng(location.getLatitude(), location.getLongitude()),
-                                    DEFAULT_ZOOM, "My Location");
-                        } else {
+                        moveCamera(new LatLng(location.getLatitude(), location.getLongitude()),
+                                DEFAULT_ZOOM, "My Location");
+                    } else {
                         //    getLocationPermission();
-                            //  Toast.makeText(getActivity(), "Current Location is null. Using defaults.", Toast.LENGTH_SHORT).show();
-                            //  mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
-                            //mGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
-                        }
+                        //  Toast.makeText(getActivity(), "Current Location is null. Using defaults.", Toast.LENGTH_SHORT).show();
+                        //  mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
+                        //mGoogleMap.getUiSettings().setMyLocationButtonEnabled(false);
                     }
-                });
+                }
+            });
 
         } catch (SecurityException e) {
             Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
 
-    //Prompts the user for permission to use the device location.
+    //  Prompts the user for permission to use the device location.
 //    private void getLocationPermission() {
 //        /*
 //         * Request location permission, so that we can get the location of the
 //         * device. The result of the permission request is handled by a callback,
 //         * onRequestPermissionsResult.
 //         */
-//        if (ActivityCompat.checkSelfPermission(getContext(),
-//                FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-//                && ActivityCompat.checkSelfPermission(getContext(),
-//                COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-//            mLocationPermissionGranted = true;
+//        if (ContextCompat.checkSelfPermission(getActivity(),
+//                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+//            getDeviceLocation();
 //        } else {
+//            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}
+//            ,LOCATION_PERMISSION_REQUEST_CODE);
 //            showGPSDosable();
 //         }
 //    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-     //   mLocationPermissionGranted = false;
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(getActivity(), "No Permitions Granted", Toast.LENGTH_SHORT).show();
-        } else {
-        }
-
-       /* switch (requestCode) {
+        switch (requestCode) {
             case LOCATION_PERMISSION_REQUEST_CODE: {
-                //If request is ancelled, the result arrays are empty.
-                if (grantResults.length > 0) {
-                    for (int i = 0; i < grantResults.length; i++) {
-                        if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
-                            mLocationPermissionGranted = false;
-                            Toast.makeText(getActivity(), "permission failed", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
-                    }
-                    mLocationPermissionGranted = true;
+                //If request is an celled, the result arrays are empty.
+                if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    getDeviceLocation();
                 }
             }
-        }*/
+        }
     }
 
     @Override
@@ -461,7 +446,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,  Google
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Intent callGPSSettingIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        startActivity(callGPSSettingIntent);
+                        startActivityForResult(callGPSSettingIntent,LOCATION_PERMISSION_REQUEST_CODE);
+                        //  startActivity(callGPSSettingIntent);
                     }
                 });
         alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -476,7 +462,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,  Google
     }
 
 
-  }
+}
 
 
 

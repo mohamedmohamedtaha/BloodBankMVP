@@ -5,7 +5,6 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class RegisterToken {
-
     @SerializedName("status")
     @Expose
     private Integer status;
@@ -15,7 +14,6 @@ public class RegisterToken {
     @SerializedName("data")
     @Expose
     private Object data;
-
     public Integer getStatus() {
         return status;
     }

@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -23,10 +22,7 @@ import android.widget.Toast;
 import com.example.manasatpc.bloadbank.R;
 import com.example.manasatpc.bloadbank.u.adapter.AdapterArticle;
 import com.example.manasatpc.bloadbank.u.data.interactor.ArticleInteractor;
-import com.example.manasatpc.bloadbank.u.data.model.posts.categories.Categories;
-import com.example.manasatpc.bloadbank.u.data.model.posts.categories.DataCategories;
 import com.example.manasatpc.bloadbank.u.data.model.posts.posts.Data2Posts;
-import com.example.manasatpc.bloadbank.u.data.model.posts.posts.Posts;
 import com.example.manasatpc.bloadbank.u.data.model.posts.posttogglefavourite.PostToggleFavourite;
 import com.example.manasatpc.bloadbank.u.data.presenter.ArticlePresenter;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
@@ -37,7 +33,6 @@ import com.example.manasatpc.bloadbank.u.helper.RememberMy;
 import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.donation.RequestDonationFragment;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -76,14 +71,10 @@ public class HomeFragment extends Fragment implements ArticleView {
     private APIServices apiServices;
     public static final String POST_ID = "post_id";
     AdapterArticle adapterArticle;
-   // ArrayList<Data2Posts> postsArrayList = new ArrayList<>();
-    Integer positionCategories;
-    final ArrayList<Integer> IdsCategories = new ArrayList<>();
     Bundle bundle;
     ImageView imageViewFavorite;
-    int catdgory_id = 0;
     private ArticlePresenter presenter;
-
+    OnEndless onEndless;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -96,250 +87,51 @@ public class HomeFragment extends Fragment implements ArticleView {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, view);
-        presenter = new ArticleInteractor(this,getContext());
+        presenter = new ArticleInteractor(this, getContext());
         rememberMy = new RememberMy(getActivity());
         apiServices = getRetrofit().create(APIServices.class);
+        bundle = new Bundle();
+        imageViewFavorite = (ImageView) view.findViewById(R.id.IM_Favorite);
         boolean check_network = HelperMethod.isNetworkConnected(getActivity(), getView());
         if (check_network == false) {
         }
-        bundle = new Bundle();
-      //  getCategory();
-        imageViewFavorite = (ImageView) view.findViewById(R.id.IM_Favorite);
-       // postsArrayList.clear();
-        HomeFragmentRecycleView.setHasFixedSize(true);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
-        HomeFragmentRecycleView.setLayoutManager(linearLayoutManager);
-        OnEndless onEndless = new OnEndless(linearLayoutManager, 1) {
-            @Override
-            public void onLoadMore(int current_page) {
-                if (current_page <= max) {
-                    presenter.loadData(current_page);
-                   // getPosts(current_page);
-
-                }
-
-            }
-        };
-        HomeFragmentRecycleView.addOnScrollListener(onEndless);
-        /*
-        adapterArticle = new AdapterArticle(getActivity(), postsArrayList, new AdapterArticle.showDetial() {
-            @Override
-            public void itemShowDetail(Data2Posts position) {
-                int posts = position.getId();
-                DetailsHomeFragment detailsHomeFragment = new DetailsHomeFragment();
-                bundle.putInt(POST_ID, posts);
-                HelperMethod.replece(detailsHomeFragment, getActivity().getSupportFragmentManager(),
-                        R.id.Cycle_Home_contener, toolbar, position.getTitle(), bundle);
-            }
-        }, new AdapterArticle.saveFavorite() {
-            @Override
-            public void itemSaveFavorite(final Data2Posts position) {
-                String postFavourite = String.valueOf(position.getId());
-                apiServices.getPostToggleFavourite(rememberMy.getAPIKey(), postFavourite).enqueue(new Callback<PostToggleFavourite>() {
-                    @Override
-                    public void onResponse(Call<PostToggleFavourite> call, Response<PostToggleFavourite> response) {
-                        PostToggleFavourite postToggleFavourite = response.body();
-                        if (postToggleFavourite.getStatus() == 1) {
-                            adapterArticle.notifyDataSetChanged();
-                            Toast.makeText(getActivity(), postToggleFavourite.getMsg(), Toast.LENGTH_SHORT).show();
+        {
+            presenter.getCategory(HomeFragmentSelectCategory, getActivity());
+            HomeFragmentRecycleView.setHasFixedSize(true);
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
+            HomeFragmentRecycleView.setLayoutManager(linearLayoutManager);
+            onEndless = new OnEndless(linearLayoutManager, 1) {
+                @Override
+                public void onLoadMore(int current_page) {
+                    if (current_page <= max) {
+                        if (max != 0 && current_page != 1) {
+                            onEndless.previous_page = current_page;
+                            presenter.loadData(current_page);
                         } else {
-                            Toast.makeText(getActivity(), postToggleFavourite.getMsg(), Toast.LENGTH_SHORT).show();
+                            onEndless.current_page = onEndless.previous_page;
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<PostToggleFavourite> call, Throwable t) {
-                        Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-            }
-        });
-        HomeFragmentRecycleView.setAdapter(adapterArticle);*/
-      //  getPosts(1);
-        presenter.loadData(1);
-
-/*
-        HomeFragmentTietSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                boolean handle = false;
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    catdgory_id = IdsCategories.get(HomeFragmentSelectCategory.getSelectedItemPosition());
-                    String text = HomeFragmentTietSearch.getText().toString().trim();
-                    if (text.isEmpty()) {
-                        Toast.makeText(getActivity(), getString(R.string.filed_request), Toast.LENGTH_SHORT).show();
                     } else {
-                        postsArrayList.clear();
-                        HomeFragmentLoadingIndicator.setVisibility(View.VISIBLE);
-                        final Call<Posts> postsFilterCall = apiServices.getPostFilter(rememberMy.getAPIKey(),
-                                1, text, catdgory_id);
-                        postsFilterCall.enqueue(new Callback<Posts>() {
-                            @Override
-                            public void onResponse(Call<Posts> call, Response<Posts> response) {
-                                Posts postsFilter = response.body();
-                                try {
-                                    if (postsFilter.getStatus() == 1) {
-                                        postsArrayList.addAll(postsFilter.getData().getData());
-                                        if (!postsArrayList.isEmpty()) {
-                                            HomeFragmentRecycleView.setVisibility(View.VISIBLE);
-                                            HomeFragmentLoadingIndicator.setVisibility(View.GONE);
-                                            HomeFragmentRLEmptyView.setVisibility(View.GONE);
-                                            postsArrayList.addAll(postsFilter.getData().getData());
-                                            adapterArticle.notifyDataSetChanged();
-                                        } else {
-                                            getProperties();
-                                        }
-                                    } else {
-                                        Toast.makeText(getActivity(), postsFilter.getMsg(), Toast.LENGTH_LONG).show();
-                                        getProperties();
-                                    }
-
-                                } catch (Exception e) {
-                                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
-                                    getProperties();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<Posts> call, Throwable t) {
-                                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
-                                getProperties();
-                            }
-                        });
+                        onEndless.current_page = onEndless.previous_page;
                     }
-                    handle = true;
                 }
-                return handle;
-            }
-        });*/
+            };
+            HomeFragmentRecycleView.addOnScrollListener(onEndless);
+            presenter.loadData(1);
+            HomeFragmentTietSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    boolean handle = false;
+                    if (actionId == EditorInfo.IME_ACTION_DONE) {
+                        presenter.search(HomeFragmentTietSearch);
+                        handle = true;
+                    }
+                    return handle;
+                }
+            });
+        }
+
         return view;
-    }
-
-  /*  private void getPosts(int page) {
-        apiServices.getPosts(rememberMy.getAPIKey(),
-                page).enqueue(new Callback<Posts>() {
-            @Override
-            public void onResponse(Call<Posts> call, Response<Posts> response) {
-                try {
-                    HomeFragmentLoadingIndicator.setVisibility(View.VISIBLE);
-                    Posts posts = response.body();
-                    if (posts.getStatus() == 1) {
-                        postsArrayList.addAll(posts.getData().getData());
-                        if (!postsArrayList.isEmpty()) {
-                            HomeFragmentRecycleView.setVisibility(View.VISIBLE);
-                            HomeFragmentLoadingIndicator.setVisibility(View.GONE);
-                            HomeFragmentRLEmptyView.setVisibility(View.GONE);
-                            adapterArticle.notifyDataSetChanged();
-                        } else {
-                            getProperties();
-                        }
-                    } else {
-                        Toast.makeText(getActivity(), posts.getMsg(), Toast.LENGTH_SHORT).show();
-                        getProperties();
-                    }
-                } catch (Exception e) {
-                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                    getProperties();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Posts> call, Throwable t) {
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
-                getProperties();
-
-            }
-        });
-    }
-*/
- /*   private void getCategory() {
-        final Call<Categories> categoriesCall = apiServices.getCategories();
-        categoriesCall.enqueue(new Callback<Categories>() {
-            @Override
-            public void onResponse(Call<Categories> call, Response<Categories> response) {
-                String getResult;
-                ArrayList<String> strings = new ArrayList<>();
-                Categories bloodTypes = response.body();
-                if (bloodTypes.getStatus() == 1) {
-                    try {
-                        strings.add(getString(R.string.categories));
-                        IdsCategories.add(0);
-                        List<DataCategories> dataCategoriesList = bloodTypes.getData();
-                        for (int i = 0; i < dataCategoriesList.size(); i++) {
-                            getResult = dataCategoriesList.get(i).getName();
-                            strings.add(getResult);
-                            positionCategories = dataCategoriesList.get(i).getId();
-                            IdsCategories.add(positionCategories);
-                        }
-                        HelperMethod.showGovernorates(strings, getActivity(), HomeFragmentSelectCategory);
-                        HomeFragmentSelectCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                            @Override
-                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                if (position != 0) {
-                                    postsArrayList.clear();
-                                    HomeFragmentLoadingIndicator.setVisibility(View.VISIBLE);
-                                    final Call<Posts> postsFilterCall = apiServices.getPostFilter(rememberMy.getAPIKey(),
-                                            1, null, IdsCategories.get(position));
-                                    postsFilterCall.enqueue(new Callback<Posts>() {
-                                        @Override
-                                        public void onResponse(Call<Posts> call, Response<Posts> response) {
-                                            Posts postsFilter = response.body();
-                                            try {
-                                                if (postsFilter.getStatus() == 1) {
-                                                    postsArrayList.addAll(postsFilter.getData().getData());
-                                                    if (!postsArrayList.isEmpty()) {
-                                                        HomeFragmentRecycleView.setVisibility(View.VISIBLE);
-                                                        HomeFragmentLoadingIndicator.setVisibility(View.GONE);
-                                                        HomeFragmentRLEmptyView.setVisibility(View.GONE);
-                                                        adapterArticle.notifyDataSetChanged();
-                                                    } else {
-                                                        getProperties();
-                                                    }
-                                                } else {
-                                                    Toast.makeText(getActivity(), postsFilter.getMsg(), Toast.LENGTH_LONG).show();
-                                                    getProperties();
-                                                }
-
-                                            } catch (Exception e) {
-                                                Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
-                                                getProperties();
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onFailure(Call<Posts> call, Throwable t) {
-                                            Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
-                                            getProperties();
-                                        }
-                                    });
-
-
-                                }
-                            }
-
-                            @Override
-                            public void onNothingSelected(AdapterView<?> parent) {
-
-                            }
-                        });
-                    } catch (Exception e) {
-                        Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_LONG).show();
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Categories> call, Throwable t) {
-                Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_LONG).show();
-
-            }
-        });
-    }*/
-
-    public void getProperties() {
-//        HomeFragmentRecycleView.setVisibility(View.GONE);
-        HomeFragmentLoadingIndicator.setVisibility(View.GONE);
-        HomeFragmentRLEmptyView.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -357,12 +149,15 @@ public class HomeFragment extends Fragment implements ArticleView {
     @Override
     public void showProgress() {
         HomeFragmentLoadingIndicator.setVisibility(View.GONE);
-        }
+    }
 
     @Override
     public void hideProgress() {
-        HomeFragmentLoadingIndicator.setVisibility(View.GONE);
-            }
+        if (HomeFragmentLoadingIndicator != null) {
+            HomeFragmentLoadingIndicator.setVisibility(View.GONE);
+
+        }
+    }
 
     @Override
     public void loadSuccess(ArrayList<Data2Posts> postsArrayList) {
@@ -404,20 +199,19 @@ public class HomeFragment extends Fragment implements ArticleView {
 
     @Override
     public void empty() {
-     }
-
-
+        Toast.makeText(getActivity(), getString(R.string.filed_request), Toast.LENGTH_SHORT).show();
+    }
 
     @Override
     public void showRecyclerView() {
         HomeFragmentRecycleView.setVisibility(View.VISIBLE);
-        HomeFragmentRLEmptyView.setVisibility(View.GONE);    }
+        HomeFragmentRLEmptyView.setVisibility(View.GONE);
+    }
 
     @Override
     public void showRelativeView() {
         HomeFragmentRecycleView.setVisibility(View.GONE);
         HomeFragmentRLEmptyView.setVisibility(View.VISIBLE);
-
     }
 
     @Override

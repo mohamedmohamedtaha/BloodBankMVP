@@ -1,9 +1,14 @@
 package com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.donation;
 
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -59,10 +64,12 @@ public class ListRequestsDonationFragment extends Fragment implements DonationVi
     private int max = 0;
     private AdapterDonation adapterDonation;
     Bundle bundle;
+    private static final int REQUEST_CALL = 1;
     RememberMy rememberMy;
     private ArrayList<Integer> IdsGeverment = new ArrayList<>();
     ArrayList<Integer> IdsBloodType = new ArrayList<>();
     OnEndless onEndless;
+    String savePhone ;
 
 
     public ListRequestsDonationFragment() {
@@ -82,8 +89,8 @@ public class ListRequestsDonationFragment extends Fragment implements DonationVi
         boolean check_network = HelperMethod.isNetworkConnected(getActivity(), getView());
         if (check_network == false) {
         }
-        IdsBloodType = HelperMethod.getBloodTypes(getActivity(), ListRequestsDonationFragmentSelectBloodType);
-        IdsGeverment = HelperMethod.getGovernorates(getActivity(), ListRequestsDonationFragmentSelectGeverment);
+            IdsBloodType = HelperMethod.getBloodTypes(getActivity(), ListRequestsDonationFragmentSelectBloodType);
+            IdsGeverment = HelperMethod.getGovernorates(getActivity(), ListRequestsDonationFragmentSelectGeverment);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getActivity());
         ListRequestsDonationFragmentRecyclerView.setLayoutManager(linearLayoutManager);
         onEndless = new OnEndless(linearLayoutManager, 1) {
@@ -168,8 +175,14 @@ public class ListRequestsDonationFragment extends Fragment implements DonationVi
         }, new AdapterDonation.makeCall() {
             @Override
             public void itemMakeCall(Data2DonationRequests position) {
-                String positioncurrent = position.getPhone();
-                makePhoneCall(getActivity(), positioncurrent);
+
+                if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE) !=
+                        PackageManager.PERMISSION_GRANTED) {
+                    requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL);
+                } else {
+                    savePhone = position.getPhone();
+                    makePhoneCall(getActivity(), savePhone);
+                }
             }
         });
         adapterDonation.notifyDataSetChanged();

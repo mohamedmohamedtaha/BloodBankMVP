@@ -4,6 +4,8 @@
     <dimen name="dimens_ss">2dp</dimen>
     <dimen name="dimens_s">4dp</dimen>
     <dimen name="dimens_m">8dp</dimen>
+    <dimen name="dimens_mm">12dp</dimen>
+
     <dimen name="dimens_l">16dp</dimen>
     <dimen name="dimens_xl">24dp</dimen>
     <dimen name="dimens_xxl">32dp</dimen>

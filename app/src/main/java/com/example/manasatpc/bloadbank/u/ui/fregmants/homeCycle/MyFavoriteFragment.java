@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.example.manasatpc.bloadbank.R;
@@ -36,12 +36,12 @@ import static com.example.manasatpc.bloadbank.u.ui.activities.HomeActivity.toolb
 public class MyFavoriteFragment extends Fragment implements FavoriteView {
     @BindView(R.id.list)
     ListView list;
-    @BindView(R.id.tv_empty_view)
-    TextView tvEmptyView;
     @BindView(R.id.loading_indicator)
     ProgressBar loadingIndicator;
     Unbinder unbinder;
     AdapterMyFavorite adapterMyFavorite;
+    @BindView(R.id.MyFavoriteFragment_RL_Empty_View)
+    RelativeLayout MyFavoriteFragmentRLEmptyView;
     private FavoritePresenter presenter;
 
     public MyFavoriteFragment() {
@@ -55,13 +55,13 @@ public class MyFavoriteFragment extends Fragment implements FavoriteView {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_my_favorite, container, false);
         unbinder = ButterKnife.bind(this, view);
-        presenter = new FavoriteInteractor(this);
+        presenter = new FavoriteInteractor(this, getActivity());
 
         // for check network
         boolean check_network = HelperMethod.isNetworkConnected(getActivity(), getView());
         if (check_network == false) {
         } else {
-            presenter.loadFavorite(getActivity());
+            presenter.loadFavorite();
             list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -102,7 +102,7 @@ public class MyFavoriteFragment extends Fragment implements FavoriteView {
 
     @Override
     public void empty() {
-        list.setEmptyView(tvEmptyView);
+        MyFavoriteFragmentRLEmptyView.setVisibility(View.VISIBLE);
     }
 
     @Override

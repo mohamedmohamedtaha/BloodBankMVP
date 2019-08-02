@@ -54,7 +54,9 @@
         android:divider="@null"
         android:dividerHeight="0dp"
         android:drawSelectorOnTop="true"
-        android:visibility="gone"></android.support.v7.widget.RecyclerView>
+        >
+
+    </android.support.v7.widget.RecyclerView>
     <!-- Empty view is only visible when the list has no items. -->
 
     <RelativeLayout

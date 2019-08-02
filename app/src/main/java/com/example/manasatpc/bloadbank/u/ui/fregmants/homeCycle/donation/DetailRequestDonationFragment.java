@@ -5,7 +5,6 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -17,9 +16,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.manasatpc.bloadbank.R;
+import com.example.manasatpc.bloadbank.u.data.interactor.DetailsDonationInteractor;
 import com.example.manasatpc.bloadbank.u.data.model.donation.donationrequest.DataDonationRequest;
-import com.example.manasatpc.bloadbank.u.data.model.donation.donationrequest.DonationRequest;
-import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
+import com.example.manasatpc.bloadbank.u.data.presenter.DetailsDonationPresenter;
+import com.example.manasatpc.bloadbank.u.data.view.DetailsDonationView;
 import com.example.manasatpc.bloadbank.u.helper.DrawerLocker;
 import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 import com.example.manasatpc.bloadbank.u.helper.RememberMy;
@@ -34,18 +34,14 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
-import static com.example.manasatpc.bloadbank.u.data.rest.RetrofitClient.getRetrofit;
 import static com.example.manasatpc.bloadbank.u.helper.HelperMethod.makePhoneCall;
 import static com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.donation.ListRequestsDonationFragment.REQUEST_ID;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class DetailRequestDonationFragment extends Fragment implements OnMapReadyCallback {
+public class DetailRequestDonationFragment extends Fragment implements OnMapReadyCallback, DetailsDonationView {
     @BindView(R.id.TV_Show_Name_Details_Donation)
     TextView TVShowNameDetailsDonation;
     @BindView(R.id.TV_Show_Age_Details_Donation)
@@ -71,13 +67,14 @@ public class DetailRequestDonationFragment extends Fragment implements OnMapRead
     Unbinder unbinder;
     RememberMy rememberMy;
     Bundle bundle;
-    private APIServices apiServices;
     private GoogleMap gMap;
     private static final String MAP_VIEW_BUNDLE_KEY = "MapViewBundleKey";
     Double longitude = null;
     Double latiude = null;
     private String savePhone;
     private static final int REQUEST_CALL = 1;
+    private DetailsDonationPresenter presenter;
+    Bundle mapViewBundle = null;
 
     public DetailRequestDonationFragment() {
         // Required empty public constructor
@@ -90,64 +87,19 @@ public class DetailRequestDonationFragment extends Fragment implements OnMapRead
         View view = inflater.inflate(R.layout.fragment_detail_request_donation, container, false);
         unbinder = ButterKnife.bind(this, view);
         rememberMy = new RememberMy(getActivity());
+        presenter = new DetailsDonationInteractor(this, getActivity());
         bundle = getArguments();
         int requestId = bundle.getInt(REQUEST_ID);
         boolean check_network = HelperMethod.isNetworkConnected(getActivity(), getView());
         if (check_network == false) {
+        } else {
+            ((DrawerLocker) getActivity()).setDraweEnabled(false);
+
+            if (savedInstanceState != null) {
+                mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY);
+            }
+            presenter.loadData(requestId);
         }
-        ((DrawerLocker) getActivity()).setDraweEnabled(false);
-        apiServices = getRetrofit().create(APIServices.class);
-        DetailRequestDonationFragmentProgressBar.setVisibility(View.VISIBLE);
-        apiServices.getDonationRequest(rememberMy.getAPIKey(), requestId)
-                .enqueue(new Callback<DonationRequest>() {
-                    @Override
-                    public void onResponse(Call<DonationRequest> call, Response<DonationRequest> response) {
-                        DonationRequest donationRequest = response.body();
-                        try {
-                            DataDonationRequest dataDonationRequest = donationRequest.getData();
-                            if (donationRequest.getStatus() == 1) {
-                                if (dataDonationRequest != null){
-                                    DetailRequestDonationFragmentProgressBar.setVisibility(View.GONE);
-                                    TVShowNameDetailsDonation.append(dataDonationRequest.getPatientName());
-                                    TVShowAgeDetailsDonation.append(dataDonationRequest.getPatientAge());
-                                    TVShowTypeBloodDetailsDonation.append(dataDonationRequest.getBloodType().getName());
-                                    TVShowNumberPackageRequestDetailsDonation.append(dataDonationRequest.getBagsNum());
-                                    TVShowHospitalDetailsDonation.append(dataDonationRequest.getHospitalName());
-                                    TVShowAddressHospitalDetailsDonation.append(dataDonationRequest.getHospitalAddress());
-                                    savePhone = dataDonationRequest.getPhone();
-                                    TVShowPhoneDetailsDonation.append(savePhone);
-                                    TVShowDetailsDetailsDonation.append(dataDonationRequest.getNotes());
-                                    latiude = Double.parseDouble(dataDonationRequest.getLatitude());
-                                    longitude = Double.parseDouble(dataDonationRequest.getLongitude());
-                                    Bundle mapViewBundle = null;
-                                    if (savedInstanceState != null) {
-                                        mapViewBundle = savedInstanceState.getBundle(MAP_VIEW_BUNDLE_KEY);
-                                    }
-                                    mapView.onCreate(mapViewBundle);
-                                    mapView.getMapAsync(DetailRequestDonationFragment.this);
-                                    mapView.onStart();
-                                }else {
-                                    Toast.makeText(getActivity(), donationRequest.getMsg(), Toast.LENGTH_SHORT).show();
-                                    DetailRequestDonationFragmentProgressBar.setVisibility(View.GONE);
-                                }
-
-                            } else {
-                                Toast.makeText(getActivity(), donationRequest.getMsg(), Toast.LENGTH_SHORT).show();
-                                DetailRequestDonationFragmentProgressBar.setVisibility(View.GONE);
-                            }
-                        } catch (Exception e) {
-                            Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
-                            DetailRequestDonationFragmentProgressBar.setVisibility(View.GONE);
-                        }
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<DonationRequest> call, Throwable t) {
-                        Toast.makeText(getActivity(), t.getMessage(), Toast.LENGTH_SHORT).show();
-                        DetailRequestDonationFragmentProgressBar.setVisibility(View.GONE);
-                    }
-                });
         return view;
     }
 
@@ -160,26 +112,6 @@ public class DetailRequestDonationFragment extends Fragment implements OnMapRead
             outState.putBundle(MAP_VIEW_BUNDLE_KEY, mapViewBundle);
         }
         mapView.onSaveInstanceState(mapViewBundle);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
     }
 
     @Override
@@ -201,7 +133,7 @@ public class DetailRequestDonationFragment extends Fragment implements OnMapRead
     public void onViewClicked() {
         if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CALL_PHONE) !=
                 PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL);
+            requestPermissions(new String[]{Manifest.permission.CALL_PHONE}, REQUEST_CALL);
         } else {
             makePhoneCall(getActivity(), savePhone);
         }
@@ -213,7 +145,7 @@ public class DetailRequestDonationFragment extends Fragment implements OnMapRead
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 makePhoneCall(getActivity(), savePhone);
             } else {
-                Toast.makeText(getActivity(), "Permission Denied", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), getString(R.string.notPermission), Toast.LENGTH_SHORT).show();
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -231,6 +163,44 @@ public class DetailRequestDonationFragment extends Fragment implements OnMapRead
             gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
         } else {
             Toast.makeText(getActivity(), getString(R.string.error), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void showProgress() {
+        DetailRequestDonationFragmentProgressBar.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void hideProgress() {
+        DetailRequestDonationFragmentProgressBar.setVisibility(View.GONE);
+
+    }
+
+    @Override
+    public void showError(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void loadSuccess(DataDonationRequest donationRequest) {
+        if (donationRequest != null) {
+            DetailRequestDonationFragmentProgressBar.setVisibility(View.GONE);
+            TVShowNameDetailsDonation.append(donationRequest.getPatientName());
+            TVShowAgeDetailsDonation.append(donationRequest.getPatientAge());
+            TVShowTypeBloodDetailsDonation.append(donationRequest.getBloodType().getName());
+            TVShowNumberPackageRequestDetailsDonation.append(donationRequest.getBagsNum());
+            TVShowHospitalDetailsDonation.append(donationRequest.getHospitalName());
+            TVShowAddressHospitalDetailsDonation.append(donationRequest.getHospitalAddress());
+            savePhone = donationRequest.getPhone();
+            TVShowPhoneDetailsDonation.append(savePhone);
+            TVShowDetailsDetailsDonation.append(donationRequest.getNotes());
+            latiude = Double.parseDouble(donationRequest.getLatitude());
+            longitude = Double.parseDouble(donationRequest.getLongitude());
+            mapView.onCreate(mapViewBundle);
+            mapView.getMapAsync(DetailRequestDonationFragment.this);
+            mapView.onStart();
+
         }
     }
 }

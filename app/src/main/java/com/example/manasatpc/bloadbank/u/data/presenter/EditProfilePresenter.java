@@ -13,7 +13,7 @@ public interface EditProfilePresenter {
     void editProfile(String new_user, String email, String date_birth, String last_date, String phone, String password,
                      String retry_password, final Spinner EditInformationFragmentSPBloodType, final Spinner EditInformationFragmentSPCity);
 
-    void getProfile(String api, final Context context);
+    void getProfile(String api);
 
     ArrayList<Integer> getGaverment(final Context context
             , final Spinner EditInformationFragmentSPGaverment, final Spinner EditInformationFragmentSPCity);

@@ -3,13 +3,15 @@ package com.example.manasatpc.bloadbank.u.ui.activities;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +32,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -47,10 +50,24 @@ public class HomeActivity extends AppCompatActivity
     private static final String SAVE_TITLE = "save_title";
     public static Toolbar toolbar;
     RememberMy logout;
+    @BindView(R.id.Notification_count_Image)
+    ImageView NotificationCountImage;
     private Boolean exitApp = false;
     public static int titleID;
     ActionBarDrawerToggle toggle;
     private APIServices apiServices;
+    //For save current fragment
+    private int currentMenuItem;
+    private Fragment fragmentCurrent;
+
+    private EditInformationFragment editInformationFragment = new EditInformationFragment();
+    private SettingsNotificationFragment settingsNotificationFragment = new SettingsNotificationFragment();
+    private MyFavoriteFragment myFavoriteFragment = new MyFavoriteFragment();
+    private AboutAppFragment used_information = new AboutAppFragment();
+    private ConnectWithUsFragment connectWithUsFragment = new ConnectWithUsFragment();
+    private AboutAppFragment aboutAppFragment = new AboutAppFragment();
+    private CustomFragment customFragmentDefault = new CustomFragment();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,9 +84,11 @@ public class HomeActivity extends AppCompatActivity
             toolbar.setTitle(titleID);
 
         } else {
-            CustomFragment customFragmentForHome = new CustomFragment();
+            currentMenuItem = R.id.home;
+            //  CustomFragment customFragmentForHome = new CustomFragment();
             titleID = R.string.home;
-            HelperMethod.replece(customFragmentForHome, getSupportFragmentManager(),
+            fragmentCurrent = customFragmentDefault;
+            HelperMethod.add(customFragmentDefault, getSupportFragmentManager(),
                     R.id.Cycle_Home_contener, toolbar, String.valueOf(titleID));
 
         }
@@ -82,7 +101,7 @@ public class HomeActivity extends AppCompatActivity
 
         //For show Notification count
         apiServices = getRetrofit().create(APIServices.class);
-        apiServices.getNotificationsCount("W4mx3VMIWetLcvEcyF554CfxjZHwdtQldbdlCl2XAaBTDIpNjKO1f7CHuwKl").enqueue(new Callback<NotificationsCount>() {
+        apiServices.getNotificationsCount(logout.getAPIKey()).enqueue(new Callback<NotificationsCount>() {
             @Override
             public void onResponse(Call<NotificationsCount> call, Response<NotificationsCount> response) {
                 NotificationsCount notificationsCount = response.body();
@@ -110,7 +129,10 @@ public class HomeActivity extends AppCompatActivity
         setDraweEnabled(true);
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
+        } else if (!fragmentCurrent.equals(customFragmentDefault)) {
+            getSupportFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
+            HelperMethod.startActivity(getApplicationContext(), HomeActivity.class);
         } else if (fragments == 1) {
             if (exitApp) {
                 HelperMethod.closeApp(getApplicationContext());
@@ -132,64 +154,44 @@ public class HomeActivity extends AppCompatActivity
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.home, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.home:
-                onBackPressed();
-                break;
-            case R.id.action_notification:
-                NotificationListFragment notificationListFragment = new NotificationListFragment();
-                HelperMethod.replece(notificationListFragment, getSupportFragmentManager(),
-                        R.id.Cycle_Home_contener, toolbar, getString(R.string.alarms));
-                break;
-            default:
-
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
+        if (id == currentMenuItem) {
+            drawerLayout.closeDrawer(GravityCompat.START);
+            return false;
+        }
+
         switch (id) {
             case R.id.my_information:
-                EditInformationFragment editInformationFragment = new EditInformationFragment();
-                HelperMethod.replece(editInformationFragment, getSupportFragmentManager(),
-                        R.id.Cycle_Home_contener, toolbar, getString(R.string.my_information));
+                fragmentCurrent = editInformationFragment;
+                HelperMethod.replaceFragment(getSupportFragmentManager(),
+                        R.id.Cycle_Home_contener, editInformationFragment);
                 break;
             case R.id.setting_notification:
-                SettingsNotificationFragment settingsNotificationFragment = new SettingsNotificationFragment();
+                fragmentCurrent = settingsNotificationFragment;
                 HelperMethod.replece(settingsNotificationFragment, getSupportFragmentManager(),
                         R.id.Cycle_Home_contener, toolbar, getString(R.string.setting_notification));
                 break;
             case R.id.my_favorite:
-                MyFavoriteFragment myFavoriteFragment = new MyFavoriteFragment();
+                fragmentCurrent = myFavoriteFragment;
                 HelperMethod.replece(myFavoriteFragment, getSupportFragmentManager(),
                         R.id.Cycle_Home_contener, toolbar, getString(R.string.my_information));
                 break;
             case R.id.used_information:
+                fragmentCurrent = used_information;
+                HelperMethod.replece(fragmentCurrent, getSupportFragmentManager(),
+                        R.id.Cycle_Home_contener, toolbar, getString(R.string.used_information));
                 break;
             case R.id.connect_with_us:
-                ConnectWithUsFragment connectWithUsFragment = new ConnectWithUsFragment();
+                fragmentCurrent = connectWithUsFragment;
                 HelperMethod.replece(connectWithUsFragment, getSupportFragmentManager(),
                         R.id.Cycle_Home_contener, toolbar, getString(R.string.connect_with_us));
                 break;
             case R.id.about_app:
-                AboutAppFragment aboutAppFragment = new AboutAppFragment();
+                fragmentCurrent = aboutAppFragment;
                 HelperMethod.replece(aboutAppFragment, getSupportFragmentManager(),
                         R.id.Cycle_Home_contener, toolbar, getString(R.string.about_app));
                 break;
@@ -203,11 +205,12 @@ public class HomeActivity extends AppCompatActivity
                 HelperMethod.startActivity(getApplicationContext(), LoginActivity.class);
                 break;
             default:
-                CustomFragment customFragmentDefault = new CustomFragment();
+                fragmentCurrent = customFragmentDefault;
                 HelperMethod.replece(customFragmentDefault
                         , getSupportFragmentManager(),
                         R.id.Cycle_Home_contener, toolbar, getString(R.string.home));
         }
+        currentMenuItem = id;
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -230,5 +233,12 @@ public class HomeActivity extends AppCompatActivity
     protected void onPause() {
         HelperMethod.removeFragment(this);
         super.onPause();
+    }
+
+    @OnClick(R.id.Notification_count_Image)
+    public void onViewClicked() {
+        NotificationListFragment notificationListFragment = new NotificationListFragment();
+        HelperMethod.replece(notificationListFragment, getSupportFragmentManager(),
+                R.id.Cycle_Home_contener, toolbar, getString(R.string.alarms));
     }
 }

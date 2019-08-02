@@ -21,15 +21,14 @@ public class FavoriteInteractor implements FavoritePresenter {
     private FavoriteView favoriteView;
     private APIServices apiServices;
     private RememberMy rememberMy;
-
-
-    public FavoriteInteractor(FavoriteView favoriteView) {
+    public FavoriteInteractor(FavoriteView favoriteView,Context context) {
         this.favoriteView = favoriteView;
+        rememberMy = new RememberMy(context);
     }
 
     @Override
-    public void loadFavorite(final Context context) {
-        rememberMy = new RememberMy(context);
+    public void loadFavorite() {
+        favoriteView.showProgress();
         apiServices = getRetrofit().create(APIServices.class);
         apiServices.getMyFavourites(rememberMy.getAPIKey())
                 .enqueue(new Callback<MyFavourites>() {

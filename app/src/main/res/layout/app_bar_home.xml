@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".u.ui.activities.HomeActivity">
 
+
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -17,15 +18,29 @@
             android:layout_height="?attr/actionBarSize"
             android:theme="@style/ThemeOverlay.AppCompat.Light"
             app:popupTheme="@style/AppTheme.PopupOverlay">
-
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/Notification_count_Image"
+                android:layout_width="43dp"
+                android:layout_height="43dp"
+                android:layout_alignParentEnd="true"
+                android:layout_marginEnd="@dimen/dimens_mm"
+                android:padding="@dimen/dimens_mm"
+                android:src="@drawable/ic_notifivation" />
             <TextView
                 android:id="@+id/TV_Count_Notification"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="end"
+                android:layout_width="18dp"
+                android:layout_alignParentEnd="true"
+                android:layout_height="18dp"
+                android:layout_marginTop="@dimen/dimens_mm"
+                android:layout_marginEnd="@dimen/dimens_l"
                 android:background="@drawable/background_notification_count"
+                android:gravity="center"
                 android:textColor="@android:color/white"
-                tools:text="@string/blood_type" />
+                android:textSize="@dimen/txt_size_sss" />
+            </RelativeLayout>
 
         </android.support.v7.widget.Toolbar>
 

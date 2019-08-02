@@ -1,5 +1,6 @@
 package com.example.manasatpc.bloadbank.u.helper;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
@@ -15,7 +16,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.Spinner;
@@ -26,14 +30,15 @@ import com.bumptech.glide.manager.SupportRequestManagerFragment;
 import com.example.manasatpc.bloadbank.R;
 import com.example.manasatpc.bloadbank.u.data.model.general.GeneralResponseData;
 import com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes.BloodTypes;
-import com.example.manasatpc.bloadbank.u.data.model.general.bloodtypes.DataBloodTypes;
+import com.example.manasatpc.bloadbank.u.data.model.general.cities.Cities;
+import com.example.manasatpc.bloadbank.u.data.model.general.cities.DataCities;
 import com.example.manasatpc.bloadbank.u.data.model.general.governorates.Governorates;
-import com.example.manasatpc.bloadbank.u.data.model.general.governorates.GovernoratesData;
 import com.example.manasatpc.bloadbank.u.data.model.notification.firebaseApiToken.registertoken.RegisterToken;
 import com.example.manasatpc.bloadbank.u.data.model.notification.firebaseApiToken.removetoken.RemoveToken;
 import com.example.manasatpc.bloadbank.u.data.rest.APIServices;
 import com.example.manasatpc.bloadbank.u.ui.activities.LoginActivity;
 import com.example.manasatpc.bloadbank.u.ui.fregmants.userCycle.LoginFragment;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.text.DateFormat;
 import java.text.DecimalFormat;
@@ -86,10 +91,10 @@ public class HelperMethod {
         }
 
     }
+
     //This method for handle Fragments
-    public static void add(Fragment fragment, FragmentManager fragmentManager, int id, Toolbar toolbar, String title, Bundle bundle) {
+    public static void add(Fragment fragment, FragmentManager fragmentManager, int id, Toolbar toolbar, String title) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
-        fragment.setArguments(bundle);
         transaction.add(id, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
@@ -112,6 +117,13 @@ public class HelperMethod {
         }
 
 
+    }
+
+    public static void replaceFragment(FragmentManager getChildFragmentManager, int id, Fragment fragment) {
+        FragmentTransaction transaction = getChildFragmentManager.beginTransaction();
+        transaction.replace(id, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
     }
 
     /*
@@ -144,6 +156,23 @@ public class HelperMethod {
             return false;
 
         }
+    }
+
+    public static void customToast(Activity activity, String ToastTitle) {
+
+        LayoutInflater inflater = activity.getLayoutInflater();
+
+        View layout = inflater.inflate(R.layout.custom_toast,
+                (ViewGroup) activity.findViewById(R.id.toast_layout_root));
+
+        TextView text = layout.findViewById(R.id.text);
+        text.setText(ToastTitle);
+
+        Toast toast = new Toast(activity);
+        toast.setGravity(Gravity.CENTER_VERTICAL | Gravity.BOTTOM, 0, 100);
+        toast.setDuration(Toast.LENGTH_LONG);
+        toast.setView(layout);
+        toast.show();
     }
 
     // This method for handle Activity
@@ -183,7 +212,7 @@ public class HelperMethod {
 
     //Calender
 
-//    public static void showCalender(Context context, String title, final TextView text_view_data, final DateModel data1) {
+    //    public static void showCalender(Context context, String title, final TextView text_view_data, final DateModel data1) {
 //        DatePickerDialog mDatePicker = new DatePickerDialog(context, AlertDialog.THEME_DEVICE_DEFAULT_LIGHT,
 //                new DatePickerDialog.OnDateSetListener() {
 //                    public void onDateSet(DatePicker datepicker, int selectedYear, int selectedMonth, int selectedDay) {
@@ -201,24 +230,24 @@ public class HelperMethod {
 //        mDatePicker.setTitle(title);
 //        mDatePicker.show();
 //    }
-public static void showCalender(Context context, String title, final TextView text_view_data, final DateModel data1) {
-    DatePickerDialog mDatePicker = new DatePickerDialog(context, AlertDialog.THEME_HOLO_DARK, new DatePickerDialog.OnDateSetListener() {
-        public void onDateSet(DatePicker datepicker, int selectedYear, int selectedMonth, int selectedDay) {
-            DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
-            DecimalFormat mFormat = new DecimalFormat("00", symbols);
-            String data = selectedYear + "-" + mFormat.format(Double.valueOf((selectedMonth + 1))) + "-" + mFormat.format(Double.valueOf(selectedDay));
-            data1.setDate_txt(data);
-            data1.setDay(mFormat.format(Double.valueOf(selectedDay)));
-            data1.setMonth(mFormat.format(Double.valueOf(selectedMonth + 1)));
-            data1.setYear(String.valueOf(selectedYear));
-            text_view_data.setText(data);
-        }
-    }, Integer.parseInt(data1.getYear()), Integer.parseInt(data1.getMonth()) - 1, Integer.parseInt(data1.getDay()));
-    mDatePicker.setTitle(title);
-    mDatePicker.show();
-}
+    public static void showCalender(Context context, String title, final TextView text_view_data, final DateModel data1) {
+        DatePickerDialog mDatePicker = new DatePickerDialog(context, AlertDialog.THEME_HOLO_DARK, new DatePickerDialog.OnDateSetListener() {
+            public void onDateSet(DatePicker datepicker, int selectedYear, int selectedMonth, int selectedDay) {
+                DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
+                DecimalFormat mFormat = new DecimalFormat("00", symbols);
+                String data = selectedYear + "-" + mFormat.format(Double.valueOf((selectedMonth + 1))) + "-" + mFormat.format(Double.valueOf(selectedDay));
+                data1.setDate_txt(data);
+                data1.setDay(mFormat.format(Double.valueOf(selectedDay)));
+                data1.setMonth(mFormat.format(Double.valueOf(selectedMonth + 1)));
+                data1.setYear(String.valueOf(selectedYear));
+                text_view_data.setText(data);
+            }
+        }, Integer.parseInt(data1.getYear()), Integer.parseInt(data1.getMonth()) - 1, Integer.parseInt(data1.getDay()));
+        mDatePicker.setTitle(title);
+        mDatePicker.show();
+    }
 
-       //This method for show data in Spinner
+    //This method for show data in Spinner
 
     public static void showGovernorates(ArrayList<String> date, Context context, Spinner spinner) {
 
@@ -291,9 +320,9 @@ public static void showCalender(Context context, String title, final TextView te
                 RemoveToken removeToken = response.body();
                 try {
                     if (removeToken.getStatus() == 1) {
-                        Toast.makeText(context.getApplicationContext(), removeToken.getMsg(), Toast.LENGTH_SHORT).show();
+                        //  Toast.makeText(context.getApplicationContext(), removeToken.getMsg(), Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(context.getApplicationContext(), removeToken.getMsg(), Toast.LENGTH_SHORT).show();
+                        // Toast.makeText(context.getApplicationContext(), removeToken.getMsg(), Toast.LENGTH_SHORT).show();
                     }
 
                 } catch (Exception e) {
@@ -310,9 +339,9 @@ public static void showCalender(Context context, String title, final TextView te
         });
     }
 
-    public static void getRegisterToken(final Context context, String token, String api_token, String platform) {
+    public static void getRegisterToken(final Context context, String api_token) {
         apiServices = getRetrofit().create(APIServices.class);
-        apiServices.getRegisterToken(token, api_token, platform).enqueue(new Callback<RegisterToken>() {
+        apiServices.getRegisterToken(FirebaseInstanceId.getInstance().getToken(), api_token, "android").enqueue(new Callback<RegisterToken>() {
             @Override
             public void onResponse(Call<RegisterToken> call, Response<RegisterToken> response) {
                 RegisterToken registerToken = response.body();
@@ -377,6 +406,7 @@ public static void showCalender(Context context, String title, final TextView te
     }
 
     public static ArrayList<Integer> getGovernorates(final Context context, final Spinner ListRequestsDonationFragmentSelectGeverment) {
+        apiServices = getRetrofit().create(APIServices.class);
         final Call<Governorates> governorates = apiServices.getGovernorates();
         final ArrayList<Integer> IdsGeverment = new ArrayList<>();
         governorates.enqueue(new Callback<Governorates>() {
@@ -393,7 +423,7 @@ public static void showCalender(Context context, String title, final TextView te
                         for (int i = 0; i < governoratesData.size(); i++) {
                             getResult = governoratesData.get(i).getName();
                             stringsGeverment.add(getResult);
-                         Integer  positionGeverment = governoratesData.get(i).getId();
+                            Integer positionGeverment = governoratesData.get(i).getId();
                             IdsGeverment.add(positionGeverment);
                         }
                         HelperMethod.showGovernorates(stringsGeverment, context, ListRequestsDonationFragmentSelectGeverment);
@@ -411,6 +441,48 @@ public static void showCalender(Context context, String title, final TextView te
         });
         return IdsGeverment;
 
+    }
+
+    public static ArrayList<Integer> getCities(final Context context, final Spinner RequestDonationFragmentSPCityRequestDonation, int getIdGovernorates) {
+        APIServices apiServicesgetCities = getRetrofit().create(APIServices.class);
+        final ArrayList<Integer> IdsCity = new ArrayList<>();
+        final Call<Cities> citiesCall = apiServicesgetCities.getCities(getIdGovernorates);
+        citiesCall.enqueue(new Callback<Cities>() {
+            @Override
+            public void onResponse(Call<Cities> call, Response<Cities> response) {
+                String getResult;
+                ArrayList<String> strings = new ArrayList<>();
+
+                try {
+                    strings.add(context.getString(R.string.select_city));
+                    IdsCity.add(0);
+
+                    Cities cities = response.body();
+
+                    List<DataCities> dataCities = cities.getData();
+                    for (int i = 0; i < dataCities.size(); i++) {
+                        getResult = dataCities.get(i).getName();
+                        strings.add(getResult);
+                        Integer positionCity = dataCities.get(i).getId();
+                        IdsCity.add(positionCity);
+
+                    }
+
+                    HelperMethod.showGovernorates(strings, context, RequestDonationFragmentSPCityRequestDonation);
+
+                } catch (Exception e) {
+                    Toast.makeText(context, e.getMessage(), Toast.LENGTH_LONG).show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Cities> call, Throwable t) {
+                Toast.makeText(context, t.getMessage(), Toast.LENGTH_LONG).show();
+
+            }
+        });
+        return IdsCity;
     }
 
 }

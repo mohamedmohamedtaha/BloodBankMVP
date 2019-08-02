@@ -85,7 +85,7 @@ public class LoginFragment extends Fragment implements LoginView {
             case R.id.LoginFragment_BT_Login:
                 String email = LoginFragmentPhone.getText().toString().trim();
                 String password = LoginFragmentPassword.getText().toString().trim();
-                presenter.validate(email, password,remeberMy, LoginFragmentCBRemeberMy);
+                presenter.validate(email, password, remeberMy, LoginFragmentCBRemeberMy);
                 break;
             case R.id.LoginFragment_BT_Register:
                 presenter.navigateToRegister();
@@ -106,7 +106,6 @@ public class LoginFragment extends Fragment implements LoginView {
     @Override
     public void navigateToHome() {
         HelperMethod.startActivity(getActivity(), HomeActivity.class);
-
     }
 
     @Override
@@ -114,7 +113,6 @@ public class LoginFragment extends Fragment implements LoginView {
         RegesterFragment regesterFragment = new RegesterFragment();
         HelperMethod.replece(regesterFragment, getActivity().getSupportFragmentManager(),
                 R.id.Cycle_User_contener, null, getString(R.string.create_new_user));
-
     }
 
     @Override
@@ -134,8 +132,7 @@ public class LoginFragment extends Fragment implements LoginView {
 
     @Override
     public void getToken() {
-        String token_text = FirebaseInstanceId.getInstance().getToken();
-        HelperMethod.getRegisterToken(getActivity(), token_text, remeberMy.getAPIKey(), "android");
+        HelperMethod.getRegisterToken(getActivity(), remeberMy.getAPIKey());
     }
 
     @Override
@@ -147,7 +144,6 @@ public class LoginFragment extends Fragment implements LoginView {
 
     @Override
     public void showError(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
-
+        HelperMethod.customToast(getActivity(), message);
     }
 }

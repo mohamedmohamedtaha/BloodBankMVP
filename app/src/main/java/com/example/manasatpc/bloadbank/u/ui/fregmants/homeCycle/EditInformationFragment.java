@@ -27,6 +27,7 @@ import com.example.manasatpc.bloadbank.u.helper.HelperMethod;
 import com.example.manasatpc.bloadbank.u.helper.RememberMy;
 import com.example.manasatpc.bloadbank.u.ui.fregmants.homeCycle.article.HomeFragment;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -69,10 +70,6 @@ public class EditInformationFragment extends Fragment implements EditProfileView
     boolean check_network;
     private DateModel dateModel1;
     private DateModel dateModel2;
-    final Calendar getDatenow = Calendar.getInstance();
-    private int startYear;
-    private int startMonth;
-    private int startDay;
     RememberMy rememberMy;
     private EditProfileInteractor editProfilePresenter;
 
@@ -90,17 +87,18 @@ public class EditInformationFragment extends Fragment implements EditProfileView
         rememberMy = new RememberMy(getActivity());
 
         check_network = HelperMethod.isNetworkConnected(getActivity(), getView());
-        startYear = getDatenow.get(Calendar.YEAR);
-        startMonth = getDatenow.get(Calendar.MONTH);
-        startDay = getDatenow.get(Calendar.DAY_OF_MONTH);
-        dateModel1 = new DateModel(String.valueOf(startYear), String.valueOf(startMonth)
-                , String.valueOf(startDay), null);
-        dateModel2 = new DateModel(String.valueOf(startYear), String.valueOf(startMonth)
-                , String.valueOf(startDay), null);
+        DecimalFormat format = new DecimalFormat("00");
+        Calendar calendar = Calendar.getInstance();
+        String startDay = format.format(Double.valueOf(String.valueOf(calendar.get(Calendar.DAY_OF_MONTH))));
+        String startMonth = format.format(Double.valueOf(String.valueOf(calendar.get(Calendar.MONTH + 1))));
+        String startYear =String.valueOf(calendar.get(Calendar.YEAR));
+
+        dateModel1 = new DateModel(startDay, startMonth     , startYear, null);
+        dateModel2 = new DateModel(startDay, startMonth ,startYear,  startDay + "-" + startMonth +" -" + startYear);
         if (check_network == false) {
             EditInformationFragmentProgressBar.setVisibility(View.GONE);
         }
-        editProfilePresenter.getProfile(rememberMy.getAPIKey(), getActivity());
+        editProfilePresenter.getProfile(rememberMy.getAPIKey());
 
         EditInformationFragmentDateOfBirth.setOnClickListener(new View.OnClickListener() {
             @Override

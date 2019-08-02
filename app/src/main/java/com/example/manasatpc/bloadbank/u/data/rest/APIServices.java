@@ -107,13 +107,7 @@ public interface APIServices {
     @GET("blood-types")
     Call<BloodTypes> getBloodTypes();
 
-    @GET("blood-types")
-    Call<BloodTypes> getBloodTypes2();
-
-    @GET("governorates")
-    Call<Cities> getGovernorates2();
-
-    @GET("settings")
+     @GET("settings")
     Call<Settings> getSettings(@Query("api_token") String api_token);
 
     //   ---------------------  End General ---------------------------------------
